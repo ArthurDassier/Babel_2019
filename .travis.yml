@@ -9,6 +9,10 @@ before_install:
   - sudo apt-get update -y
   - sudo apt-get install criterion-dev -y
   - sudo apt-get install gcovr -y
+  - openssl aes-256-cbc -K $encrypted_4fd1003c0e5b_key -iv $encrypted_4fd1003c0e5b_iv
+  -in deploy_rsa.enc -out ~/.ssh/deploy_rsa -d
+  - chmod 400 ~/.ssh/deploy_rsa
+  - chmod +x push.sh
 
 jobs:
   include:
@@ -22,6 +26,10 @@ jobs:
       - make fclean
       - gcovr -r . -x --object-directory=. > report.xml
       - sonar-scanner -D sonar.host.url=$SONAR_HOST_URL -D sonar.login=$SONAR_TOKEN -X
+  - stage: Push on Epitech
+    if: (NOT type IN (pull_request)) AND (branch = master)
+    script:
+      - ./push.sh
 
 env:
  global:
