@@ -10,8 +10,11 @@
 
 #include <iostream>
 #include <string>
+#include <string.h>
 
 #include "Sockets.hpp"
+
+#define MAX_RECV 1024
 
 class UDPSocket
 {
@@ -19,11 +22,15 @@ class UDPSocket
 		UDPSocket();
 		~UDPSocket();
 
+        bool Bind(unsigned short port);
+
         int Send(const char *data, unsigned int len);
+        // int Read(const std::string) const;
+        int Read(std::string &data) const;
         int Receive(char *buffer, unsigned int len);
 
-    private:
         SOCKET sock;
+    private:
 };
 
 #endif /* !UDPSOCKET_HPP_ */
