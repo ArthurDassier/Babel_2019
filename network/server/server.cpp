@@ -12,6 +12,7 @@ int main(__attribute__((unused)) int argc, char **argv)
     Server test(std::stoi(argv[1]));
 
     test.Run();
+    return (0);
 }
 
 //
