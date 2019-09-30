@@ -1,6 +1,10 @@
 project(Babel)
+set(CMAKE_CXX_STANDARD 17)
 cmake_minimum_required(VERSION 2.8.12)
 add_definitions("-fPIC")
 
 add_subdirectory(network)
+# add_subdirectory(database)
 # add_subdirectory(server)
+add_subdirectory(babel)
+add_subdirectory(client_interface)

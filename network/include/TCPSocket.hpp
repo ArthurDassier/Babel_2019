@@ -10,8 +10,12 @@
 
 #include <iostream>
 #include <string>
+#include <string.h>
+#include <unistd.h>
 
 #include "Sockets.hpp"
+
+#define MAX_RECV 1024
 
 class TCPSocket
 {
@@ -19,15 +23,20 @@ class TCPSocket
 		TCPSocket();
 		~TCPSocket();
 
+        bool Bind(const std::string &ipaddress, unsigned short port);
         bool Connect(const std::string &ipaddress, unsigned short port);
+        bool ListenOn(unsigned short port, unsigned short max_connections);
 
-        int Send(const char *data, unsigned int len);
-        int Receive(char *buffer, unsigned int len);
+        int Send(const std::string data) const;
+        int Read(std::string &data) const;
+        int Recv(std::string &data, unsigned int len) const;
 
-        SOCKET getSocket() const noexcept;
+        // SOCKET getSocket() const noexcept;
+        SOCKET sock;
 
     private:
-        SOCKET sock;
+        sockaddr_in InitAddr(const std::string &ipaddress, unsigned short port);
+
 };
 
 #endif /* !TCPSOCKET_HPP_ */

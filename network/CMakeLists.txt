@@ -4,15 +4,16 @@ conan_basic_setup()
 include_directories(
     ./include
     ${Boost_INCLUDE_DIR}
+    ${SQLite3_INCLUDE_DIRS}
 )
 
-# find_package(Qt5 COMPONENTS QtNetwork REQUIRED)
 find_package(Qt5Network CONFIG REQUIRED)
-# find_package(Boost 1.70 REQUIRED COMPONENTS filesystem regex PATHS "C:/Boost")
 find_package(Boost REQUIRED COMPONENTS filesystem regex)
+find_package(SQLite3 REQUIRED)
 
 add_executable(babel_client
     ./client/client.cpp
+    ./client/Client.cpp
     ./sockets/Sockets.cpp
     ./sockets/TCPSocket.cpp
     ./sockets/UDPSocket.cpp
@@ -28,11 +29,28 @@ add_executable(babel_server
     ./server/server.cpp
     ./server/Server.cpp
     ./server/Socket.cpp
+    ./sockets/Sockets.cpp
+    ./sockets/TCPSocket.cpp
 )
 
+if (SQLITE3_FOUND)
+    include_directories(${SQLite3_INCLUDE_DIRS})
+    target_link_libraries(babel_server
+        # LINK_PUBLIC
+        sqlite3
+        pthread
+        dl
+        # CONAN_PKG::sqlite3
+        # ${SQLite3_LIBRARIES}
+    )
+    target_include_directories(babel_server PRIVATE ${SQLite3_INCLUDE_DIRS})
+endif()
 # if (Boost_FOUND)
-include_directories(${Boost_INCLUDE_DIRS})
-target_link_libraries(babel_server ${Boost_LIBRARIES})
+# include_directories(${Boost_INCLUDE_DIRS} ${SQLi})
+target_link_libraries(babel_server
+    ${Boost_LIBRARIES}
+#     ${SQLite3_LIBRARIES}
+)
 # endif()
 
 set_target_properties(babel_client PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}")

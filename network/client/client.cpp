@@ -14,21 +14,128 @@
 #include <string.h>
 #include <pthread.h>
 
-#include <QtNetwork/QTcpSocket>
+#include <netdb.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/socket.h>
+#include <unistd.h>
+#include <thread>
+#define MAX 80
+#define PORT 4086
+#define SA struct sockaddr
 
-int main()
+int main(__attribute__((unused)) int argc, char **argv)
 {
-    // QByteArray data;
+    TCPSocket sock;
+    UDPSocket udp;
+    // char buff[256];
+    std::string buff;
 
-    // data.append("lol");
-
-    QTcpSocket t;
-    t.connectToHost("127.0.0.1", 4086);
-    // if (t.waitForConnected()) {
-    t.write("Hello World!");
-    // }
-    while(1);
+    sock.Connect("127.0.0.1", std::stoi(argv[1]));
+    udp.Bind(0);
+    std::cout << "UDP binded on port " << udp.sock << std::endl;
+    while (1) {
+        // bzero(buff, sizeof(buff));
+        int ret = sock.Read(buff);
+        // int ret = read(sock.sock, buff, sizeof(buff));
+        // if (ret != )
+        std::cout << "Receive from server: " << buff << std::endl;
+        buff.clear();
+        std::string input;
+        std::cin >> input;
+        sock.Send(input);
+        std::cout << "'" << input << "' sent" << std::endl;
+        // if (input.compare("call") == 0) {
+        //     std::cout << "Try to call" << std::endl;
+        //     int ret = sock.Read(buff);
+        //     if (buff.compare("call") == 0) {
+        //         std::cout << "Handling call..." << std::endl;
+        //         sock.Send(std::to_string(udp.sock));
+        //     }
+        // }
+        input.clear();
+    }
+    // sock.Receive();
 }
+
+// void func(int sockfd)
+// {
+//     char buff[MAX];
+//     int n;
+//     int ret = 0;
+
+//     std::cout << "Pourquoi rien ne s'est affiché? (4)" << std::endl;
+//     for (;;)
+//     {
+//         bzero(buff, sizeof(buff));
+//         printf("Enter the string : ");
+//         n = 0;
+//         while ((buff[n++] = getchar()) != '\n')
+//             ;
+//         ret = send(sockfd, buff, sizeof(buff), 0);
+//         if (ret != 0)
+//             std::cout << "FUCK 1\n";
+//         std::cout << "Pourquoi rien ne s'est affiché? (5)" << std::endl;
+//         // bzero(buff, sizeof(buff));
+//         memset(buff, 0, MAX + 1);
+//         ret = read(sockfd, buff, sizeof(buff));
+//         if (ret != 0)
+//             std::cout << "FUCK 2\n";
+//         printf("From Server : %s", buff);
+//         std::cout << "Pourquoi rien ne s'est affiché? (6)" << std::endl;
+//         if ((strncmp(buff, "exit", 4)) == 0)
+//         {
+//             printf("Client Exit...\n");
+//             break;
+//         }
+//     }
+// }
+
+// int main()
+// {
+//     int sockfd, connfd;
+//     struct sockaddr_in servaddr, cli;
+
+//     // socket create and varification
+//     sockfd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+//     if (sockfd == -1)
+//     {
+//         printf("socket creation failed...\n");
+//         exit(0);
+//     }
+//     else
+//         printf("Socket successfully created..\n");
+
+//     std::cout << "Pourquoi rien ne s'est affiché? (1)" << std::endl;
+//     bzero(&servaddr, sizeof(servaddr));
+
+//     // assign IP, PORT
+//     servaddr.sin_family = AF_INET;
+//     servaddr.sin_addr.s_addr = INADDR_ANY; //inet_addr("127.0.0.1");
+//     servaddr.sin_port = htons(PORT);
+
+//     std::cout << "Pourquoi rien ne s'est affiché? (2)" << std::endl;
+
+//     // connect the client socket to server socket
+//     if (connect(sockfd, (SA *)&servaddr, sizeof(servaddr)) != 0)
+//     {
+//         printf("connection with the server failed...\n");
+//         exit(0);
+//     }
+//     else
+//         printf("connected to the server..\n");
+
+//     // function for chat
+
+//     std::cout << "Pourquoi rien ne s'est affiché? (3)" << std::endl;
+//     func(sockfd);
+
+//     std::cout << "Pourquoi rien ne s'est affiché?" << std::endl;
+
+//     // close the socket
+//     close(sockfd);
+// }
 
 // pthread_mutex_t mutexsum = PTHREAD_MUTEX_INITIALIZER;
 
