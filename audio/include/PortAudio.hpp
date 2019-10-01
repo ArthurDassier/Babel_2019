@@ -8,7 +8,19 @@
 #ifndef PORTAUDIO_HPP_
 #define PORTAUDIO_HPP_
 
+#include <stdio.h>
+#include <iostream>
+
 #include "portaudio.h"
+
+#define SAMPLE_SILENCE (0.0f)
+
+
+typedef struct {
+    int frameIndex;
+    int maxFrameIndex;
+    float *recordedSamples;
+} paTestData;
 
 class PortAudio {
     public:
@@ -17,20 +29,22 @@ class PortAudio {
 
         void SetInputParameters();
         void SetOutputParameters();
+        void SetData(int, int, int);
 
+        void StartStream();
         void CloseStream();
         void RecordStream();
         void PlayStream();
 
-        void setSampleRate(short) const;
-        void setFramePerBuffer(short) const;
+        void setSampleRate(short);
+        void setFramePerBuffer(short);
 
     private:
         PaError err;
         PaStream *stream;
         PaStreamParameters inputParameters;
         PaStreamParameters outputParameters;
-        paTestData data;
+        paTestData _data;
 
         short _sample_rate;
         short _frame_per_buffer;

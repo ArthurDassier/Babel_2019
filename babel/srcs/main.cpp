@@ -67,6 +67,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 #include "portaudio.h"
 
 /* #define SAMPLE_RATE  (17932) // Test failure to open with this value. */
@@ -288,6 +289,7 @@ int main(void) {
 		printf("index = %d\n", data.frameIndex);
 		fflush(stdout);
 	}
+	
 	if (err < 0)
 		goto done;
 
