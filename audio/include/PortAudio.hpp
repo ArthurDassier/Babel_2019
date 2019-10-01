@@ -38,6 +38,7 @@ class PortAudio {
 
         void setSampleRate(short);
         void setFramePerBuffer(short);
+        void setDataFrameIndex();
 
     private:
         PaError err;

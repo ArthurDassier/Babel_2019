@@ -93,7 +93,6 @@ int recordCallback(const void *inputBuffer,
     int finished = 0;
     unsigned long framesLeft = data->maxFrameIndex - data->frameIndex;
 
-    std::cout << "----" << std::endl;
     if (framesLeft < framesPerBuffer) {
         framesToCalc = framesLeft;
         finished = paComplete;
@@ -123,13 +122,14 @@ void PortAudio::RecordStream()
         &stream,
         &inputParameters,
         NULL,
-        _sample_rate,
+        44100,
         _frame_per_buffer,
         paClipOff,
         recordCallback,
         &_data);
     if (err != paNoError) {
         std::cout << err << std::endl;
+        std::cout << Pa_GetErrorText(err) << std::endl;
         exit(84);
     }
 }
@@ -140,6 +140,7 @@ static int playCallback(const void *inputBuffer, void *outputBuffer,
                         PaStreamCallbackFlags statusFlags,
                         void *userData)
 {
+    std::cout << "Call----" << std::endl;
     paTestData *data = (paTestData *)userData;
     float *rptr = &data->recordedSamples[data->frameIndex * 2];
     float *wptr = (float *)outputBuffer;
@@ -167,6 +168,7 @@ static int playCallback(const void *inputBuffer, void *outputBuffer,
         data->frameIndex += framesPerBuffer;
         finished = paContinue;
     }
+    std::cout << "oui" << std::endl;
     return finished;
 }
 
@@ -175,15 +177,18 @@ void PortAudio::PlayStream()
 {
     err = Pa_OpenStream(
         &stream,
-        &inputParameters,
         NULL,
-        _sample_rate,
+        &outputParameters,
+        44100,
         _frame_per_buffer,
         paClipOff,
         playCallback,
         &_data);
-    if (err < 0)
+    if (err != paNoError) {
+        std::cout << err << std::endl;
+        std::cout << Pa_GetErrorText(err) << std::endl;
         exit(84);
+    }
 }
 
 void PortAudio::setSampleRate(short sample_rate)
@@ -194,6 +199,11 @@ void PortAudio::setSampleRate(short sample_rate)
 void PortAudio::setFramePerBuffer(short frame_per_buffer)
 {
     _frame_per_buffer = frame_per_buffer;
+}
+
+void PortAudio::setDataFrameIndex()
+{
+    _data.frameIndex = 0;
 }
 
 int main()
@@ -207,17 +217,19 @@ int main()
     std::cout << "3" << std::endl;
     test.StartStream();
     std::cout << "4" << std::endl;
-    Pa_Sleep(1000);
+    Pa_Sleep(3000);
     std::cout << "5" << std::endl;
     test.CloseStream();
     std::cout << "6" << std::endl;
     test.SetOutputParameters();
+    test.setDataFrameIndex();
     std::cout << "7" << std::endl;
     test.PlayStream();
     std::cout << "8" << std::endl;
     test.StartStream();
+    Pa_Sleep(3000);
     std::cout << "9" << std::endl;
     test.CloseStream();
     std::cout << "10" << std::endl;
-    return (1);
+    return (0);
 }
