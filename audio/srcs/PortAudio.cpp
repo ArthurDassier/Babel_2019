@@ -71,7 +71,7 @@ void PortAudio::StartStream()
         exit(84);
 }
 
-void PortAudio::CloseStream()//PaStream *stream)
+void PortAudio::CloseStream()
 {
     err = Pa_CloseStream(stream);
     if (err != paNoError)
@@ -140,7 +140,6 @@ static int playCallback(const void *inputBuffer, void *outputBuffer,
                         PaStreamCallbackFlags statusFlags,
                         void *userData)
 {
-    std::cout << "Call----" << std::endl;
     paTestData *data = (paTestData *)userData;
     float *rptr = &data->recordedSamples[data->frameIndex * 2];
     float *wptr = (float *)outputBuffer;
@@ -168,7 +167,6 @@ static int playCallback(const void *inputBuffer, void *outputBuffer,
         data->frameIndex += framesPerBuffer;
         finished = paContinue;
     }
-    std::cout << "oui" << std::endl;
     return finished;
 }
 

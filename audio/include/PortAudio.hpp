@@ -5,8 +5,7 @@
 ** PortAudio.hpp
 */
 
-#ifndef PORTAUDIO_HPP_
-#define PORTAUDIO_HPP_
+#pragma once
 
 #include <stdio.h>
 #include <iostream>
@@ -50,5 +49,3 @@ class PortAudio {
         short _sample_rate;
         short _frame_per_buffer;
 };
-
-#endif /* !PORTAUDIO_HPP_ */
