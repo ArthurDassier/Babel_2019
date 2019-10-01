@@ -8,7 +8,8 @@
 #include "PortAudio.hpp"
 
 PortAudio::PortAudio():
-    _sample_rate(44100)
+    _sample_rate(44100),
+    _frame_per_buffer(512)
 {
     err = Pa_Initialize();
     if (err != paNoError)
@@ -92,6 +93,7 @@ int recordCallback(const void *inputBuffer,
     int finished = 0;
     unsigned long framesLeft = data->maxFrameIndex - data->frameIndex;
 
+    std::cout << "----" << std::endl;
     if (framesLeft < framesPerBuffer) {
         framesToCalc = framesLeft;
         finished = paComplete;
@@ -126,8 +128,10 @@ void PortAudio::RecordStream()
         paClipOff,
         recordCallback,
         &_data);
-    if (err < 0)
+    if (err != paNoError) {
+        std::cout << err << std::endl;
         exit(84);
+    }
 }
 
 static int playCallback(const void *inputBuffer, void *outputBuffer,
