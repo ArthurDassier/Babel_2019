@@ -11,9 +11,9 @@
 #include "portaudio.h"
 
 class PortAudio {
-	public:
-		PortAudio();
-		~PortAudio();
+    public:
+        PortAudio();
+        ~PortAudio();
 
         void SetInputParameters();
         void SetOutputParameters();
@@ -25,12 +25,12 @@ class PortAudio {
         void setSampleRate(short) const;
         void setFramePerBuffer(short) const;
 
-    protected:
-	private:
+    private:
         PaError err;
         PaStream *stream;
         PaStreamParameters inputParameters;
         PaStreamParameters outputParameters;
+        paTestData data;
 
         short _sample_rate;
         short _frame_per_buffer;

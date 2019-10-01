@@ -32,6 +32,21 @@ void PortAudio::SetInputParameters()
     inputParameters.hostApiSpecificStreamInfo = NULL;
 }
 
+void PortAudio::SetData(int num_seconds, int sample_rate, int num_channels)
+{
+    int numSamples;
+    int numBytes;
+
+    data.maxFrameIndex = num_seconds * sample_rate; /* Record for a few seconds. */
+    data.frameIndex = 0;
+    numSamples = data.maxFrameIndex * num_channels;
+    numBytes = numSamples * sizeof(float);
+    data.recordedSamples = (float *)malloc(numBytes);
+
+    for (i = 0; i < numSamples; i++)
+        data.recordedSamples[i] = 0;
+}
+
 void PortAudio::SetOutputParameters()
 {
     outputParameters.device = Pa_GetDefaultInputDevice();
@@ -52,10 +67,52 @@ void PortAudio::CloseStream()//PaStream *stream)
         goto done;
 }
 
+// int recordCallback(const void *inputBuffer,
+//                     void *outputBuffer,
+//                     unsigned long framesPerBuffer,
+//                     const PaStreamCallbackTimeInfo *timeInfo,
+//                     PaStreamCallbackFlags statusFlags,
+//                     void *userData)
+// {
+//     paTestData *data = (paTestData *)userData;
+//     const float *rptr = (const float *)inputBuffer;
+//     float *wptr = &data->recordedSamples[data->frameIndex * NUM_CHANNELS];
+//     long framesToCalc = 0;
+//     long i = 0;
+//     int finished = 0;
+//     unsigned long framesLeft = data->maxFrameIndex - data->frameIndex;
+
+//     if (framesLeft < framesPerBuffer) {
+//         framesToCalc = framesLeft;
+//         finished = paComplete;
+//     } else {
+//         framesToCalc = framesPerBuffer;
+//         finished = paContinue;
+//     }
+
+//     if (inputBuffer == NULL) {
+//         for (i = 0; i < framesToCalc; i++) {
+//             *wptr++ = SAMPLE_SILENCE; /* left */
+//             if (NUM_CHANNELS == 2)
+//                 *wptr++ = SAMPLE_SILENCE; /* right */
+//         }
+//     } else {
+//         for (i = 0; i < framesToCalc; i++) {
+//             *wptr++ = *rptr++; /* left */
+//             if (NUM_CHANNELS == 2)
+//                 *wptr++ = *rptr++; /* right */
+//         }
+//     }
+//     data->frameIndex += framesToCalc;
+//     return finished;
+// }
+
 void PortAudio::RecordStream()
 {
-    paTestData data;
+    // paTestData data; // a remplir
 
+    // data.maxFrameIndex = totalFrames = NUM_SECONDS * SAMPLE_RATE; /* Record for a few seconds. */
+    // data.frameIndex = 0;
     err = Pa_OpenStream(
         &stream,
         &inputParameters,
@@ -63,11 +120,10 @@ void PortAudio::RecordStream()
         _sample_rate,
         _frame_per_buffer,
         paClipOff,
-        nullptr,
-        &data
-    );
+        recordCallback,
+        &data);
     if (err < 0)
-        goto done;
+        return;
 }
 
 void PortAudio::PlayStream()
