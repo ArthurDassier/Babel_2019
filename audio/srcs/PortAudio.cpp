@@ -45,7 +45,7 @@ void PortAudio::SetData(int num_seconds, int sample_rate, int num_channels)
     _data.frameIndex = 0;
     numSamples = _data.maxFrameIndex * num_channels;
     numBytes = numSamples * sizeof(float);
-    _data.recordedSamples = (float *)malloc(numBytes);
+    _data.recordedSamples = static_cast<float *>(malloc(numBytes));
 
     for (int i = 0; i < numSamples; ++i)
         _data.recordedSamples[i] = 0;
@@ -85,8 +85,8 @@ int recordCallback(const void *inputBuffer,
                     PaStreamCallbackFlags statusFlags,
                     void *userData)
 {
-    paTestData *data = (paTestData *)userData;
-    const float *rptr = (const float *)inputBuffer;
+    paTestData *data = static_cast<paTestData *>(userData);
+    const float *rptr = static_cast<const float *>(inputBuffer);
     float *wptr = &data->recordedSamples[data->frameIndex * 2];
     long framesToCalc = 0;
     long i = 0;
@@ -143,9 +143,9 @@ static int playCallback(const void *inputBuffer, void *outputBuffer,
                         PaStreamCallbackFlags statusFlags,
                         void *userData)
 {
-    paTestData *data = (paTestData *)userData;
+    paTestData *data = static_cast<paTestData *>(userData);
     float *rptr = &data->recordedSamples[data->frameIndex * 2];
-    float *wptr = (float *)outputBuffer;
+    float *wptr = static_cast<float *>(outputBuffer);
     unsigned int i;
     int finished;
     unsigned int framesLeft = data->maxFrameIndex - data->frameIndex;
