@@ -30,10 +30,11 @@ class PortAudio {
         void SetOutputParameters();
         void SetData(int, int, int);
 
-        void StartStream();
-        void CloseStream();
-        void RecordStream();
-        void PlayStream();
+        void StartStream(PaStream *);
+        void CloseStream(PaStream *);
+        PaStream *RecordStream();
+
+        void PlayStream(PaStream *);
 
         void setSampleRate(short);
         void setFramePerBuffer(short);
@@ -41,7 +42,6 @@ class PortAudio {
 
     private:
         PaError err;
-        PaStream *stream;
         PaStreamParameters inputParameters;
         PaStreamParameters outputParameters;
         paTestData _data;

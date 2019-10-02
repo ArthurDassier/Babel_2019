@@ -64,14 +64,14 @@ void PortAudio::SetOutputParameters()
     outputParameters.hostApiSpecificStreamInfo = NULL;
 }
 
-void PortAudio::StartStream()
+void PortAudio::StartStream(PaStream *stream)
 {
     err = Pa_StartStream(stream);
     if (err != paNoError)
         exit(84);
 }
 
-void PortAudio::CloseStream()
+void PortAudio::CloseStream(PaStream *stream)
 {
     err = Pa_CloseStream(stream);
     if (err != paNoError)
@@ -116,8 +116,10 @@ int recordCallback(const void *inputBuffer,
     return finished;
 }
 
-void PortAudio::RecordStream()
+PaStream *PortAudio::RecordStream()
 {
+    PaStream *stream;
+
     err = Pa_OpenStream(
         &stream,
         &inputParameters,
@@ -132,6 +134,7 @@ void PortAudio::RecordStream()
         std::cout << Pa_GetErrorText(err) << std::endl;
         exit(84);
     }
+    return stream;
 }
 
 static int playCallback(const void *inputBuffer, void *outputBuffer,
@@ -170,8 +173,7 @@ static int playCallback(const void *inputBuffer, void *outputBuffer,
     return finished;
 }
 
-
-void PortAudio::PlayStream()
+void PortAudio::PlayStream(PaStream *stream)
 {
     err = Pa_OpenStream(
         &stream,
@@ -188,6 +190,7 @@ void PortAudio::PlayStream()
         exit(84);
     }
 }
+
 
 void PortAudio::setSampleRate(short sample_rate)
 {
@@ -207,27 +210,28 @@ void PortAudio::setDataFrameIndex()
 int main()
 {
     PortAudio test;
+    PaStream *stream;
     test.SetInputParameters();
     std::cout << "1" << std::endl;
     test.SetData(5, 44100, 2);
     std::cout << "2" << std::endl;
-    test.RecordStream();
+    stream = test.RecordStream();
     std::cout << "3" << std::endl;
-    test.StartStream();
+    test.StartStream(stream);
     std::cout << "4" << std::endl;
     Pa_Sleep(3000);
     std::cout << "5" << std::endl;
-    test.CloseStream();
+    test.CloseStream(stream);
     std::cout << "6" << std::endl;
     test.SetOutputParameters();
     test.setDataFrameIndex();
     std::cout << "7" << std::endl;
-    test.PlayStream();
+    test.PlayStream(stream);
     std::cout << "8" << std::endl;
-    test.StartStream();
+    test.StartStream(stream);
     Pa_Sleep(3000);
     std::cout << "9" << std::endl;
-    test.CloseStream();
+    test.CloseStream(stream);
     std::cout << "10" << std::endl;
     return (0);
 }
