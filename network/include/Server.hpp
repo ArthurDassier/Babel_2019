@@ -76,14 +76,11 @@ class Server : public ServerActions
 
     private:
         void add_sockets_to_set(socket_t *);
-
         bool isRunning() const;
         void initActions();
-
         bool _status;
         unsigned short _max_connections;
         TCPSocket _sock;
-
         std::deque<std::unique_ptr<ServerClient>> _client_list;
 
         std::map<const std::string, std::function<void(
