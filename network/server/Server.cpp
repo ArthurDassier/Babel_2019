@@ -15,7 +15,8 @@ Server::Server(const int port = DEFAULT_PORT):
         std::cerr << "ERRRROR" << std::endl;
         throw "Socket not available";
     }
-    std::cout << "Listening on port " << port << std::endl;
+    initActions();
+    std::cout << "Listening on port " << port << " and fd n°" << _sock.sock << std::endl;
 }
 
 Server::~Server()
@@ -26,7 +27,7 @@ Server::~Server()
 
 void Server::Run()
 {
-    while (_status) {
+    while (isRunning()) {
         PollEvent();
     }
 }
@@ -62,16 +63,18 @@ void Server::HandleConnection()
         printf("New connection, socket fd is %d, ip is : %s, port : %d\n", newClient._sock,
            inet_ntoa(from.sin_addr), ntohs(from.sin_port));
         newClient.send("Hello World!\n");
-        _client_list.push_back(std::make_unique<Client>(Client(newClient)));
+        _packet.setType("connection");
+        _packet.addData("ip", inet_ntoa(from.sin_addr));
+        _packet.addData("port", ntohs(from.sin_port));
+        for (auto &it : _client_list)
+            it->_sock.send(_packet.getPacket());
+        _packet.clear();
+        _client_list.push_back(std::make_unique<ServerClient>(ServerClient(newClient)));
     }
 }
 
-void Server::HandleReceive(Client client)
+void Server::HandleReceive(ServerClient client)
 {
-    // std::cout << "HandleReceive" << std::endl;
-    // memset(buffer, 0, 256);
-    // read(client._TCP_sock.sock, buffer, sizeof(buffer)); //_sock.read(buffer);
-    // std::cout << buffer << std::endl;
     int valread = 0;
     std::string buffer;
     sockaddr_in addr;
@@ -85,83 +88,35 @@ void Server::HandleReceive(Client client)
            inet_ntoa(addr.sin_addr), client._sock._sock,
            ntohs(addr.sin_port));
         removeClient(client);
-    }
-    else if (valread > 0)
-    {
-        MatchCommand(std::move(std::make_unique<Client>(client)), buffer.erase(buffer.size()));
-        // buffer[valread] = '\0';
+    } else if (valread > 0) {
+        MatchCommand(std::move(std::make_unique<ServerClient>(client)), buffer.erase(buffer.size()));
     }
 }
 
-void Server::MatchCommand(std::unique_ptr<Client> client, const std::string &command)
+void Server::MatchCommand(std::unique_ptr<ServerClient> client, const std::string &command)
 {
-        std::cout << "client n°" << client->_sock._sock - 3 << " sent: " << command << std::endl;
-        // client->_sock.send(command);
-        std::cout << "Command sent" << std::endl;
-        if (command.compare("call") == 0)
-        {
-            for (auto &it : _client_list) {
-                it->_sock.send(command);
+        std::cout << "client n°" << client->_sock._sock - 3 << " sent:\n" << command << std::endl;
+
+        if (command.compare("call") != 0)
+            for (auto &it : _client_list)
+            {
+                it->_sock.send(_packet.getPacket());
             }
-            // if (_client_list.size() > 1) {
-
-            //     std::cout << "Calling..." << std::endl;
-            //     Call(std::move(client));
-            // }
-            // else
-            //     std::cout << "No one is connected" << std::endl;
-        } else
-            client->_sock.send(command);
-        if (command.compare("shutdown") == 0)
-            _status = false;
+        else {
+            auto it = _fMap.find(command);
+            if (it != _fMap.end()) {
+                std::vector<std::unique_ptr<ServerClient>> client_list;
+                auto other = std::find_if(_client_list.begin(), _client_list.end(),
+                    [&](std::unique_ptr<ServerClient> &i) {
+                        return i->_sock._sock != client->_sock._sock;
+                    });
+                it->second(std::move(client));
+                // it->second(std::move(client), std::make_unique<ServerClient>(other)); //client_list);
+            }
+        }
+        // _packet.setType("test");
+        // _packet.addData("ip", "127.0.0.1");
 }
-
-void Server::Call(std::unique_ptr<Client> client)
-{
-    // std::cout << "Client n°" << client->_sock._sock - 3 << std::endl;
-    std::string buffer;
-    std::string buffer2;
-    sockaddr_in addr;
-    int addrlen = sizeof(addr);
-    getpeername(client->_sock._sock, (sockaddr *)&addr,
-                (socklen_t *)&addrlen);
-    printf("Client1, ip %s, fd %d, port %d \n",
-           inet_ntoa(addr.sin_addr), client->_sock._sock,
-           ntohs(addr.sin_port));
-    auto it = std::find_if(_client_list.begin(), _client_list.end(),
-                           [&](std::unique_ptr<Client> &i) {
-                               return i->_sock._sock != client->_sock._sock;
-                           })->get();
-    getpeername(it->_sock._sock, (sockaddr *)&addr,
-                (socklen_t *)&addrlen);
-    printf("Client2, ip %s, fd %d, port %d \n",
-           inet_ntoa(addr.sin_addr), it->_sock._sock,
-           ntohs(addr.sin_port));
-    client->_sock.read(buffer);
-    it->_sock.read(buffer2);
-    std::cout << "UDP Socket: " << buffer << std::endl;
-    std::cout << "UDP Socket 2: " << buffer2 << std::endl;
-    // client->_sock.send();
-}
-
-// Server::Server(const int port = DEFAULT_PORT):
-//     _status(true)
-// {
-//     if (!_listen_sock.create())
-//         exit(84);
-//     if (!_listen_sock.bind(port, INADDR_ANY, AF_INET))
-//         exit(84);
-//     if (!_listen_sock.listen())
-//         exit(84);
-//     std::cout << "Listener on port " << port << std::endl;
-// }
-
-// Server::~Server()
-// {
-//     for (auto &it : _client_list) {
-//         removeClient(it->_sock);
-//     }
-// }
 
 void Server::add_sockets_to_set(socket_t *max_sd)
 {
@@ -179,129 +134,23 @@ void Server::add_sockets_to_set(socket_t *max_sd)
     }
 }
 
-// void Server::poll()
-// {
-//     socket_t max_sd = _listen_sock._sock;
-//     socket_t rd = 0;
-
-//     // add_sockets_to_set(&max_sd);
-//     // rd = select(max_sd + 1, &_sock_set, NULL, NULL, NULL);
-//     // if ((rd < 0) && (errno != EINTR)) {
-//     //     perror("select() failed");
-//     //     exit(84);
-//     // }
-//     // if (FD_ISSET(_listen_sock._sock, &_sock_set))
-//         handleConnection();
-//     // for (auto &it : _client_list)
-//     //     if (FD_ISSET(it->_sock._sock, &_sock_set))
-//     //         handleReceive(*it);
-// }
-
-// void Server::run()
-// {
-//     std::cout << "Waiting for connections..." << std::endl;
-//     while (_status) {
-//         poll();
-//         std::cout << "..." << std::endl;
-//     }
-// }
-
-// void Server::handleConnection()
-// {
-//     Socket new_s;
-//     std::string msg = "Hello World!";
-//     int addr_len = sizeof(_listen_sock._addr);
-
-//     new_s._sock = accept(_listen_sock._sock, (sockaddr *)&_listen_sock._addr, (socklen_t *)&addr_len);
-//     if (_listen_sock._sock != -1) {
-//         int sock = new_s._sock;
-//         sockaddr_in from = _listen_sock._addr;
-//         std::thread([new_s, sock, from, this]() {
-//             printf("New connection, socket fd is %d, ip is : %s, port : %d\n", sock,
-//                    inet_ntoa(from.sin_addr), ntohs(from.sin_port));
-//             for (;;)
-//             {
-//                 // char buffer[200] = {0};
-//                 // int ret = recv(sock, buffer, 199, 0);
-//                 std::string buffer;
-//                 int ret = new_s.read(buffer);
-//                 if (ret == 0 || ret == -1)
-//                     break;
-//                 if (buffer.compare("call\n") == 0)
-//                     std::cout << "Calling..." << std::endl;
-//                 if (buffer.compare("shutdown\n") == 0) {
-//                     std::cout << "Shutting down server" << std::endl;
-//                     shutdown();
-//                     pthread_exit(NULL);
-//                     exit(0);
-//                 }
-//                 std::cout << "[" << inet_ntoa(from.sin_addr) << " : " << ntohs(from.sin_port) << "] " << buffer << std::endl;
-//                 ret = new_s.send(buffer);
-//                 if (ret == 0 || ret == -1)
-//                     break;
-//             }
-//             printf("Host disconnected, ip %s, fd %d, port %d \n",
-//                    inet_ntoa(from.sin_addr), new_s._sock,
-//                    ntohs(from.sin_port));
-//             removeClient(new_s);
-//         }).detach();
-//     }
-//     // if (!_listen_sock.accept(new_s)) {
-//     //     perror("accept() failed");
-//     //     exit(84);
-//     // }
-//     // printf("New connection, socket fd is %d, ip is : %s, port : %d\n", new_s._sock,
-//     //        inet_ntoa(_listen_sock._addr.sin_addr), ntohs(_listen_sock._addr.sin_port));
-//     // if (!new_s.send(msg))
-//     //     perror("send() failed");
-//     // else
-//     //     std::cout << "Welcome message sent" << std::endl;
-//     // _client_list.push_back(std::make_unique<Client>(Client(new_s)));
-//     // printf("Adding to list of sockets as %d\n", new_s._sock);
-// }
-
-void Server::removeClient(Client client)
+void Server::removeClient(ServerClient client)
 {
     close(client._sock._sock);
     auto it = std::find_if(_client_list.begin(), _client_list.end(),
-        [&](std::unique_ptr<Client> &i) {
+        [&](std::unique_ptr<ServerClient> &i) {
             return i->_sock._sock == client._sock._sock;
         });
     if (it != _client_list.end())
         _client_list.erase(it);
 }
 
-// void Server::handleReceive(Client client)
-// {
-//     int valread = 0;
-//     std::string buffer;
-//     int addrlen = sizeof(_listen_sock._addr);
+bool Server::isRunning() const
+{
+    return _status;
+}
 
-//     if ((valread = client._sock.read(buffer)) == 0) {
-//         getpeername(client._sock._sock, (struct sockaddr*)&_listen_sock._addr,
-//         (socklen_t*)&addrlen);
-//         printf("Host disconnected, ip %s, fd %d, port %d \n",
-//             inet_ntoa(_listen_sock._addr.sin_addr), client._sock._sock,
-//             ntohs(_listen_sock._addr.sin_port));
-//         removeClient(client);
-//     }
-//     else if (valread > 0) {
-//         // buffer[valread] = '\0';
-//         std::cout << "client n°" << client._sock._sock - 3 << " sent: " << buffer << std::endl;
-//         if (!buffer.compare("call")) {
-//             std::cout << "Calling..." << std::endl;
-//         }
-//         if (_client_list.size() > 1) {
-//             auto it = std::find_if(_client_list.begin(), _client_list.end(),
-//                 [&](std::unique_ptr<Client> &i) {
-//                     return i->_sock._sock != client._sock._sock;
-//                 });
-//             it->get()->_sock.send(buffer);
-//         }
-//     }
-// }
-
-// void Server::shutdown()
-// {
-//     _status = false;
-// }
+void Server::initActions()
+{
+    _fMap.emplace(std::make_pair("call", std::bind(&ServerActions::InitConnection, this, std::placeholders::_1)));
+}

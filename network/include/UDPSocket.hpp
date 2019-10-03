@@ -29,7 +29,10 @@ class UDPSocket
         int Read(std::string &data) const;
         int Receive(char *buffer, unsigned int len);
 
+        sockaddr_in getAddr() const;
+
         SOCKET sock;
+        sockaddr_in addr;
     private:
 };
 
