@@ -12,6 +12,9 @@
 #include <string.h>
 #include <stdio.h>
 #include <iostream>
+#include <string>
+#include <sstream>
+
 #include "/home/adassier/.conan/data/opus/1.3.1/bincrafters/stable/package/1d877a3df840030e6a8abb74c5ffb9088d08b47a/include/opus/opus.h"
 
 #define FRAME_SIZE (960)
