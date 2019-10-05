@@ -5,35 +5,48 @@
 ** PortAudio.hpp
 */
 
-#ifndef PORTAUDIO_HPP_
-#define PORTAUDIO_HPP_
+#pragma once
+
+#include <stdio.h>
+#include <iostream>
+#include <memory>
 
 #include "portaudio.h"
 
+#define SAMPLE_SILENCE (0.0f)
+
+
+typedef struct {
+    int frameIndex;
+    int maxFrameIndex;
+    float *recordedSamples;
+} paTestData;
+
 class PortAudio {
-	public:
-		PortAudio();
-		~PortAudio();
+    public:
+        PortAudio();
+        ~PortAudio();
 
         void SetInputParameters();
         void SetOutputParameters();
+        void SetData(int, int, int);
 
-        void CloseStream();
-        void RecordStream();
-        void PlayStream();
+        void StartStream(PaStream *);
+        void CloseStream(PaStream *);
+        PaStream *RecordStream();
 
-        void setSampleRate(short) const;
-        void setFramePerBuffer(short) const;
+        void PlayStream(PaStream *);
 
-    protected:
-	private:
+        void setSampleRate(short);
+        void setFramePerBuffer(short);
+        void setDataFrameIndex();
+
+    private:
         PaError err;
-        PaStream *stream;
         PaStreamParameters inputParameters;
         PaStreamParameters outputParameters;
+        paTestData _data;
 
         short _sample_rate;
         short _frame_per_buffer;
 };
-
-#endif /* !PORTAUDIO_HPP_ */
