@@ -260,8 +260,8 @@ int main(__attribute__((unused)) int argc, char **argv)
     Client client;
     //(argv[1], std::atoi(argv[2]));
 
-    client.connectToServer(argv[1], std::atoi(argv[2]));
-    client.run();
+    // client.connectToServer(argv[1], std::atoi(argv[2]));
+    // client.run();
     // if (!Sockets::Start())
     // {
     //     std::cout << "Error initialization : " << Sockets::GetError() << std::endl;

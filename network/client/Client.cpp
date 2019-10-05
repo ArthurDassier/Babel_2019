@@ -53,6 +53,11 @@ void Client::sendStream()
 
 }
 
+void Client::initListener(int sock)
+{
+
+}
+
 // void Client::sendMessage(const int fd, const std::string msg)
 // {
 //     send(fd, msg.c_str(), msg.size(), 0);
