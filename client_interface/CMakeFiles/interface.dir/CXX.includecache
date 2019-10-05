@@ -3832,26 +3832,6 @@ QtGui/qkeysequence.h
 QtGui/qevent.h
 -
 
-/home/camille_bouzerand/.conan/data/qt/5.12.5/bincrafters/stable/package/b5df9c5f99a00fb653b3b237ecc767ee6c61bfc5/include/QtWidgets/QApplication
-qapplication.h
-/home/camille_bouzerand/.conan/data/qt/5.12.5/bincrafters/stable/package/b5df9c5f99a00fb653b3b237ecc767ee6c61bfc5/include/QtWidgets/qapplication.h
-
-/home/camille_bouzerand/.conan/data/qt/5.12.5/bincrafters/stable/package/b5df9c5f99a00fb653b3b237ecc767ee6c61bfc5/include/QtWidgets/QLCDNumber
-qlcdnumber.h
-/home/camille_bouzerand/.conan/data/qt/5.12.5/bincrafters/stable/package/b5df9c5f99a00fb653b3b237ecc767ee6c61bfc5/include/QtWidgets/qlcdnumber.h
-
-/home/camille_bouzerand/.conan/data/qt/5.12.5/bincrafters/stable/package/b5df9c5f99a00fb653b3b237ecc767ee6c61bfc5/include/QtWidgets/QPushButton
-qpushbutton.h
-/home/camille_bouzerand/.conan/data/qt/5.12.5/bincrafters/stable/package/b5df9c5f99a00fb653b3b237ecc767ee6c61bfc5/include/QtWidgets/qpushbutton.h
-
-/home/camille_bouzerand/.conan/data/qt/5.12.5/bincrafters/stable/package/b5df9c5f99a00fb653b3b237ecc767ee6c61bfc5/include/QtWidgets/QSlider
-qslider.h
-/home/camille_bouzerand/.conan/data/qt/5.12.5/bincrafters/stable/package/b5df9c5f99a00fb653b3b237ecc767ee6c61bfc5/include/QtWidgets/qslider.h
-
-/home/camille_bouzerand/.conan/data/qt/5.12.5/bincrafters/stable/package/b5df9c5f99a00fb653b3b237ecc767ee6c61bfc5/include/QtWidgets/QWidget
-qwidget.h
-/home/camille_bouzerand/.conan/data/qt/5.12.5/bincrafters/stable/package/b5df9c5f99a00fb653b3b237ecc767ee6c61bfc5/include/QtWidgets/qwidget.h
-
 /home/camille_bouzerand/.conan/data/qt/5.12.5/bincrafters/stable/package/b5df9c5f99a00fb653b3b237ecc767ee6c61bfc5/include/QtWidgets/QtWidgets
 QtWidgets/QtWidgetsDepends
 -
@@ -5265,15 +5245,7 @@ QtWidgets/qdialog.h
 -
 
 /home/camille_bouzerand/Repository/OOP/Babel_2019/client_interface/include/mainwindow.h
-QApplication
--
-QWidget
--
-QPushButton
--
-QLCDNumber
--
-QSlider
+QtWidgets
 -
 
 /home/camille_bouzerand/Repository/OOP/Babel_2019/client_interface/include/moc_mainwindow.cpp
@@ -5295,16 +5267,10 @@ mainwindow.h
 /home/camille_bouzerand/Repository/OOP/Babel_2019/client_interface/mainwindow.cpp
 mainwindow.h
 /home/camille_bouzerand/Repository/OOP/Babel_2019/client_interface/mainwindow.h
+iostream
+-
 
 client_interface/./include/mainwindow.h
-QApplication
--
-QWidget
--
-QPushButton
--
-QLCDNumber
--
-QSlider
+QtWidgets
 -
 

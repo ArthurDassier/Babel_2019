@@ -8,11 +8,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QApplication>
-#include <QWidget>
-#include <QPushButton>
-#include <QLCDNumber>
-#include <QSlider>
+#include <QtWidgets>
 
 class mainWindow : public QWidget
 {
@@ -23,12 +19,20 @@ class mainWindow : public QWidget
         ~mainWindow();
 
     public slots:
-        void changerLargeur(int largeur);
+        void takeIp();
+    
     private:
+        QLabel *_labelName;
+        QLineEdit *_lineName;
+        QHBoxLayout *_layoutName;
         QPushButton *_button;
-        QLCDNumber *_lcd;
-        QSlider *_slider;
-        QSlider *_sliderWindow;
+        QLabel *_labelIp;
+        QLineEdit *_lineIp;
+        QHBoxLayout *_layoutIp;
+        QVBoxLayout *_allLayout;
+        // QLCDNumber *_lcd;
+        // QSlider *_slider;
+        // QSlider *_sliderWindow;
 };
 
 #endif
