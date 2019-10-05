@@ -20,6 +20,7 @@ add_executable(babel_client
 )
 
 target_link_libraries(babel_client
+    utils
     pthread
     Qt5::Network
     # ${Boost_LIBRARIES}
@@ -28,29 +29,24 @@ target_link_libraries(babel_client
 add_executable(babel_server
     ./server/server.cpp
     ./server/Server.cpp
+    ./server/ServerActions.cpp
     ./server/Socket.cpp
     ./sockets/Sockets.cpp
     ./sockets/TCPSocket.cpp
 )
 
-if (SQLITE3_FOUND)
-    include_directories(${SQLite3_INCLUDE_DIRS})
-    target_link_libraries(babel_server
+# if (SQLITE3_FOUND)
+include_directories(${SQLite3_INCLUDE_DIRS})
+target_link_libraries(babel_server
         # LINK_PUBLIC
+        utils
         sqlite3
         pthread
         dl
-        # CONAN_PKG::sqlite3
+        # ${Boost_LIBRARIES}
         # ${SQLite3_LIBRARIES}
-    )
-    target_include_directories(babel_server PRIVATE ${SQLite3_INCLUDE_DIRS})
-endif()
-# if (Boost_FOUND)
-# include_directories(${Boost_INCLUDE_DIRS} ${SQLi})
-target_link_libraries(babel_server
-    ${Boost_LIBRARIES}
-#     ${SQLite3_LIBRARIES}
 )
+target_include_directories(babel_server PRIVATE ${SQLite3_INCLUDE_DIRS})
 # endif()
 
 set_target_properties(babel_client PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}")

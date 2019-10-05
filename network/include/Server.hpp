@@ -10,11 +10,15 @@
 #include <algorithm>
 #include <arpa/inet.h>
 #include <deque>
+#include <functional>
+#include <map>
 #include <memory>
 #include <pthread.h>
 #include <sys/socket.h>
 // #include <thread>
 
+#include "Packet.hpp"
+#include "ServerActions.hpp"
 #include "Socket.hpp"
 #include "TCPSocket.hpp"
 #include "UDPSocket.hpp"
@@ -24,83 +28,74 @@
 using sockaddr_in = struct sockaddr_in;
 using socket_t = int;
 
-class Client
-{
-    public:
-        Client(Socket sock):
-            _sock(sock)
-            // _TCP_sock(sock) 
-        {
-            std::cout << "Client add with fd n°" << sock._sock << std::endl;
-            // pthread_create(&thread, NULL, PrintHello, this);
-            // pthread_t threads[5];
-            // int rc;
-            // int i;
+// class ServerClient
+// {
+//     public:
+//         ServerClient(Socket sock):
+//             _sock(sock)
+//             // _TCP_sock(sock) 
+//         {
+//             std::cout << "ServerClient add with fd n°" << sock._sock << std::endl;
+//         }
+//         Socket _sock;
+//         // TCPSocket _TCP_sock;
 
-            // for (i = 0; i < 5; i++)
-            // {
-            //     std::cout << "main() : creating thread, " << i << std::endl;
-            //     rc = pthread_create(&threads[i], NULL, PrintHello, reinterpret_cast<void *>(i));
+//     private:
+//         static void *PrintHello(void *threadid)
+//         {
+//             long tid;
+//             tid = (long)threadid;
+//             std::cout << "Hello World! Thread ID, " << tid << std::endl;
+//             pthread_exit(NULL);
+//         }
 
-            //     if (rc)
-            //     {
-            //         std::cout << "Error:unable to create thread," << rc << std::endl;
-            //         exit(-1);
-            //     }
-            // }
-            // pthread_exit(NULL);
-        }
-        Socket _sock;
-        // TCPSocket _TCP_sock;
+//         pthread_t thread;
+//         // UDPSocket _UDP_sock;
+// };
 
-    private:
-        static void *PrintHello(void *threadid)
-        {
-            long tid;
-            tid = (long)threadid;
-            std::cout << "Hello World! Thread ID, " << tid << std::endl;
-            pthread_exit(NULL);
-        }
-
-        pthread_t thread;
-        // UDPSocket _UDP_sock;
-};
-
-class Server
+class Server : public ServerActions
 {
 	public:
 		Server(const int port);
 		~Server();
 
-        void initMainSocket(const int);
+        // void initMainSocket(const int);
 
-        void removeClient(Client);
+        void removeClient(ServerClient);
 
         void PollEvent();
         void Run();
         void shutdown();
 
         void HandleConnection();
-        void HandleReceive(Client);
+        void HandleReceive(ServerClient);
         // void solveRequest();
-        void MatchCommand(std::unique_ptr<Client> client, const std::string &command);
+        void MatchCommand(std::unique_ptr<ServerClient> client, const std::string &command);
 
-        void Call(std::unique_ptr<Client> client);
+        void Call(std::unique_ptr<ServerClient> client);
 
     private:
         void add_sockets_to_set(socket_t *);
-
+        bool isRunning() const;
+        void initActions();
         bool _status;
         unsigned short _max_connections;
         TCPSocket _sock;
+        std::deque<std::unique_ptr<ServerClient>> _client_list;
 
-        std::deque<std::unique_ptr<Client>> _client_list;
+        std::map<const std::string, std::function<void(
+            std::unique_ptr<ServerClient>
+            // std::unique_ptr<ServerClient>
+            // std::vector<std::unique_ptr<ServerClient>>
+        )>> _fMap;
         // Socket _listen_sock;
         // socket_t _sock;
         // sockaddr_in _addr;
         // // Socket _main_socket;
+        ServerActions sa;
         fd_set _sock_set;
-        // std::deque<std::unique_ptr<Client>> _client_list;
+        utils::Packet _packet;
+        // std::deque<std::unique_ptr<ServerClient>> _ServerClient_list;
 };
 
 // #include <ctime>
