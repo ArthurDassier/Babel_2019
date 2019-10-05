@@ -24,12 +24,10 @@ class mainWindow : public QWidget
     private:
         QLabel *_labelName;
         QLineEdit *_lineName;
-        QHBoxLayout *_layoutName;
         QPushButton *_button;
         QLabel *_labelIp;
         QLineEdit *_lineIp;
-        QHBoxLayout *_layoutIp;
-        QVBoxLayout *_allLayout;
+        QFormLayout *_allLayout;
         // QLCDNumber *_lcd;
         // QSlider *_slider;
         // QSlider *_sliderWindow;

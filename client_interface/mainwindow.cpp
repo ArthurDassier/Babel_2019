@@ -19,21 +19,18 @@ mainWindow::mainWindow(): QWidget()
 
     _labelIp = new QLabel(QApplication::translate("windowlayout", "Server IP:"));
     _lineIp = new QLineEdit();
-    _layoutIp = new QHBoxLayout();
-    _layoutIp->addWidget(_labelIp);
-    _layoutIp->addWidget(_lineIp);
-
     _labelName = new QLabel(QApplication::translate("windowlayout", "Name:"));
     _lineName = new QLineEdit();
-    _layoutName = new QHBoxLayout();
-    _layoutName->addWidget(_labelName);
-    _layoutName->addWidget(_lineName);
 
+    _allLayout = new QFormLayout;
+    _allLayout->addRow(_labelName, _lineName);
+    _allLayout->addRow(_labelIp, _lineIp);
+    
     // _allLayout = new QVBoxLayout();
     // _allLayout->addWidget(_layoutName);
     // _allLayout->addWidget(_layoutIp);
 
-    this->setLayout(_layoutIp);
+    this->setLayout(_allLayout);
 
 
 
