@@ -1,0 +1,3 @@
+# Hashes of file build rules.
+be026e91a37cca8933a926c7e11aa4f2 client_interface/CMakeFiles/interface_autogen
+899f2593b667a1b1477a84cdb85d5ec1 client_interface/include/moc_mainwindow.cpp

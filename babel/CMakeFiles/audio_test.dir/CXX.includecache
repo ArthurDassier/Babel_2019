@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/camille_bouzerand/.conan/data/portaudio/v190600.20161030/bincrafters/stable/package/d50a0d523d98c15bb147b18fa7d203887c38be8b/include/portaudio.h
+
+/home/camille_bouzerand/Repository/OOP/Babel_2019/babel/srcs/main.cpp
+fstream
+-
+stdio.h
+-
+stdlib.h
+-
+portaudio.h
+/home/camille_bouzerand/Repository/OOP/Babel_2019/babel/srcs/portaudio.h
+
