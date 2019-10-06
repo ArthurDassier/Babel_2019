@@ -22,11 +22,13 @@ class mainWindow : public QWidget
         void takeIp();
     
     private:
+        QPushButton *_button;
         QLabel *_labelName;
         QLineEdit *_lineName;
-        QPushButton *_button;
         QLabel *_labelIp;
         QLineEdit *_lineIp;
+        QLabel *_labelPort;
+        QLineEdit *_linePort;
         QFormLayout *_allLayout;
         // QLCDNumber *_lcd;
         // QSlider *_slider;
