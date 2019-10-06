@@ -1,3 +1,5 @@
+project(database)
+
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
@@ -8,16 +10,18 @@ include_directories(
 
 find_package(SQLite3 REQUIRED)
 
-add_library(database
-    STATIC
-    ./srcs/Database.cpp
-)
-
-target_link_libraries(
-    database
-    sqlite3
-    pthread
-    dl
-)
-
-target_include_directories(database PRIVATE ${SQLite3_INCLUDE_DIRS})
+if (SQLITE3_FOUND)
+    add_library(database
+        STATIC
+        ./srcs/ClientDatabase.cpp
+        ./srcs/Data.cpp
+        ./srcs/Database.cpp
+    )
+    target_link_libraries(
+        database
+        sqlite3
+        pthread
+        dl
+    )
+    target_include_directories(database PRIVATE ${SQLite3_INCLUDE_DIRS})
+endif()

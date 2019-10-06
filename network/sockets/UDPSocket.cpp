@@ -10,7 +10,9 @@
 UDPSocket::UDPSocket()
 {
     sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
-    if (sock == INVALID_SOCKET) {
+    std::cout << "udp sock: " << sock << std::endl;
+    if (sock == INVALID_SOCKET)
+    {
         throw std::runtime_error("Invalid socket");
     }
 }
@@ -22,11 +24,10 @@ UDPSocket::~UDPSocket()
 
 bool UDPSocket::Bind(unsigned short port)
 {
-    sockaddr_in server;
-    server.sin_addr.s_addr = htonl(INADDR_ANY); //inet_addr(ipaddress.c_str());
-    server.sin_family = AF_INET;
-    server.sin_port = htons(port);
-    return bind(sock, reinterpret_cast<sockaddr *>(&server), sizeof(server));
+    addr.sin_addr.s_addr = htonl(INADDR_ANY); //inet_addr(ipaddress.c_str());
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(port);
+    return bind(sock, reinterpret_cast<sockaddr *>(&addr), sizeof(addr));
 }
 
 int UDPSocket::Send(const char *data, unsigned int len)
@@ -49,4 +50,8 @@ int UDPSocket::Read(std::string &data) const
 int UDPSocket::Receive(char *buffer, unsigned int len)
 {
     return recv(sock, buffer, len, 0);
+}
+sockaddr_in UDPSocket::getAddr() const
+{
+    return addr;
 }

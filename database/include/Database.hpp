@@ -8,17 +8,48 @@
 #ifndef DATABASE_HPP_
 #define DATABASE_HPP_
 
+#include <iostream>
+#include <memory>
 #include <string>
 #include <sqlite3.h>
+#include <unordered_map>
 
-class Database {
-	public:
-		Database();
-		~Database();
+#include "ClientDatabase.hpp"
 
-	protected:
-	private:
-        sqlite3 *db;
-};
+namespace db
+{
+	using Record = std::vector<std::string>;
+	using Records = std::vector<Record>;
+
+	class Database {
+		public:
+			Database(const std::string &);
+			~Database();
+
+			inline sqlite3 *getHandle() const noexcept
+			{
+				return db;
+			}
+
+			void setDB(sqlite3* ptr)
+			{
+				db = ptr;
+			}
+
+			bool connect(const std::string &);
+			bool createTable(const std::string &);
+			bool insertData(std::unique_ptr<Data>);
+			bool getData(const std::string &, const std::vector<std::string> & = {0});
+			bool upsertData(const std::string &, const std::string &);
+			bool deleteData(const std::string &, const std::string &);
+
+		private:
+			int sqlStmt(const std::string &);
+			Records selectStmt(const std::string &);
+			static int select_callback(void *p_data, int num_fields, char **p_fields, char **p_col_names);
+
+			sqlite3 *db;
+	};
+}; // namespace db
 
 #endif /* !DATABASE_HPP_ */
