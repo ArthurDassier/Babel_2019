@@ -5,8 +5,7 @@
 ** Actions.hpp
 */
 
-#ifndef SERVER_ACTIONS_HPP_
-#define SERVER_ACTIONS_HPP_
+#pragma once
 
 #include <iostream>
 #include <memory>
@@ -19,10 +18,7 @@ class ServerActions
 		ServerActions();
 		~ServerActions();
 
-		bool InitConnection(std::unique_ptr<ServerClient>);
-
-	protected:
-	private:
+		bool initConnection(std::unique_ptr<ServerClient>);
+		bool closeConnection(std::unique_ptr<ServerClient>);
+		bool getInfos(std::unique_ptr<ServerClient>);
 };
-
-#endif /* !SERVER_ACTIONS_HPP_ */

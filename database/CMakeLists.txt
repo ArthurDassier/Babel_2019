@@ -23,5 +23,10 @@ if (SQLITE3_FOUND)
         pthread
         dl
     )
+    target_include_directories(database INTERFACE
+        ./include()
+    )
     target_include_directories(database PRIVATE ${SQLite3_INCLUDE_DIRS})
+
+    SET_TARGET_PROPERTIES(database PROPERTIES LINKER_LANGUAGE CXX)
 endif()

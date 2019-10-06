@@ -5,7 +5,5 @@ add_definitions("-fPIC")
 
 add_subdirectory(network)
 add_subdirectory(database)
-# add_subdirectory(server)
-# add_subdirectory(babel)
 # add_subdirectory(client_interface)
 add_subdirectory(utils)

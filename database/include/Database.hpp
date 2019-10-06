@@ -5,8 +5,7 @@
 ** Database.hpp
 */
 
-#ifndef DATABASE_HPP_
-#define DATABASE_HPP_
+#pragma once
 
 #include <iostream>
 #include <memory>
@@ -21,7 +20,8 @@ namespace db
 	using Record = std::vector<std::string>;
 	using Records = std::vector<Record>;
 
-	class Database {
+	class Database
+	{
 		public:
 			Database(const std::string &);
 			~Database();
@@ -51,5 +51,3 @@ namespace db
 			sqlite3 *db;
 	};
 }; // namespace db
-
-#endif /* !DATABASE_HPP_ */
