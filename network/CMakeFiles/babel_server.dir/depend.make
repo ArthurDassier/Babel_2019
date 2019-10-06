@@ -3,20 +3,31 @@
 
 network/CMakeFiles/babel_server.dir/server/Server.cpp.o: network/server/Server.cpp
 network/CMakeFiles/babel_server.dir/server/Server.cpp.o: network/./include/Server.hpp
+network/CMakeFiles/babel_server.dir/server/Server.cpp.o: network/./include/ServerActions.hpp
+network/CMakeFiles/babel_server.dir/server/Server.cpp.o: network/./include/ServerClient.hpp
 network/CMakeFiles/babel_server.dir/server/Server.cpp.o: network/./include/Socket.hpp
 network/CMakeFiles/babel_server.dir/server/Server.cpp.o: network/./include/Sockets.hpp
 network/CMakeFiles/babel_server.dir/server/Server.cpp.o: network/./include/TCPSocket.hpp
 network/CMakeFiles/babel_server.dir/server/Server.cpp.o: network/./include/UDPSocket.hpp
+network/CMakeFiles/babel_server.dir/server/Server.cpp.o: utils/./include/Packet.hpp
+
+network/CMakeFiles/babel_server.dir/server/ServerActions.cpp.o: network/server/ServerActions.cpp
+network/CMakeFiles/babel_server.dir/server/ServerActions.cpp.o: network/./include/ServerActions.hpp
+network/CMakeFiles/babel_server.dir/server/ServerActions.cpp.o: network/./include/ServerClient.hpp
+network/CMakeFiles/babel_server.dir/server/ServerActions.cpp.o: network/./include/Socket.hpp
 
 network/CMakeFiles/babel_server.dir/server/Socket.cpp.o: network/server/Socket.cpp
 network/CMakeFiles/babel_server.dir/server/Socket.cpp.o: network/./include/Socket.hpp
 
 network/CMakeFiles/babel_server.dir/server/server.cpp.o: network/server/server.cpp
 network/CMakeFiles/babel_server.dir/server/server.cpp.o: network/./include/Server.hpp
+network/CMakeFiles/babel_server.dir/server/server.cpp.o: network/./include/ServerActions.hpp
+network/CMakeFiles/babel_server.dir/server/server.cpp.o: network/./include/ServerClient.hpp
 network/CMakeFiles/babel_server.dir/server/server.cpp.o: network/./include/Socket.hpp
 network/CMakeFiles/babel_server.dir/server/server.cpp.o: network/./include/Sockets.hpp
 network/CMakeFiles/babel_server.dir/server/server.cpp.o: network/./include/TCPSocket.hpp
 network/CMakeFiles/babel_server.dir/server/server.cpp.o: network/./include/UDPSocket.hpp
+network/CMakeFiles/babel_server.dir/server/server.cpp.o: utils/./include/Packet.hpp
 
 network/CMakeFiles/babel_server.dir/sockets/Sockets.cpp.o: network/sockets/Sockets.cpp
 network/CMakeFiles/babel_server.dir/sockets/Sockets.cpp.o: network/./include/Sockets.hpp

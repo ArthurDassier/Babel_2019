@@ -137,43 +137,30 @@ babel_server/fast:
 .PHONY : babel_server/fast
 
 #=============================================================================
-# Target rules for targets named audio_test
+# Target rules for targets named database
 
 # Build rule for target.
-audio_test: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 audio_test
-.PHONY : audio_test
+database: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 database
+.PHONY : database
 
 # fast build rule for target.
-audio_test/fast:
-	$(MAKE) -f babel/CMakeFiles/audio_test.dir/build.make babel/CMakeFiles/audio_test.dir/build
-.PHONY : audio_test/fast
+database/fast:
+	$(MAKE) -f database/CMakeFiles/database.dir/build.make database/CMakeFiles/database.dir/build
+.PHONY : database/fast
 
 #=============================================================================
-# Target rules for targets named interface
+# Target rules for targets named utils
 
 # Build rule for target.
-interface: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 interface
-.PHONY : interface
+utils: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 utils
+.PHONY : utils
 
 # fast build rule for target.
-interface/fast:
-	$(MAKE) -f client_interface/CMakeFiles/interface.dir/build.make client_interface/CMakeFiles/interface.dir/build
-.PHONY : interface/fast
-
-#=============================================================================
-# Target rules for targets named interface_autogen
-
-# Build rule for target.
-interface_autogen: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 interface_autogen
-.PHONY : interface_autogen
-
-# fast build rule for target.
-interface_autogen/fast:
-	$(MAKE) -f client_interface/CMakeFiles/interface_autogen.dir/build.make client_interface/CMakeFiles/interface_autogen.dir/build
-.PHONY : interface_autogen/fast
+utils/fast:
+	$(MAKE) -f utils/CMakeFiles/utils.dir/build.make utils/CMakeFiles/utils.dir/build
+.PHONY : utils/fast
 
 # Help Target
 help:
@@ -185,9 +172,8 @@ help:
 	@echo "... edit_cache"
 	@echo "... babel_client"
 	@echo "... babel_server"
-	@echo "... audio_test"
-	@echo "... interface"
-	@echo "... interface_autogen"
+	@echo "... database"
+	@echo "... utils"
 .PHONY : help
 
 

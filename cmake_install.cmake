@@ -40,8 +40,8 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/camille_bouzerand/Repository/OOP/Babel_2019/network/cmake_install.cmake")
-  include("/home/camille_bouzerand/Repository/OOP/Babel_2019/babel/cmake_install.cmake")
-  include("/home/camille_bouzerand/Repository/OOP/Babel_2019/client_interface/cmake_install.cmake")
+  include("/home/camille_bouzerand/Repository/OOP/Babel_2019/database/cmake_install.cmake")
+  include("/home/camille_bouzerand/Repository/OOP/Babel_2019/utils/cmake_install.cmake")
 
 endif()
 

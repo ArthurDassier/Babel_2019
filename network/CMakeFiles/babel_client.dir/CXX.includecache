@@ -11,6 +11,8 @@ Client.hpp
 /home/camille_bouzerand/Repository/OOP/Babel_2019/network/client/Client.hpp
 
 /home/camille_bouzerand/Repository/OOP/Babel_2019/network/client/client.cpp
+Client.hpp
+/home/camille_bouzerand/Repository/OOP/Babel_2019/network/client/Client.hpp
 TCPSocket.hpp
 /home/camille_bouzerand/Repository/OOP/Babel_2019/network/client/TCPSocket.hpp
 UDPSocket.hpp
@@ -49,6 +51,16 @@ UDPSocket.hpp
 /home/camille_bouzerand/Repository/OOP/Babel_2019/network/sockets/UDPSocket.hpp
 
 network/./include/Client.hpp
+iostream
+-
+thread
+-
+Packet.hpp
+network/./include/Packet.hpp
+TCPSocket.hpp
+network/./include/TCPSocket.hpp
+UDPSocket.hpp
+network/./include/UDPSocket.hpp
 
 network/./include/Sockets.hpp
 WS2tcpip.h
@@ -87,4 +99,18 @@ string.h
 -
 Sockets.hpp
 network/./include/Sockets.hpp
+
+utils/./include/Packet.hpp
+array
+-
+ostream
+-
+sstream
+-
+vector
+-
+boost/property_tree/ptree.hpp
+-
+boost/property_tree/json_parser.hpp
+-
 

@@ -139,6 +139,7 @@ babel_client: network/CMakeFiles/babel_client.dir/sockets/Sockets.cpp.o
 babel_client: network/CMakeFiles/babel_client.dir/sockets/TCPSocket.cpp.o
 babel_client: network/CMakeFiles/babel_client.dir/sockets/UDPSocket.cpp.o
 babel_client: network/CMakeFiles/babel_client.dir/build.make
+babel_client: utils/libutils.a
 babel_client: /home/camille_bouzerand/.conan/data/qt/5.12.5/bincrafters/stable/package/b5df9c5f99a00fb653b3b237ecc767ee6c61bfc5/lib/libQt5Network.so.5.12.5
 babel_client: /home/camille_bouzerand/.conan/data/qt/5.12.5/bincrafters/stable/package/b5df9c5f99a00fb653b3b237ecc767ee6c61bfc5/lib/libQt5Core.so.5.12.5
 babel_client: network/CMakeFiles/babel_client.dir/link.txt

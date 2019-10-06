@@ -83,9 +83,22 @@ network/CMakeFiles/babel_server.dir/server/Server.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/babel_server.dir/server/Server.cpp.s"
 	cd /home/camille_bouzerand/Repository/OOP/Babel_2019/network && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/camille_bouzerand/Repository/OOP/Babel_2019/network/server/Server.cpp -o CMakeFiles/babel_server.dir/server/Server.cpp.s
 
+network/CMakeFiles/babel_server.dir/server/ServerActions.cpp.o: network/CMakeFiles/babel_server.dir/flags.make
+network/CMakeFiles/babel_server.dir/server/ServerActions.cpp.o: network/server/ServerActions.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/camille_bouzerand/Repository/OOP/Babel_2019/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object network/CMakeFiles/babel_server.dir/server/ServerActions.cpp.o"
+	cd /home/camille_bouzerand/Repository/OOP/Babel_2019/network && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/babel_server.dir/server/ServerActions.cpp.o -c /home/camille_bouzerand/Repository/OOP/Babel_2019/network/server/ServerActions.cpp
+
+network/CMakeFiles/babel_server.dir/server/ServerActions.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/babel_server.dir/server/ServerActions.cpp.i"
+	cd /home/camille_bouzerand/Repository/OOP/Babel_2019/network && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/camille_bouzerand/Repository/OOP/Babel_2019/network/server/ServerActions.cpp > CMakeFiles/babel_server.dir/server/ServerActions.cpp.i
+
+network/CMakeFiles/babel_server.dir/server/ServerActions.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/babel_server.dir/server/ServerActions.cpp.s"
+	cd /home/camille_bouzerand/Repository/OOP/Babel_2019/network && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/camille_bouzerand/Repository/OOP/Babel_2019/network/server/ServerActions.cpp -o CMakeFiles/babel_server.dir/server/ServerActions.cpp.s
+
 network/CMakeFiles/babel_server.dir/server/Socket.cpp.o: network/CMakeFiles/babel_server.dir/flags.make
 network/CMakeFiles/babel_server.dir/server/Socket.cpp.o: network/server/Socket.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/camille_bouzerand/Repository/OOP/Babel_2019/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object network/CMakeFiles/babel_server.dir/server/Socket.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/camille_bouzerand/Repository/OOP/Babel_2019/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object network/CMakeFiles/babel_server.dir/server/Socket.cpp.o"
 	cd /home/camille_bouzerand/Repository/OOP/Babel_2019/network && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/babel_server.dir/server/Socket.cpp.o -c /home/camille_bouzerand/Repository/OOP/Babel_2019/network/server/Socket.cpp
 
 network/CMakeFiles/babel_server.dir/server/Socket.cpp.i: cmake_force
@@ -98,7 +111,7 @@ network/CMakeFiles/babel_server.dir/server/Socket.cpp.s: cmake_force
 
 network/CMakeFiles/babel_server.dir/sockets/Sockets.cpp.o: network/CMakeFiles/babel_server.dir/flags.make
 network/CMakeFiles/babel_server.dir/sockets/Sockets.cpp.o: network/sockets/Sockets.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/camille_bouzerand/Repository/OOP/Babel_2019/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object network/CMakeFiles/babel_server.dir/sockets/Sockets.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/camille_bouzerand/Repository/OOP/Babel_2019/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object network/CMakeFiles/babel_server.dir/sockets/Sockets.cpp.o"
 	cd /home/camille_bouzerand/Repository/OOP/Babel_2019/network && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/babel_server.dir/sockets/Sockets.cpp.o -c /home/camille_bouzerand/Repository/OOP/Babel_2019/network/sockets/Sockets.cpp
 
 network/CMakeFiles/babel_server.dir/sockets/Sockets.cpp.i: cmake_force
@@ -111,7 +124,7 @@ network/CMakeFiles/babel_server.dir/sockets/Sockets.cpp.s: cmake_force
 
 network/CMakeFiles/babel_server.dir/sockets/TCPSocket.cpp.o: network/CMakeFiles/babel_server.dir/flags.make
 network/CMakeFiles/babel_server.dir/sockets/TCPSocket.cpp.o: network/sockets/TCPSocket.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/camille_bouzerand/Repository/OOP/Babel_2019/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object network/CMakeFiles/babel_server.dir/sockets/TCPSocket.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/camille_bouzerand/Repository/OOP/Babel_2019/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object network/CMakeFiles/babel_server.dir/sockets/TCPSocket.cpp.o"
 	cd /home/camille_bouzerand/Repository/OOP/Babel_2019/network && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/babel_server.dir/sockets/TCPSocket.cpp.o -c /home/camille_bouzerand/Repository/OOP/Babel_2019/network/sockets/TCPSocket.cpp
 
 network/CMakeFiles/babel_server.dir/sockets/TCPSocket.cpp.i: cmake_force
@@ -126,6 +139,7 @@ network/CMakeFiles/babel_server.dir/sockets/TCPSocket.cpp.s: cmake_force
 babel_server_OBJECTS = \
 "CMakeFiles/babel_server.dir/server/server.cpp.o" \
 "CMakeFiles/babel_server.dir/server/Server.cpp.o" \
+"CMakeFiles/babel_server.dir/server/ServerActions.cpp.o" \
 "CMakeFiles/babel_server.dir/server/Socket.cpp.o" \
 "CMakeFiles/babel_server.dir/sockets/Sockets.cpp.o" \
 "CMakeFiles/babel_server.dir/sockets/TCPSocket.cpp.o"
@@ -135,15 +149,14 @@ babel_server_EXTERNAL_OBJECTS =
 
 babel_server: network/CMakeFiles/babel_server.dir/server/server.cpp.o
 babel_server: network/CMakeFiles/babel_server.dir/server/Server.cpp.o
+babel_server: network/CMakeFiles/babel_server.dir/server/ServerActions.cpp.o
 babel_server: network/CMakeFiles/babel_server.dir/server/Socket.cpp.o
 babel_server: network/CMakeFiles/babel_server.dir/sockets/Sockets.cpp.o
 babel_server: network/CMakeFiles/babel_server.dir/sockets/TCPSocket.cpp.o
 babel_server: network/CMakeFiles/babel_server.dir/build.make
-babel_server: /usr/lib64/libboost_filesystem.so
-babel_server: /usr/lib64/libboost_regex.so
-babel_server: /usr/lib64/libboost_system.so
+babel_server: utils/libutils.a
 babel_server: network/CMakeFiles/babel_server.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/camille_bouzerand/Repository/OOP/Babel_2019/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable ../babel_server"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/camille_bouzerand/Repository/OOP/Babel_2019/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable ../babel_server"
 	cd /home/camille_bouzerand/Repository/OOP/Babel_2019/network && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/babel_server.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

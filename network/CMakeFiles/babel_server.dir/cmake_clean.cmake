@@ -1,6 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/babel_server.dir/server/server.cpp.o"
   "CMakeFiles/babel_server.dir/server/Server.cpp.o"
+  "CMakeFiles/babel_server.dir/server/ServerActions.cpp.o"
   "CMakeFiles/babel_server.dir/server/Socket.cpp.o"
   "CMakeFiles/babel_server.dir/sockets/Sockets.cpp.o"
   "CMakeFiles/babel_server.dir/sockets/TCPSocket.cpp.o"

@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/camille_bouzerand/Repository/OOP/Babel_2019/utils/srcs/Packet.cpp
+Packet.hpp
+/home/camille_bouzerand/Repository/OOP/Babel_2019/utils/srcs/Packet.hpp
+
+utils/./include/Packet.hpp
+array
+-
+ostream
+-
+sstream
+-
+vector
+-
+boost/property_tree/ptree.hpp
+-
+boost/property_tree/json_parser.hpp
+-
+

@@ -221,6 +221,33 @@ server/Server.cpp.s:
 	cd /home/camille_bouzerand/Repository/OOP/Babel_2019 && $(MAKE) -f network/CMakeFiles/babel_server.dir/build.make network/CMakeFiles/babel_server.dir/server/Server.cpp.s
 .PHONY : server/Server.cpp.s
 
+server/ServerActions.o: server/ServerActions.cpp.o
+
+.PHONY : server/ServerActions.o
+
+# target to build an object file
+server/ServerActions.cpp.o:
+	cd /home/camille_bouzerand/Repository/OOP/Babel_2019 && $(MAKE) -f network/CMakeFiles/babel_server.dir/build.make network/CMakeFiles/babel_server.dir/server/ServerActions.cpp.o
+.PHONY : server/ServerActions.cpp.o
+
+server/ServerActions.i: server/ServerActions.cpp.i
+
+.PHONY : server/ServerActions.i
+
+# target to preprocess a source file
+server/ServerActions.cpp.i:
+	cd /home/camille_bouzerand/Repository/OOP/Babel_2019 && $(MAKE) -f network/CMakeFiles/babel_server.dir/build.make network/CMakeFiles/babel_server.dir/server/ServerActions.cpp.i
+.PHONY : server/ServerActions.cpp.i
+
+server/ServerActions.s: server/ServerActions.cpp.s
+
+.PHONY : server/ServerActions.s
+
+# target to generate assembly for a file
+server/ServerActions.cpp.s:
+	cd /home/camille_bouzerand/Repository/OOP/Babel_2019 && $(MAKE) -f network/CMakeFiles/babel_server.dir/build.make network/CMakeFiles/babel_server.dir/server/ServerActions.cpp.s
+.PHONY : server/ServerActions.cpp.s
+
 server/Socket.o: server/Socket.cpp.o
 
 .PHONY : server/Socket.o
@@ -381,6 +408,9 @@ help:
 	@echo "... server/Server.o"
 	@echo "... server/Server.i"
 	@echo "... server/Server.s"
+	@echo "... server/ServerActions.o"
+	@echo "... server/ServerActions.i"
+	@echo "... server/ServerActions.s"
 	@echo "... server/Socket.o"
 	@echo "... server/Socket.i"
 	@echo "... server/Socket.s"

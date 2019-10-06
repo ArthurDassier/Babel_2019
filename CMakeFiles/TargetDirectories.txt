@@ -4,10 +4,9 @@
 /home/camille_bouzerand/Repository/OOP/Babel_2019/network/CMakeFiles/edit_cache.dir
 /home/camille_bouzerand/Repository/OOP/Babel_2019/network/CMakeFiles/babel_client.dir
 /home/camille_bouzerand/Repository/OOP/Babel_2019/network/CMakeFiles/babel_server.dir
-/home/camille_bouzerand/Repository/OOP/Babel_2019/babel/CMakeFiles/rebuild_cache.dir
-/home/camille_bouzerand/Repository/OOP/Babel_2019/babel/CMakeFiles/audio_test.dir
-/home/camille_bouzerand/Repository/OOP/Babel_2019/babel/CMakeFiles/edit_cache.dir
-/home/camille_bouzerand/Repository/OOP/Babel_2019/client_interface/CMakeFiles/rebuild_cache.dir
-/home/camille_bouzerand/Repository/OOP/Babel_2019/client_interface/CMakeFiles/interface.dir
-/home/camille_bouzerand/Repository/OOP/Babel_2019/client_interface/CMakeFiles/edit_cache.dir
-/home/camille_bouzerand/Repository/OOP/Babel_2019/client_interface/CMakeFiles/interface_autogen.dir
+/home/camille_bouzerand/Repository/OOP/Babel_2019/database/CMakeFiles/rebuild_cache.dir
+/home/camille_bouzerand/Repository/OOP/Babel_2019/database/CMakeFiles/database.dir
+/home/camille_bouzerand/Repository/OOP/Babel_2019/database/CMakeFiles/edit_cache.dir
+/home/camille_bouzerand/Repository/OOP/Babel_2019/utils/CMakeFiles/rebuild_cache.dir
+/home/camille_bouzerand/Repository/OOP/Babel_2019/utils/CMakeFiles/utils.dir
+/home/camille_bouzerand/Repository/OOP/Babel_2019/utils/CMakeFiles/edit_cache.dir

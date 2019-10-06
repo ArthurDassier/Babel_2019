@@ -4,11 +4,17 @@
 network/CMakeFiles/babel_client.dir/client/Client.cpp.o
  /home/camille_bouzerand/Repository/OOP/Babel_2019/network/client/Client.cpp
  network/./include/Client.hpp
-network/CMakeFiles/babel_client.dir/client/client.cpp.o
- /home/camille_bouzerand/Repository/OOP/Babel_2019/network/client/client.cpp
  network/./include/Sockets.hpp
  network/./include/TCPSocket.hpp
  network/./include/UDPSocket.hpp
+ utils/./include/Packet.hpp
+network/CMakeFiles/babel_client.dir/client/client.cpp.o
+ /home/camille_bouzerand/Repository/OOP/Babel_2019/network/client/client.cpp
+ network/./include/Client.hpp
+ network/./include/Sockets.hpp
+ network/./include/TCPSocket.hpp
+ network/./include/UDPSocket.hpp
+ utils/./include/Packet.hpp
 network/CMakeFiles/babel_client.dir/sockets/Sockets.cpp.o
  /home/camille_bouzerand/Repository/OOP/Babel_2019/network/sockets/Sockets.cpp
  network/./include/Sockets.hpp

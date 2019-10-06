@@ -3,11 +3,17 @@
 
 network/CMakeFiles/babel_client.dir/client/Client.cpp.o: network/client/Client.cpp
 network/CMakeFiles/babel_client.dir/client/Client.cpp.o: network/./include/Client.hpp
+network/CMakeFiles/babel_client.dir/client/Client.cpp.o: network/./include/Sockets.hpp
+network/CMakeFiles/babel_client.dir/client/Client.cpp.o: network/./include/TCPSocket.hpp
+network/CMakeFiles/babel_client.dir/client/Client.cpp.o: network/./include/UDPSocket.hpp
+network/CMakeFiles/babel_client.dir/client/Client.cpp.o: utils/./include/Packet.hpp
 
 network/CMakeFiles/babel_client.dir/client/client.cpp.o: network/client/client.cpp
+network/CMakeFiles/babel_client.dir/client/client.cpp.o: network/./include/Client.hpp
 network/CMakeFiles/babel_client.dir/client/client.cpp.o: network/./include/Sockets.hpp
 network/CMakeFiles/babel_client.dir/client/client.cpp.o: network/./include/TCPSocket.hpp
 network/CMakeFiles/babel_client.dir/client/client.cpp.o: network/./include/UDPSocket.hpp
+network/CMakeFiles/babel_client.dir/client/client.cpp.o: utils/./include/Packet.hpp
 
 network/CMakeFiles/babel_client.dir/sockets/Sockets.cpp.o: network/sockets/Sockets.cpp
 network/CMakeFiles/babel_client.dir/sockets/Sockets.cpp.o: network/./include/Sockets.hpp

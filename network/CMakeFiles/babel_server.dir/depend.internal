@@ -4,20 +4,31 @@
 network/CMakeFiles/babel_server.dir/server/Server.cpp.o
  /home/camille_bouzerand/Repository/OOP/Babel_2019/network/server/Server.cpp
  network/./include/Server.hpp
+ network/./include/ServerActions.hpp
+ network/./include/ServerClient.hpp
  network/./include/Socket.hpp
  network/./include/Sockets.hpp
  network/./include/TCPSocket.hpp
  network/./include/UDPSocket.hpp
+ utils/./include/Packet.hpp
+network/CMakeFiles/babel_server.dir/server/ServerActions.cpp.o
+ /home/camille_bouzerand/Repository/OOP/Babel_2019/network/server/ServerActions.cpp
+ network/./include/ServerActions.hpp
+ network/./include/ServerClient.hpp
+ network/./include/Socket.hpp
 network/CMakeFiles/babel_server.dir/server/Socket.cpp.o
  /home/camille_bouzerand/Repository/OOP/Babel_2019/network/server/Socket.cpp
  network/./include/Socket.hpp
 network/CMakeFiles/babel_server.dir/server/server.cpp.o
  /home/camille_bouzerand/Repository/OOP/Babel_2019/network/server/server.cpp
  network/./include/Server.hpp
+ network/./include/ServerActions.hpp
+ network/./include/ServerClient.hpp
  network/./include/Socket.hpp
  network/./include/Sockets.hpp
  network/./include/TCPSocket.hpp
  network/./include/UDPSocket.hpp
+ utils/./include/Packet.hpp
 network/CMakeFiles/babel_server.dir/sockets/Sockets.cpp.o
  /home/camille_bouzerand/Repository/OOP/Babel_2019/network/sockets/Sockets.cpp
  network/./include/Sockets.hpp
