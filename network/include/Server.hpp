@@ -17,6 +17,7 @@
 #include <sys/socket.h>
 // #include <thread>
 
+#include "Database.hpp"
 #include "Packet.hpp"
 #include "ServerActions.hpp"
 #include "Socket.hpp"
@@ -25,256 +26,57 @@
 
 #define DEFAULT_PORT 0
 
-using sockaddr_in = struct sockaddr_in;
-using socket_t = int;
-
-// class ServerClient
-// {
-//     public:
-//         ServerClient(Socket sock):
-//             _sock(sock)
-//             // _TCP_sock(sock) 
-//         {
-//             std::cout << "ServerClient add with fd n°" << sock._sock << std::endl;
-//         }
-//         Socket _sock;
-//         // TCPSocket _TCP_sock;
-
-//     private:
-//         static void *PrintHello(void *threadid)
-//         {
-//             long tid;
-//             tid = (long)threadid;
-//             std::cout << "Hello World! Thread ID, " << tid << std::endl;
-//             pthread_exit(NULL);
-//         }
-
-//         pthread_t thread;
-//         // UDPSocket _UDP_sock;
-// };
-
-class Server : public ServerActions
+namespace ns
 {
-	public:
-		Server(const int port);
-		~Server();
+    using sockaddr_in = struct sockaddr_in;
+    using socket_t = int;
+    using client_p = std::unique_ptr<ServerClient>;
 
-        // void initMainSocket(const int);
+    class Server : public ServerActions
+    {
+        public:
+            Server(const int port);
+            ~Server();
 
-        void removeClient(ServerClient);
+            void removeClient(ServerClient);
 
-        void PollEvent();
-        void Run();
-        void shutdown();
+            void PollEvent();
+            void Run();
+            void shutdown();
 
-        void HandleConnection();
-        void HandleReceive(ServerClient);
-        // void solveRequest();
-        void MatchCommand(std::unique_ptr<ServerClient> client, const std::string &command);
+            void HandleConnection();
+            void HandleReceive(ServerClient);
+            
+            bool updateDatabase(client_p);
+            void MatchCommand(client_p client, const std::string &command);
 
-        void Call(std::unique_ptr<ServerClient> client);
+            void Call(client_p client);
 
-    private:
-        void add_sockets_to_set(socket_t *);
-        bool isRunning() const;
-        void initActions();
-        bool _status;
-        unsigned short _max_connections;
-        TCPSocket _sock;
-        std::deque<std::unique_ptr<ServerClient>> _client_list;
+        private:
+            void addSocketsToSet(socket_t *);
+            bool isRunning() const;
+            void initActions();
 
-        std::map<const std::string, std::function<void(
-            std::unique_ptr<ServerClient>
-            // std::unique_ptr<ServerClient>
-            // std::vector<std::unique_ptr<ServerClient>>
-        )>> _fMap;
-        // Socket _listen_sock;
-        // socket_t _sock;
-        // sockaddr_in _addr;
-        // // Socket _main_socket;
-        ServerActions sa;
-        fd_set _sock_set;
-        utils::Packet _packet;
-        // std::deque<std::unique_ptr<ServerClient>> _ServerClient_list;
-};
+            void call(client_p);
+            void hangUp(client_p);
+            void infos(client_p);
 
-// #include <ctime>
-// #include <iostream>
-// #include <string>
-// #include <boost/array.hpp>
-// #include <boost/bind.hpp>
-// #include <boost/shared_ptr.hpp>
-// #include <boost/enable_shared_from_this.hpp>
-// #include <boost/asio.hpp>
+            std::string buildConnectionPacket(const sockaddr_in &);
+            std::string buildDisconnectionPacket(const sockaddr_in &);
 
-// using boost::asio::ip::tcp;
-// using boost::asio::ip::udp;
+            bool _status;
+            unsigned short _max_connections;
+            TCPSocket _sock;
+            std::deque<client_p> _client_list;
 
-// static std::string make_daytime_string()
-// {
-//     using namespace std; // For time_t, time and ctime;
-//     time_t now = time(0);
-//     return ctime(&now);
-// }
+            std::map<const std::string, std::function<void(
+                client_p,
+                std::unique_ptr<utils::pt>
+            )>> _fMap;
 
-// class session
-//     : public std::enable_shared_from_this<session>
-//     {
-//     public:
-//         session(tcp::socket socket)
-//             : socket_(std::move(socket))
-//         {
-//         }
-
-//         void start()
-//         {
-//             do_read();
-//         }
-
-//     private:
-//         void do_read()
-//         {
-//             auto self(shared_from_this());
-//             socket_.async_read_some(boost::asio::buffer(data_, max_length),
-//                                     [this, self](boost::system::error_code ec, std::size_t length) {
-//                                         if (!ec)
-//                                         {
-//                                             do_write(length);
-//                                         }
-//                                     });
-//         }
-
-//         void do_write(std::size_t length)
-//         {
-//             auto self(shared_from_this());
-//             boost::asio::async_write(socket_, boost::asio::buffer(data_, length),
-//                                     [this, self](boost::system::error_code ec, std::size_t /*length*/) {
-//                                         if (!ec)
-//                                         {
-//                                             do_read();
-//                                         }
-//                                     });
-//         }
-
-//         tcp::socket socket_;
-//         enum
-//         {
-//             max_length = 1024
-//         };
-//         char data_[max_length];
-// };
-
-// class tcp_connection
-//     : public boost::enable_shared_from_this<tcp_connection>
-// {
-//     public:
-//         typedef boost::shared_ptr<tcp_connection> pointer;
-
-//         static pointer create(boost::asio::io_service &io_service)
-//         {
-//             return pointer(new tcp_connection(io_service));
-//         }
-
-//         tcp::socket &socket()
-//         {
-//             return socket_;
-//         }
-
-//         void start()
-//         {
-//             message_ = make_daytime_string();
-
-//             boost::asio::async_write(socket_, boost::asio::buffer(message_),
-//                                     boost::bind(&tcp_connection::handle_write, shared_from_this()));
-//         }
-
-//     private:
-//         tcp_connection(boost::asio::io_service &io_service)
-//             : socket_(io_service)
-//         {
-//         }
-
-//         void handle_write()
-//         {
-//         }
-
-//         tcp::socket socket_;
-//         std::string message_;
-// };
-
-// class tcp_server
-// {
-//     public:
-//         tcp_server(boost::asio::io_service &io_service)
-//             : acceptor_(io_service, tcp::endpoint(tcp::v4(), 8080))
-//         {
-//             start_accept();
-//         }
-
-//     private:
-//         void start_accept()
-//         {
-//             tcp_connection::pointer new_connection =
-//                 tcp_connection::create(acceptor_.get_io_service());
-
-//             acceptor_.async_accept(new_connection->socket(),
-//                                 boost::bind(&tcp_server::handle_accept, this, new_connection,
-//                                             boost::asio::placeholders::error));
-//         }
-
-//         void handle_accept(tcp_connection::pointer new_connection,
-//                         const boost::system::error_code &error)
-//         {
-//             if (!error)
-//             {
-//                 new_connection->start();
-//                 // std::make_shared<session>(std::move(new_connection->socket()))->start();
-//                 start_accept();
-//                 auto tmp = new_connection->socket().local_endpoint().address();
-//                 std::cout << tmp << std::endl;
-//             }
-//         }
-
-//         tcp::acceptor acceptor_;
-// };
-
-// class udp_server
-// {
-//     public:
-//         udp_server(boost::asio::io_service &io_service)
-//             : socket_(io_service, udp::endpoint(udp::v4(), 4086))
-//         {
-//             start_receive();
-//         }
-
-//     private:
-//         void start_receive()
-//         {
-//             socket_.async_receive_from(
-//                 boost::asio::buffer(recv_buffer_), remote_endpoint_,
-//                 boost::bind(&udp_server::handle_receive, this,
-//                             boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
-//         }
-
-//         void handle_receive(const boost::system::error_code &error, size_t bytes_transfered)
-//         {
-//             if (!error || error == boost::asio::error::message_size)
-//             {
-//                 boost::shared_ptr<std::string> message(
-//                     new std::string(make_daytime_string()));
-
-//                 socket_.async_send_to(boost::asio::buffer(*message), remote_endpoint_,
-//                                     boost::bind(&udp_server::handle_send, this, message));
-//                 std::cout << "Receive: " << std::string(recv_buffer_.begin(), recv_buffer_.begin() + bytes_transfered) << std::endl;
-//                 start_receive();
-//             }
-//         }
-
-//         void handle_send(boost::shared_ptr<std::string> /*message*/)
-//         {
-//         }
-
-//         udp::socket socket_;
-//         udp::endpoint remote_endpoint_;
-//         boost::array<char, 1> recv_buffer_;
-// };
+            ServerActions sa;
+            fd_set _sock_set;
+            db::Database _db;
+            utils::Packet _packet;
+    };
+}; // namespace ns

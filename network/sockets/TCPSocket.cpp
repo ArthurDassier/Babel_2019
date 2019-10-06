@@ -11,9 +11,6 @@ TCPSocket::TCPSocket()
 {
     sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (sock == INVALID_SOCKET) {
-        // std::ostringstream error;
-        // error << "Erreur initialisation socket [" << Sockets::GetError() << "]";
-        // throw std::runtime_error(error.str());
         throw std::runtime_error("Invalid socket");
     }
 }
@@ -21,6 +18,14 @@ TCPSocket::TCPSocket()
 TCPSocket::~TCPSocket()
 {
     Sockets::CloseSocket(sock);
+}
+
+bool TCPSocket::Accept(const int socket, sockaddr_in &addr)
+{
+    socklen_t addrlen = sizeof(addr);
+
+    sock = accept(socket, (sockaddr *)&addr, &addrlen);
+    return sock ? true : false;
 }
 
 sockaddr_in TCPSocket::InitAddr(const std::string &ipaddress, unsigned short port)
@@ -47,16 +52,14 @@ bool TCPSocket::Connect(const std::string &ipaddress, unsigned short port)
     server.sin_addr.s_addr = inet_addr(ipaddress.c_str());
     server.sin_family = AF_INET;
     server.sin_port = htons(port);
-    // sockaddr_in server = InitAddr(ipaddress, port);
     return connect(sock, reinterpret_cast<sockaddr *>(&server), sizeof(server)) == 0;
 }
 
 bool TCPSocket::ListenOn(unsigned short port, unsigned short max_connections)
 {
-    // sockaddr_in server = InitAddr(INADDR_ANY, port);
     int ret = 0;
-
     sockaddr_in server;
+
     server.sin_addr.s_addr = htonl(INADDR_ANY);
     server.sin_family = AF_INET;
     server.sin_port = htons(port);
@@ -99,8 +102,3 @@ int TCPSocket::Recv(std::string &data, unsigned int len) const
         data = buffer;
     return status >= 0 ? status : 0;
 }
-
-// SOCKET TCPSocket::getSocket() const noexcept
-// {
-//     return sock;
-// }

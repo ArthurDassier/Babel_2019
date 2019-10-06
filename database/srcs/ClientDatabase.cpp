@@ -17,12 +17,7 @@ db::ClientDatabase::ClientDatabase(const std::string &name):
 {
 }
 
-db::ClientDatabase::ClientDatabase(const time_t &lastModifiedDate):
-    Data("CLIENT", lastModifiedDate)
-{
-}
-
-db::ClientDatabase::ClientDatabase(const std::string &name, const time_t &lastModifiedDate):
+db::ClientDatabase::ClientDatabase(const std::string &name, time_t &lastModifiedDate):
     Data("CLIENT", name, lastModifiedDate)
 {
 }
@@ -85,7 +80,7 @@ std::string db::ClientDatabase::getFormattedValues() const noexcept
         else if (it.compare("NAME") == 0)
             oss << "'" << getName() << "'";
         else if (it.compare("DATE") == 0)
-            oss << getLastModifiedDate();
+            oss << "'" << getLastModifiedDate() << "'";
         else
             exit(0);
         oss << (end != 0 ? "," : ");");

@@ -5,9 +5,7 @@
 ** TCPSocket.hpp
 */
 
-#ifndef TCPSOCKET_HPP_
-#define TCPSOCKET_HPP_
-
+#pragma once
 #include <iostream>
 #include <string>
 #include <string.h>
@@ -23,6 +21,7 @@ class TCPSocket
 		TCPSocket();
 		~TCPSocket();
 
+        bool Accept(const int socket, sockaddr_in &addr);
         bool Bind(const std::string &ipaddress, unsigned short port);
         bool Connect(const std::string &ipaddress, unsigned short port);
         bool ListenOn(unsigned short port, unsigned short max_connections);
@@ -31,12 +30,9 @@ class TCPSocket
         int Read(std::string &data) const;
         int Recv(std::string &data, unsigned int len) const;
 
-        // SOCKET getSocket() const noexcept;
         SOCKET sock;
 
     private:
         sockaddr_in InitAddr(const std::string &ipaddress, unsigned short port);
 
 };
-
-#endif /* !TCPSOCKET_HPP_ */
