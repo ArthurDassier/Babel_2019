@@ -1,0 +1,143 @@
+.TH "UDPSocket" 3 "Sun Oct 13 2019" "Version Alpha 1.2" "Babel_2019" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+UDPSocket \- Class representing the \fBUDPSocket\fP\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <UDPSocket\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBUDPSocket\fP ()"
+.br
+.RI "\fBSocket\fP is valid ? "
+.ti -1c
+.RI "\fB~UDPSocket\fP ()"
+.br
+.RI "\fBSocket\fP is valid ? "
+.ti -1c
+.RI "bool \fBBind\fP (unsigned short port)"
+.br
+.RI "\fBSocket\fP is valid ? "
+.ti -1c
+.RI "int \fBSend\fP (const char *data, unsigned int len)"
+.br
+.RI "\fBSocket\fP is valid ? "
+.ti -1c
+.RI "int \fBRead\fP (std::string &data) const"
+.br
+.RI "\fBSocket\fP is valid ? "
+.ti -1c
+.RI "int \fBReceive\fP (char *buffer, unsigned int len)"
+.br
+.RI "\fBSocket\fP is valid ? "
+.ti -1c
+.RI "sockaddr_in \fBgetAddr\fP () const"
+.br
+.RI "\fBSocket\fP is valid ? "
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "SOCKET \fBsock\fP"
+.br
+.ti -1c
+.RI "sockaddr_in \fBaddr\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Class representing the \fBUDPSocket\fP\&. 
+
+This class handle the differents sockets 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "UDPSocket::UDPSocket ()"
+
+.PP
+\fBSocket\fP is valid ? 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvoid\fP 
+.RE
+.PP
+
+.SS "UDPSocket::~UDPSocket ()"
+
+.PP
+\fBSocket\fP is valid ? 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvoid\fP 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "bool UDPSocket::Bind (unsigned short port)"
+
+.PP
+\fBSocket\fP is valid ? 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIunsigned\fP short port 
+.RE
+.PP
+
+.SS "sockaddr_in UDPSocket::getAddr () const"
+
+.PP
+\fBSocket\fP is valid ? 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvoid\fP 
+.RE
+.PP
+
+.SS "int UDPSocket::Read (std::string & data) const"
+
+.PP
+\fBSocket\fP is valid ? 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIstd::string\fP &data 
+.RE
+.PP
+
+.SS "int UDPSocket::Receive (char * buffer, unsigned int len)"
+
+.PP
+\fBSocket\fP is valid ? 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIchar\fP *buffer, unsigned int len 
+.RE
+.PP
+
+.SS "int UDPSocket::Send (const char * data, unsigned int len)"
+
+.PP
+\fBSocket\fP is valid ? 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIconst\fP char *data, unsigned int len 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Babel_2019 from the source code\&.

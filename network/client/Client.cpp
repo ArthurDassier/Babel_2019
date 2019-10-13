@@ -7,32 +7,77 @@
 
 #include "Client.hpp"
 
-Client::Client() //const std::string ip, unsigned short port)
+cli::Client::Client():
+    _isConnected(false)
 {
     if (!Sockets::Start())
     {
         std::cout << "Error initialization : " << Sockets::GetError() << std::endl;
     }
-    // initListener(_socket.sock);
-    // std::thread t_udp(UDPListener, _udp);
-    // t_udp.detach();
+    initActions();
 }
 
-Client::~Client()
+cli::Client::~Client()
 {
     Sockets::Release();
 }
 
-void Client::connectToServer(const std::string ip, unsigned short port)
+bool cli::Client::auth()
+{
+    std::string ip = "127.0.0.1";
+    std::string port = "8080";
+    std::string username = "TOTO";
+    _props.username = username;
+
+    // std::cout << "Please enter server IP: ";
+    // std::getline(std::cin, ip);
+    // std::cout << "Please enter a port: ";
+    // std::getline(std::cin, port);
+    // std::cout << "Please enter your username: ";
+    // std::getline(std::cin, username);
+    return connection(ip, port, username);
+}
+
+bool cli::Client::connection(const std::string &ip, const std::string &port, const std::string &name)
+{
+    std::cout << "IP = " << ip << std::endl;
+    std::cout << "Port = " << port << std::endl;
+    std::cout << "Name = " << name << std::endl;
+
+    if (!connectToServer(ip, std::strtoul(port.c_str(), NULL, 0))) {
+        std::cerr << "Error connection: Failed to connect to server" << std::endl;
+        return false;
+    }
+    std::cout << "Waiting to connect..." << std::endl;
+    return true;
+}
+
+bool cli::Client::connectToServer(const std::string &ip, unsigned short port)
 {
     if (!_socket.Connect(ip, port))
     {
         std::cerr << "Error connection: " << Sockets::GetError() << std::endl;
+        return false;
     }
-    initListener(_socket.sock);
+    setIsConnected(true);
+    initListener(&_socket);
+    return true;
 }
 
-void Client::initStreaming()
+void cli::Client::run()
+{
+    std::string input;
+
+    while (getIsConnected()) {
+        std::getline(std::cin, input);
+        _packet.setType(input);
+        sendMessage(_props.socket.sock, _packet.getPacket());
+        _packet.clear();
+        input.clear();
+    }
+}
+
+void cli::Client::initStreaming()
 {
     std::thread open_t(openStream);
     std::thread send_t(sendStream);
@@ -41,107 +86,109 @@ void Client::initStreaming()
     send_t.detach();
 }
 
-void Client::openStream()
+void cli::Client::openStream()
 {
     while (1) {
         // recvfrom();
     }
 }
 
-void Client::sendStream()
+void cli::Client::sendStream()
 {
 
 }
 
-void Client::initListener(int sock)
+void cli::Client::sendInfos(TCPSocket *socket, props_p props)
 {
+    std::cout << "Sending infos..." << std::endl;
+    utils::Packet packet;
 
+    packet.setType("infos");
+    packet.addData("username", props->username);
+    socket->Send(packet.getPacket());
 }
 
-// void Client::sendMessage(const int fd, const std::string msg)
-// {
-//     send(fd, msg.c_str(), msg.size(), 0);
-// }
+void cli::Client::newConnection(TCPSocket *socket, props_p props)
+{
+    std::cout << "New connection..." << std::endl;
+}
 
-// void Client::askForCall(UDPSocket client)
-// {
-//     const char *msg = "Try";
-//     sendto(client.sock, msg, strlen(msg),
-//            MSG_CONFIRM, (const sockaddr *)&client.addr, sizeof(client.addr));
-//     std::cout << "Sent to" << client.sock << std::endl;
-// }
+void cli::Client::initActions()
+{
+    _fMap.emplace(std::make_pair("welcome", std::bind(
+        Client::sendInfos, std::placeholders::_1, std::placeholders::_2
+    )));
+    _fMap.emplace(std::make_pair("connection", std::bind(
+        Client::newConnection, std::placeholders::_1, std::placeholders::_2
+    )));
+}
 
-// void Client::Run()
-// {
-//     std::string str;
-//     char buffer[1024];
-//     ssize_t n = 0;
-//     socklen_t len = 0;
-//     sockaddr_in serverAddr;
+void cli::Client::initListener(TCPSocket *socket)
+{
+    std::thread t1(listener,
+        socket,
+        _udp,
+        std::make_unique<props_s>(_props),
+        _fMap
+    );
+    t1.detach();
+}
 
-//     serverAddr.sin_family = AF_INET;
-//     serverAddr.sin_port = htons(5000);
-//     serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
-//     _udp.Bind(0);
-//     socklen_t addrlen = sizeof(_udp.getAddr());
-//     // std::cout << "udp fd: " << _udp.sock << std::endl;
-//     // std::cout << "udp port: " << ntohs(_udp.addr.sin_port) << std::endl;
-//     // std::cout << "udp addr" << inet_ntoa(_udp.addr.sin_addr) << std::endl;
-//     _packet.setType("contact");
-//     _packet.addData("sock", _udp.sock);
-//     _packet.addData("port", _udp.addr.sin_port);
-//     _packet.addData("addr", inet_ntoa(_udp.addr.sin_addr));
-//     while (1)
-//     {
-//         std::cout << "Your message: ";
-//         std::cin >> str;
-//         if (str.compare("call") == 0) {
-//             sendMessage(_socket.sock, _packet.getPacket());
-//             _packet.clear();
-//         }
-//         else
-//             sendMessage(_socket.sock, str);
-//     }
-// }
+void cli::Client::setIsConnected(const bool &isConnected)
+{
+    _isConnected = isConnected;
+}
 
-// void Client::initListener(int sockfd)
-// {
-//     // pthread_t thread;
-//     // pthread_attr_t attr;
-//     // pthread_attr_init(&attr);
-//     // pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
-//     // pthread_create(&thread, &attr, Listener, reinterpret_cast<void *>(sockfd));
-//     std::thread t1(Listener, sockfd, _udp);
-//     t1.detach();
-// }
+bool cli::Client::getIsConnected() const noexcept
+{
+    return _isConnected;
+}
 
-// void Client::Listener(int sock, UDPSocket client)
-// {
-//     // int sockfd = static_cast<int>(reinterpret_cast<std::uintptr_t>(sock));
-//     char buffer[1024];
+void cli::Client::sendMessage(const int fd, const std::string &msg)
+{
+    send(fd, msg.c_str(), msg.size(), 0);
+}
 
-//     while (1)
-//     {
-//         std::cout << "Reading..." << std::endl;
-//         bzero(buffer, sizeof(buffer));
-//         int ret = read(sock, buffer, sizeof(buffer));
-//         std::cout << "ret: " << ret << "-> " << buffer << std::endl;
-//         if (strcmp(buffer, "call") == 0) {
-//             askForCall(client);
-//         }
-//     }
-// }
+void cli::Client::listener(TCPSocket *socket, UDPSocket client, props_p infos,
+    action_map fMap)
+{
+    std::stringstream ss;
+    char buffer[1024];
+    utils::pt root;
 
-// // void Client::UDPListener(UDPSocket client)
-// // {
-// //     char buffer[1024];
-// //     ssize_t n = 0;
-// //     socklen_t len = sizeof(client.addr);
+    std::string output;
 
-// //     while (1) {
-// //         // puts("while looping");
-// //         n = recvfrom(client.sock, buffer, 1024, 0, (struct sockaddr *)&client.addr, &len);
-// //         sendto(client.sock, buffer, sizeof(buffer), 0,
-// //             (struct sockaddr *)&client.addr, len);
-// //     }
-// // }
+    while (1)
+    {
+        std::cout << "Reading..." << std::endl;
+        bzero(buffer, sizeof(buffer));
+        int ret = read(socket->sock, buffer, sizeof(buffer));
+        std::cout << "Received packet:" << ret << " ->\n" << buffer << std::endl;
+        ss << buffer;
+        try {
+            boost::property_tree::read_json(ss, root);
+            handleReceive(socket, root, std::move(infos), std::move(std::make_unique<action_map>(fMap)));
+        } catch (std::exception &e) {
+            std::cerr << "Error listener: " << e.what() << std::endl;
+        }
+    }
+}
+
+void cli::Client::handleReceive(TCPSocket *socket, const utils::pt packet, props_p infos,
+    std::unique_ptr<action_map> fMap)
+{
+    try {
+        std::string type = packet.get<std::string>("type");
+        auto it = fMap->find(type);
+        if (it != fMap->end())
+            it->second(socket, std::move(infos));
+        else {
+            std::cerr << "No matching command found." << std::endl;
+        }
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << std::endl;
+        throw(e.what());
+    }
+}

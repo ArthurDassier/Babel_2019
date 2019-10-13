@@ -5,13 +5,18 @@
 ** ClientDatabse.hpp
 */
 
-#ifndef CLIENTDATABASE_HPP_
-#define CLIENTDATABASE_HPP_
+#pragma once
 
 #include <arpa/inet.h>
 #include <netinet/in.h>
 
 #include "Data.hpp"
+
+/*! \class ClientDatabase
+* \brief Class representing the ClientDatabase
+*
+*  This class handle the ClientDatabase
+*/
 
 namespace db
 {
@@ -22,8 +27,7 @@ namespace db
         public:
             ClientDatabase();
             ClientDatabase(const std::string &);
-            ClientDatabase(const time_t &);
-            ClientDatabase(const std::string &, const time_t &);
+            ClientDatabase(const std::string &, time_t &);
             ~ClientDatabase();
 
             void setIPAddr(const IP &) noexcept;
@@ -46,5 +50,3 @@ namespace db
             };
     };
 }; // namespace db
-
-#endif /* !CLIENTDATABASE_HPP_ */

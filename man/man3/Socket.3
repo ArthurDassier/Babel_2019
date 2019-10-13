@@ -1,0 +1,191 @@
+.TH "Socket" 3 "Sun Oct 13 2019" "Version Alpha 1.2" "Babel_2019" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Socket \- Class representing the \fBSocket\fP\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Socket\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBSocket\fP ()"
+.br
+.RI "Open connection\&. "
+.ti -1c
+.RI "bool \fBcreate\fP ()"
+.br
+.RI "Create socket\&. "
+.ti -1c
+.RI "bool \fBcreate_listening_TCP\fP (const int)"
+.br
+.ti -1c
+.RI "bool \fBbind\fP (const int, uint32_t, uint32_t)"
+.br
+.RI "Bind socket\&. "
+.ti -1c
+.RI "bool \fBlisten\fP () const"
+.br
+.RI "Listen \fBSocket\fP\&. "
+.ti -1c
+.RI "bool \fBaccept\fP (\fBSocket\fP &) const"
+.br
+.RI "accept connection "
+.ti -1c
+.RI "bool \fBconnect\fP (const std::string, const int)"
+.br
+.RI "Open connection with string in param\&. "
+.ti -1c
+.RI "bool \fBsend\fP (const std::string) const"
+.br
+.RI "the send "
+.ti -1c
+.RI "int \fBread\fP (std::string &) const"
+.br
+.RI "Open connection with string in param\&. "
+.ti -1c
+.RI "int \fBrecv\fP (std::string &) const"
+.br
+.RI "Open recv franc\&. "
+.ti -1c
+.RI "bool \fBis_valid\fP () const"
+.br
+.RI "\fBSocket\fP is valid ? "
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "int \fB_sock\fP"
+.br
+.ti -1c
+.RI "sockaddr_in \fB_addr\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Class representing the \fBSocket\fP\&. 
+
+This class handle the differents sockets 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "Socket::Socket ()"
+
+.PP
+Open connection\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvoid\fP 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "bool Socket::accept (\fBSocket\fP & new_socket) const"
+
+.PP
+accept connection 
+.PP
+\fBParameters:\fP
+.RS 4
+\fI\fBSocket\fP\fP &new_socket 
+.RE
+.PP
+
+.SS "bool Socket::bind (const int port, uint32_t addr, uint32_t family)"
+
+.PP
+Bind socket\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIconst\fP int port, uint32_t addr, uint32_t family 
+.RE
+.PP
+
+.SS "bool Socket::connect (const std::string host, const int port)"
+
+.PP
+Open connection with string in param\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIconst\fP std::string host, const int port 
+.RE
+.PP
+
+.SS "bool Socket::create ()"
+
+.PP
+Create socket\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvoid\fP 
+.RE
+.PP
+
+.SS "bool Socket::is_valid () const"
+
+.PP
+\fBSocket\fP is valid ? 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvoid\fP 
+.RE
+.PP
+
+.SS "bool Socket::listen () const"
+
+.PP
+Listen \fBSocket\fP\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvoid\fP 
+.RE
+.PP
+
+.SS "int Socket::read (std::string & s) const"
+
+.PP
+Open connection with string in param\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIstd::string\fP &s 
+.RE
+.PP
+
+.SS "int Socket::recv (std::string & s) const"
+
+.PP
+Open recv franc\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIstd::string\fP &s 
+.RE
+.PP
+
+.SS "bool Socket::send (const std::string msg) const"
+
+.PP
+the send 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIconst\fP std::string msg) 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Babel_2019 from the source code\&.

@@ -5,46 +5,77 @@
 ** Client.hpp
 */
 
-#ifndef CLIENT_HPP_
-#define CLIENT_HPP_
+#pragma once
 
 #include <iostream>
+#include <map>
 #include <thread>
 
+#include "ClientActions.hpp"
 #include "Packet.hpp"
 #include "TCPSocket.hpp"
 #include "UDPSocket.hpp"
 
-class Client {
-    public:
-        Client(); //(const std::string ip, unsigned short port);
-        ~Client();
+/*! \class Client
+* \brief Class representing the Client
+*
+*  This class handle the Client
+*/
 
-    public:
-        void connectToServer(const std::string ip, unsigned short port);
+namespace cli
+{
+    struct props_s
+    {
+        std::string username;
+        TCPSocket socket;
+    };
 
-        void initStreaming();
-        static void openStream();
-        static void sendStream();
+    using props_p = std::unique_ptr<props_s>;
+    using socket_p = std::unique_ptr<TCPSocket>;
+    using action_f = std::function<void(TCPSocket *, props_p)>;
+    using action_map = std::map<const std::string, action_f>;
 
-        // void onNewConnection();
-        // void onSocketStateChanged();
-        // void onReadyRead();
+    class Client
+    {
+        public:
+            Client();
+            ~Client();
 
-        void sendMessage(const int clientfd, const std::string msg);
+            bool auth();
+            bool connection(const std::string &ip, const std::string &port, const std::string &name);
+            bool connectToServer(const std::string &ip, unsigned short port);
 
-        static void askForCall(UDPSocket);
+            void run();
 
-        void run();
+            void initStreaming();
+            static void openStream();
+            static void sendStream();
 
-    private:
-        void initListener(int sockfd);
-        static void Listener(int, UDPSocket);
-        static void UDPListener(UDPSocket client);
+            void sendMessage(const int clientfd, const std::string &msg);
 
-        utils::Packet _packet;
-        TCPSocket _socket;
-        UDPSocket _udp;
-};
+            static void askForCall(UDPSocket);
+            static void sendInfos(TCPSocket *, props_p);
+            static void newConnection(TCPSocket *, props_p);
 
-#endif /* !CLIENT_HPP_ */
+        private:
+            void initActions();
+            void initListener(TCPSocket *);
+            static void listener(TCPSocket *, UDPSocket, props_p infos, action_map);
+            static void UDPListener(UDPSocket client);
+
+            static void handleReceive(TCPSocket *, const utils::pt, props_p, std::unique_ptr<action_map>);
+
+            void setIsConnected(const bool &);
+            bool getIsConnected() const noexcept;
+
+            action_map _fMap;
+
+            static utils::pt _recvJson;
+            bool _isConnected;
+            props_s _props;
+            utils::Packet _packet;
+            TCPSocket _socket;
+            UDPSocket _udp;
+    };
+
+}; // namespace cli

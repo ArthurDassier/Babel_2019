@@ -5,13 +5,18 @@
 ** Data.hpp
 */
 
-#ifndef DATA_HPP_
-#define DATA_HPP_
+#pragma once
 
 #include <ctime>
 #include <sstream>
 #include <string>
 #include <vector>
+
+/*! \class Data
+* \brief Class representing the Data
+*
+*  This class handle the Data
+*/
 
 namespace db
 {
@@ -21,8 +26,8 @@ namespace db
 
             Data(const std::string &);
             Data(const std::string &, const std::string &);
-            Data(const std::string &, const time_t &);
-            Data(const std::string &, const std::string &, const time_t &);
+            Data(const std::string &, time_t &);
+            Data(const std::string &, const std::string &, time_t &);
             ~Data();
 
             ID getID() const noexcept;
@@ -30,8 +35,8 @@ namespace db
             void setName(const std::string &);
             std::string getName() const noexcept;
 
-            void setLastModifiedDate(const time_t &);
-            time_t getLastModifiedDate() const noexcept;
+            void setLastModifiedDate(time_t &);
+            std::string getLastModifiedDate() const noexcept;
 
             std::string getDataType() const noexcept;
             std::string getInfos() const noexcept;
@@ -43,9 +48,7 @@ namespace db
         private:
             ID _id;
             std::string _name;
-            time_t _lastModifiedDate;
+            std::string _lastModifiedDate;
             const std::string _dataType;
     };
 }; // namespace db
-
-#endif /* !DATA_HPP_ */

@@ -7,11 +7,25 @@
 
 #include "Socket.hpp"
 
+/*!
+ * \fn Socket::Socket()
+ * \brief Open connection
+ *
+ * \param void
+ */
+
 Socket::Socket():
     _sock(-1)
 {
     memset(&_addr, 0, sizeof(_addr));
 }
+
+/*!
+ * \fn Socket::create()
+ * \brief Create socket
+ *
+ * \param void
+ */
 
 bool Socket::create()
 {
@@ -28,6 +42,13 @@ bool Socket::create()
     }
     return true;
 }
+
+/*!
+ * \fn Socket::bind(const int port, uint32_t addr, uint32_t family)
+ * \brief Bind socket
+ *
+ * \param const int port, uint32_t addr, uint32_t family
+ */
 
 bool Socket::bind(const int port, uint32_t addr, uint32_t family)
 {
@@ -47,6 +68,13 @@ bool Socket::bind(const int port, uint32_t addr, uint32_t family)
     return true;
 }
 
+/*!
+ * \fn Socket::listen() const
+ * \brief Listen Socket
+ *
+ * \param void
+ */
+
 bool Socket::listen() const
 {
     int ret_value = 0;
@@ -62,6 +90,13 @@ bool Socket::listen() const
     return true;
 }
 
+/*!
+ * \fn Socket::accept(Socket &new_socket) const
+ * \brief accept connection
+ *
+ * \param Socket &new_socket
+ */
+
 bool Socket::accept(Socket &new_socket) const
 {
     int addr_len = sizeof(_addr);
@@ -73,6 +108,14 @@ bool Socket::accept(Socket &new_socket) const
     return true;
 }
 
+/*!
+ * \fn Socket::send(const std::string msg) const
+ * \brief the send
+ *
+ * \param const std::string msg)
+ */
+
+
 bool Socket::send(const std::string msg) const
 {
     int status = ::send(_sock, msg.c_str(), msg.size(), 0);
@@ -80,6 +123,13 @@ bool Socket::send(const std::string msg) const
         return false;
     return true;
 }
+
+/*!
+ * \fn Socket::read(std::string &s) const
+ * \brief Open connection with string in param
+ *
+ * \param std::string &s
+ */
 
 int Socket::read(std::string &s) const
 {
@@ -98,6 +148,13 @@ int Socket::read(std::string &s) const
         return status;
     }
 }
+
+/*!
+ * \fn Socket::recv(std::string &s) const
+ * \brief Open recv franc
+ *
+ * \param std::string &s
+ */
 
 int Socket::recv(std::string &s) const
 {
@@ -119,6 +176,13 @@ int Socket::recv(std::string &s) const
     }
 }
 
+/*!
+ * \fn Socket::connect(const std::string host, const int port)
+ * \brief Open connection with string in param
+ *
+ * \param const std::string host, const int port
+ */
+
 bool Socket::connect(const std::string host, const int port)
 {
     int status = 0;
@@ -134,6 +198,13 @@ bool Socket::connect(const std::string host, const int port)
         return true;
     return false;
 }
+
+/*!
+ * \fn Socket::is_valid() const
+ * \brief Socket is valid ?
+ *
+ * \param void
+ */
 
 bool Socket::is_valid() const
 {

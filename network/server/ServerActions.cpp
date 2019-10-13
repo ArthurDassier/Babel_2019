@@ -15,9 +15,19 @@ ServerActions::~ServerActions()
 {
 }
 
-bool ServerActions::InitConnection(std::unique_ptr<ServerClient> client)//, std::unique_ptr<ServerClient> client_list)
+bool ServerActions::initConnection(std::unique_ptr<ServerClient> client)//, std::unique_ptr<ServerClient> client_list)
 {
     std::cout << "Connecting..." << std::endl;
 
     client->_sock.send("call");
+}
+
+bool ServerActions::closeConnection(std::unique_ptr<ServerClient> client)
+{
+    std::cout << "Closing connection..." << std::endl;
+}
+
+bool ServerActions::getInfos(std::unique_ptr<ServerClient> client)
+{
+    std::cout << "Getting infos..." << std::endl;
 }

@@ -72,7 +72,7 @@ bool db::Database::upsertData(const std::string &dataType, const std::string &sq
     std::ostringstream oss;
 
     oss << "UPDATE " << dataType << " set " << sql << ";";
-    sqlStmt(oss.str());
+    return sqlStmt(oss.str());
 }
 
 bool db::Database::deleteData(const std::string &dataType, const std::string &sql)
@@ -80,7 +80,7 @@ bool db::Database::deleteData(const std::string &dataType, const std::string &sq
     std::ostringstream oss;
 
     oss << "DELETE from " << dataType << " where " << sql << ";";
-    sqlStmt(oss.str());
+    return sqlStmt(oss.str());
 }
 
 int db::Database::sqlStmt(const std::string &stmt)

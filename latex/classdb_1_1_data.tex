@@ -1,0 +1,65 @@
+\hypertarget{classdb_1_1_data}{}\section{db\+:\+:Data Class Reference}
+\label{classdb_1_1_data}\index{db\+::\+Data@{db\+::\+Data}}
+Inheritance diagram for db\+:\+:Data\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classdb_1_1_data}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classdb_1_1_data_ae56789b59e6660661b4a4158d65702bb}\label{classdb_1_1_data_ae56789b59e6660661b4a4158d65702bb}} 
+typedef unsigned int {\bfseries ID}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classdb_1_1_data_aed9c8c04f9a4d0faff36bf7880010686}\label{classdb_1_1_data_aed9c8c04f9a4d0faff36bf7880010686}} 
+{\bfseries Data} (const std\+::string \&)
+\item 
+\mbox{\Hypertarget{classdb_1_1_data_a79e2dc2dbadf4e565f0682a4491724e1}\label{classdb_1_1_data_a79e2dc2dbadf4e565f0682a4491724e1}} 
+{\bfseries Data} (const std\+::string \&, const std\+::string \&)
+\item 
+\mbox{\Hypertarget{classdb_1_1_data_aeeb913b15ef81696197b928b98de1307}\label{classdb_1_1_data_aeeb913b15ef81696197b928b98de1307}} 
+{\bfseries Data} (const std\+::string \&, time\+\_\+t \&)
+\item 
+\mbox{\Hypertarget{classdb_1_1_data_a676b310b984dcb633ae9720db9618aa0}\label{classdb_1_1_data_a676b310b984dcb633ae9720db9618aa0}} 
+{\bfseries Data} (const std\+::string \&, const std\+::string \&, time\+\_\+t \&)
+\item 
+\mbox{\Hypertarget{classdb_1_1_data_ab3063ac3785e2b29981acad42435ede3}\label{classdb_1_1_data_ab3063ac3785e2b29981acad42435ede3}} 
+ID {\bfseries get\+ID} () const noexcept
+\item 
+\mbox{\Hypertarget{classdb_1_1_data_a118b5ac931e3b5a75bcd98093b353f54}\label{classdb_1_1_data_a118b5ac931e3b5a75bcd98093b353f54}} 
+void {\bfseries set\+Name} (const std\+::string \&)
+\item 
+\mbox{\Hypertarget{classdb_1_1_data_a31d6a0de02133523356aa028906a4ce7}\label{classdb_1_1_data_a31d6a0de02133523356aa028906a4ce7}} 
+std\+::string {\bfseries get\+Name} () const noexcept
+\item 
+\mbox{\Hypertarget{classdb_1_1_data_a29361c7204a9f1436b1e8377ae0a382c}\label{classdb_1_1_data_a29361c7204a9f1436b1e8377ae0a382c}} 
+void {\bfseries set\+Last\+Modified\+Date} (time\+\_\+t \&)
+\item 
+\mbox{\Hypertarget{classdb_1_1_data_aeb95802d14ad955df8aaf64ac306ce86}\label{classdb_1_1_data_aeb95802d14ad955df8aaf64ac306ce86}} 
+std\+::string {\bfseries get\+Last\+Modified\+Date} () const noexcept
+\item 
+\mbox{\Hypertarget{classdb_1_1_data_af5fabf850329d0b2e6f34848e74d4c6c}\label{classdb_1_1_data_af5fabf850329d0b2e6f34848e74d4c6c}} 
+std\+::string {\bfseries get\+Data\+Type} () const noexcept
+\item 
+\mbox{\Hypertarget{classdb_1_1_data_a018e82522f3e94a76986de46116f0317}\label{classdb_1_1_data_a018e82522f3e94a76986de46116f0317}} 
+std\+::string {\bfseries get\+Infos} () const noexcept
+\item 
+\mbox{\Hypertarget{classdb_1_1_data_ad9ae1112fa992d53d1477c82c8f97b1e}\label{classdb_1_1_data_ad9ae1112fa992d53d1477c82c8f97b1e}} 
+virtual std\+::string {\bfseries get\+Insertion\+Query} () const noexcept=0
+\item 
+\mbox{\Hypertarget{classdb_1_1_data_ad1c1d0e75acd79d84a6e9c250179da4c}\label{classdb_1_1_data_ad1c1d0e75acd79d84a6e9c250179da4c}} 
+virtual std\+::vector$<$ std\+::string $>$ {\bfseries get\+Attributes} () const noexcept=0
+\item 
+\mbox{\Hypertarget{classdb_1_1_data_a79b60b9535da0748f585b0631c3d8618}\label{classdb_1_1_data_a79b60b9535da0748f585b0631c3d8618}} 
+virtual std\+::string {\bfseries get\+Formatted\+Attributes} () const noexcept=0
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+database/include/Data.\+hpp\item 
+database/srcs/Data.\+cpp\end{DoxyCompactItemize}

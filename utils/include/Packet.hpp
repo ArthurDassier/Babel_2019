@@ -17,6 +17,8 @@
 
 namespace utils
 {
+    using pt = boost::property_tree::ptree;
+
     class Packet
     {
         public:
@@ -44,8 +46,8 @@ namespace utils
             template <typename T>
             void addPairToList(const std::string name1, const std::string name2, T elem1, T elem2)
             {
-                boost::property_tree::ptree f;
-                boost::property_tree::ptree s;
+                pt f;
+                pt s;
 
                 f.put(name1, elem1);
                 f.put(name2, elem2);
@@ -62,12 +64,12 @@ namespace utils
             template <typename T>
             void addList(const std::string name, std::vector<T> data)
             {
-                boost::property_tree::ptree matrix_node;
+                pt matrix_node;
 
                 for (auto &it : data) {
-                    boost::property_tree::ptree row;
+                    pt row;
                     for (auto &it_c : it) {
-                        boost::property_tree::ptree cell;
+                        pt cell;
                         cell.put_value(it_c);
                         row.push_back(std::make_pair("", cell));
                     }
@@ -80,8 +82,8 @@ namespace utils
             void clear();
 
         private:
-            boost::property_tree::ptree root;
-            boost::property_tree::ptree list;
+            pt root;
+            pt list;
             std::vector<std::array<float, 2>> v;
     };
 }; // namespace utils

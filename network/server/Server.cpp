@@ -7,37 +7,71 @@
 
 #include "Server.hpp"
 
-Server::Server(const int port = DEFAULT_PORT):
+/*!
+ * \fn ns::Server::Server(const int port = DEFAULT_PORT)
+ * \brief Open connection with port in param
+ *
+ * \param int port representing the port
+ */
+
+ns::Server::Server(const int port = DEFAULT_PORT):
     _status(true),
-    _max_connections(5)
+    _max_connections(5),
+    _db("babel_server.db")
 {
+    if (!Sockets::Start())
+        std::cout << "Error initialization : " << Sockets::GetError() << std::endl;
     if (!_sock.ListenOn(port, _max_connections)) {
         std::cerr << "ERRRROR" << std::endl;
         throw "Socket not available";
     }
     initActions();
-    std::cout << "Listening on port " << port << " and fd n°" << _sock.sock << std::endl;
+    _db.createTable("CLIENT("
+                    "ID INT PRIMARY KEY     NOT NULL,"
+                    "NAME           TEXT    NOT NULL,"
+                    "DATE           TEXT)");
 }
 
-Server::~Server()
+/*!
+ * \fn ns::Server::~Server()
+ * \brief Destroy the Server by reseting the shared pointers
+ *
+ * \param void
+ */
+
+ns::Server::~Server()
 {
     std::cout << "Destroying..." << std::endl;
     Sockets::CloseSocket(_sock.sock);
 }
 
-void Server::Run()
+/*!
+ * \fn ns::Server::Run()
+ * \brief Run the server
+ *
+ * \param void
+ */
+
+void ns::Server::Run()
 {
     while (isRunning()) {
         PollEvent();
     }
 }
 
-void Server::PollEvent()
+/*!
+ * \fn ns::Server::PollEvent()
+ * \brief Poll the event
+ *
+ * \param void
+ */
+
+void ns::Server::PollEvent()
 {
     socket_t max_sd = _sock.sock;
     socket_t rd = 0;
 
-    add_sockets_to_set(&max_sd);
+    addSocketsToSet(&max_sd);
     rd = select(max_sd + 1, &_sock_set, NULL, NULL, NULL);
     if ((rd < 0) && (errno != EINTR)) {
         perror("select() failed");
@@ -50,7 +84,14 @@ void Server::PollEvent()
             HandleReceive(*it);
 }
 
-void Server::HandleConnection()
+/*!
+ * \fn ns::Server::HandleConnection()
+ * \brief Handle connection
+ *
+ * \param void
+ */
+
+void ns::Server::HandleConnection()
 {
     // TCPSocket newClient;
     Socket newClient;
@@ -62,18 +103,30 @@ void Server::HandleConnection()
     {
         printf("New connection, socket fd is %d, ip is : %s, port : %d\n", newClient._sock,
            inet_ntoa(from.sin_addr), ntohs(from.sin_port));
-        newClient.send("Hello World!\n");
-        _packet.setType("connection");
-        _packet.addData("ip", inet_ntoa(from.sin_addr));
-        _packet.addData("port", ntohs(from.sin_port));
+        auto client = std::make_unique<ServerClient>(ServerClient(newClient));
+        // if (updateDatabase(std::move(client)) == true)
+        //     std::cout << "New client created in Database" << std::endl;
+        // else {
+        //     std::cerr << "PAS BON" << std::endl;
+        //     exit(1);
+        // }
+        _packet.setType("welcome");
+        newClient.send(_packet.getPacket());
+        std::string connectionPacket = buildConnectionPacket(from);
         for (auto &it : _client_list)
-            it->_sock.send(_packet.getPacket());
-        _packet.clear();
-        _client_list.push_back(std::make_unique<ServerClient>(ServerClient(newClient)));
+            it->_sock.send(connectionPacket);
+        _client_list.push_back(std::move(client));
     }
 }
 
-void Server::HandleReceive(ServerClient client)
+/*!
+ * \fn ns::Server::HandleReceive(ServerClient client)
+ * \brief Handle receive
+ *
+ * \param ServerClient client
+ */
+
+void ns::Server::HandleReceive(ServerClient client)
 {
     int valread = 0;
     std::string buffer;
@@ -88,37 +141,79 @@ void Server::HandleReceive(ServerClient client)
            inet_ntoa(addr.sin_addr), client._sock._sock,
            ntohs(addr.sin_port));
         removeClient(client);
-    } else if (valread > 0) {
-        MatchCommand(std::move(std::make_unique<ServerClient>(client)), buffer.erase(buffer.size()));
+        for (auto &it : _client_list)
+            it->_sock.send(buildDisconnectionPacket(addr));
+    }
+    else if (valread > 0)
+        MatchCommand(std::move(std::make_unique<ServerClient>(client)), buffer);
+}
+
+/*!
+ * \fn ns::Server::updateDatabase(client_p client)
+ * \brief updtae database
+ *
+ * \param client_p client
+ */
+
+bool ns::Server::updateDatabase(client_p client)
+{
+    time_t rawtime;
+    struct tm *timeinfo;
+    char buffer[80];
+    std::ostringstream oss;
+
+    time(&rawtime);
+    timeinfo = localtime(&rawtime);
+
+    strftime(buffer, sizeof(buffer), "%d%m%Y-%H:%M:%S", timeinfo);
+    oss << "DATE = '" << buffer << "' where NAME = '" << client->getUsername() << "'";
+    try {
+        if (!_db.upsertData("CLIENT", oss.str())) {
+            auto new_client = std::make_unique<db::ClientDatabase>(
+                client->getUsername(), rawtime
+            );
+            return _db.insertData(std::move(new_client));
+        }
+    } catch (const std::exception &e) {
+        std::cerr << e.what() << std::endl;
+    }
+    return 1;
+}
+
+/*!
+ * \fn ns::Server::MatchCommand(client_p client, const std::string &packet)
+ * \brief Match command
+ *
+ * \param client_p client, const std::string &packet
+ */
+
+void ns::Server::MatchCommand(client_p client, const std::string &packet)
+{
+    std::stringstream ss;
+    utils::pt root;
+
+    ss << packet;
+    try {
+        boost::property_tree::read_json(ss, root);
+        std::string command = root.get<std::string>("type");
+        std::cout << "command: " << command << std::endl;
+        auto it = _fMap.find(command);
+        if (it != _fMap.end()) {
+            it->second(std::move(client), std::move(std::make_unique<utils::pt>(root)));
+        }
+    } catch (const std::exception &e) {
+        std::cerr << "Read json errror: " << e.what() << std::endl;
     }
 }
 
-void Server::MatchCommand(std::unique_ptr<ServerClient> client, const std::string &command)
-{
-        std::cout << "client n°" << client->_sock._sock - 3 << " sent:\n" << command << std::endl;
+/*!
+ * \fn ns::Server::addSocketsToSet(socket_t *max_sd)
+ * \brief add socket
+ *
+ * \param socket_t *max_sd
+ */
 
-        if (command.compare("call") != 0)
-            for (auto &it : _client_list)
-            {
-                it->_sock.send(_packet.getPacket());
-            }
-        else {
-            auto it = _fMap.find(command);
-            if (it != _fMap.end()) {
-                std::vector<std::unique_ptr<ServerClient>> client_list;
-                auto other = std::find_if(_client_list.begin(), _client_list.end(),
-                    [&](std::unique_ptr<ServerClient> &i) {
-                        return i->_sock._sock != client->_sock._sock;
-                    });
-                it->second(std::move(client));
-                // it->second(std::move(client), std::make_unique<ServerClient>(other)); //client_list);
-            }
-        }
-        // _packet.setType("test");
-        // _packet.addData("ip", "127.0.0.1");
-}
-
-void Server::add_sockets_to_set(socket_t *max_sd)
+void ns::Server::addSocketsToSet(socket_t *max_sd)
 {
     socket_t sd = 0;
 
@@ -134,23 +229,117 @@ void Server::add_sockets_to_set(socket_t *max_sd)
     }
 }
 
-void Server::removeClient(ServerClient client)
+/*!
+ * \fn ns::Server::removeClient(ServerClient client)
+ * \brief remove pecno
+ *
+ * \param ServerClient client
+ */
+
+void ns::Server::removeClient(ServerClient client)
 {
     close(client._sock._sock);
     auto it = std::find_if(_client_list.begin(), _client_list.end(),
-        [&](std::unique_ptr<ServerClient> &i) {
+        [&](client_p &i) {
             return i->_sock._sock == client._sock._sock;
         });
     if (it != _client_list.end())
         _client_list.erase(it);
 }
 
-bool Server::isRunning() const
+/*!
+ * \fn ns::Server::isRunning() const
+ * \brief Handle connection
+ *
+ * \param void
+ */
+
+bool ns::Server::isRunning() const
 {
     return _status;
 }
 
-void Server::initActions()
+/*!
+ * \fn ns::Server::initActions()
+ * \brief init actions
+ *
+ * \param void
+ */
+
+void ns::Server::initActions()
 {
-    _fMap.emplace(std::make_pair("call", std::bind(&ServerActions::InitConnection, this, std::placeholders::_1)));
+    _fMap.emplace(std::make_pair("call", std::bind(&ServerActions::initConnection, this, std::placeholders::_1)));
+    _fMap.emplace(std::make_pair("hang_up", std::bind(&ServerActions::closeConnection, this, std::placeholders::_1)));
+    _fMap.emplace(std::make_pair("infos", std::bind(&Server::infos, this, std::placeholders::_1)));
+}
+
+/*!
+ * \fn ns::Server::call(client_p client)
+ * \brief Calling guys
+ *
+ * \param client_p client
+ */
+
+void ns::Server::call(client_p client)
+{
+}
+
+/*!
+ * \fn ns::Server::hangUp(client_p client)
+ * \brief Rccroche guys
+ *
+ * \param client_p client
+ */
+
+void ns::Server::hangUp(client_p client)
+{
+
+}
+
+/*!
+ * \fn ns::Server::infos(client_p client)
+ * \brief Handle connection
+ *
+ * \param client_p client
+ */
+
+void ns::Server::infos(client_p client)
+{
+    std::cout << "OK cool mon pote" << std::endl;
+    _packet.clear();
+    _packet.setType("response");
+    _packet.addData("code", 200);
+    client->_sock.send(_packet.getPacket());
+}
+
+/*!
+ * \fn ns::Server::buildConnectionPacket(const sockaddr_in &new_client)
+ * \brief build the conection packet
+ *
+ * \param const sockaddr_in &new_client
+ */
+
+std::string ns::Server::buildConnectionPacket(const sockaddr_in &new_client)
+{
+    _packet.clear();
+    _packet.setType("connection");
+    _packet.addData("ip", inet_ntoa(new_client.sin_addr));
+    _packet.addData("port", ntohs(new_client.sin_port));
+    return _packet.getPacket();
+}
+
+/*!
+ * \fn ns::Server::buildDisconnectionPacket(const sockaddr_in &client)
+ * \brief build disconnect packet
+ *
+ * \param const sockaddr_in &client
+ */
+
+std::string ns::Server::buildDisconnectionPacket(const sockaddr_in &client)
+{
+    _packet.clear();
+    _packet.setType("disconnection");
+    _packet.addData("ip", inet_ntoa(client.sin_addr));
+    _packet.addData("port", ntohs(client.sin_port));
+    return _packet.getPacket();
 }
