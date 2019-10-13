@@ -16,6 +16,12 @@
 
 #define MAX_RECV 1024
 
+/*! \class UDPSocket
+* \brief Class representing the UDPSocket
+*
+*  This class handle the differents sockets
+*/
+
 class UDPSocket
 {
 	public:

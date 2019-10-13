@@ -1,0 +1,165 @@
+.TH "db::ClientDatabase" 3 "Sun Oct 13 2019" "Version Alpha 1.2" "Babel_2019" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+db::ClientDatabase
+.SH SYNOPSIS
+.br
+.PP
+.PP
+Inherits \fBdb::Data\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBClientDatabase\fP ()"
+.br
+.RI "? "
+.ti -1c
+.RI "\fBClientDatabase\fP (const std::string &)"
+.br
+.RI "? "
+.ti -1c
+.RI "\fBClientDatabase\fP (const std::string &, time_t &)"
+.br
+.RI "? "
+.ti -1c
+.RI "\fB~ClientDatabase\fP ()"
+.br
+.RI "? "
+.ti -1c
+.RI "void \fBsetIPAddr\fP (const IP &) noexcept"
+.br
+.RI "? "
+.ti -1c
+.RI "IP \fBgetIPAddr\fP () const"
+.br
+.RI "? "
+.ti -1c
+.RI "std::string \fBgetInsertionQuery\fP () const noexcept"
+.br
+.RI "? "
+.ti -1c
+.RI "std::vector< std::string > \fBgetAttributes\fP () const noexcept"
+.br
+.ti -1c
+.RI "std::string \fBgetFormattedAttributes\fP () const noexcept"
+.br
+.RI "? "
+.ti -1c
+.RI "std::string \fBgetFormattedValues\fP () const noexcept"
+.br
+.RI "? "
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "ClientDatabase::ClientDatabase ()"
+
+.PP
+? 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvoid\fP 
+.RE
+.PP
+
+.SS "ClientDatabase::ClientDatabase (const std::string & name)"
+
+.PP
+? 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIconst\fP std::string &name 
+.RE
+.PP
+
+.SS "ClientDatabase::ClientDatabase (const std::string & name, time_t & lastModifiedDate)"
+
+.PP
+? 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIconst\fP std::string &name, time_t &lastModifiedDate 
+.RE
+.PP
+
+.SS "ClientDatabase::~ClientDatabase ()"
+
+.PP
+? 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvoid\fP 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "std::string ClientDatabase::getFormattedAttributes () const\fC [virtual]\fP, \fC [noexcept]\fP"
+
+.PP
+? 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvoid\fP 
+.RE
+.PP
+
+.PP
+Implements \fBdb::Data\fP\&.
+.SS "std::string ClientDatabase::getFormattedValues () const\fC [noexcept]\fP"
+
+.PP
+? 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvoid\fP 
+.RE
+.PP
+
+.SS "std::string ClientDatabase::getInsertionQuery () const\fC [virtual]\fP, \fC [noexcept]\fP"
+
+.PP
+? 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvoid\fP 
+.RE
+.PP
+
+.PP
+Implements \fBdb::Data\fP\&.
+.SS "db::IP ClientDatabase::getIPAddr () const"
+
+.PP
+? 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvoid\fP 
+.RE
+.PP
+
+.SS "void ClientDatabase::setIPAddr (const IP & ipAddr)\fC [noexcept]\fP"
+
+.PP
+? 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIconst\fP IP &ipAddr 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Babel_2019 from the source code\&.

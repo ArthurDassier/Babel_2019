@@ -1,0 +1,67 @@
+.TH "db::Data" 3 "Sun Oct 13 2019" "Version Alpha 1.2" "Babel_2019" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+db::Data
+.SH SYNOPSIS
+.br
+.PP
+.PP
+Inherited by \fBdb::ClientDatabase\fP\&.
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "typedef unsigned int \fBID\fP"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBData\fP (const std::string &)"
+.br
+.ti -1c
+.RI "\fBData\fP (const std::string &, const std::string &)"
+.br
+.ti -1c
+.RI "\fBData\fP (const std::string &, time_t &)"
+.br
+.ti -1c
+.RI "\fBData\fP (const std::string &, const std::string &, time_t &)"
+.br
+.ti -1c
+.RI "ID \fBgetID\fP () const noexcept"
+.br
+.ti -1c
+.RI "void \fBsetName\fP (const std::string &)"
+.br
+.ti -1c
+.RI "std::string \fBgetName\fP () const noexcept"
+.br
+.ti -1c
+.RI "void \fBsetLastModifiedDate\fP (time_t &)"
+.br
+.ti -1c
+.RI "std::string \fBgetLastModifiedDate\fP () const noexcept"
+.br
+.ti -1c
+.RI "std::string \fBgetDataType\fP () const noexcept"
+.br
+.ti -1c
+.RI "std::string \fBgetInfos\fP () const noexcept"
+.br
+.ti -1c
+.RI "virtual std::string \fBgetInsertionQuery\fP () const noexcept=0"
+.br
+.ti -1c
+.RI "virtual std::vector< std::string > \fBgetAttributes\fP () const noexcept=0"
+.br
+.ti -1c
+.RI "virtual std::string \fBgetFormattedAttributes\fP () const noexcept=0"
+.br
+.in -1c
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Babel_2019 from the source code\&.

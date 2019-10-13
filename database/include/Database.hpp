@@ -15,6 +15,12 @@
 
 #include "ClientDatabase.hpp"
 
+/*! \class Database
+* \brief Class representing the Database
+*
+*  This class handle the Database
+*/
+
 namespace db
 {
 	using Record = std::vector<std::string>;

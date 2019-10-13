@@ -16,6 +16,12 @@
 #include "TCPSocket.hpp"
 #include "UDPSocket.hpp"
 
+/*! \class Client
+* \brief Class representing the Client
+*
+*  This class handle the Client
+*/
+
 namespace cli
 {
     struct props_s

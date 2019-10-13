@@ -7,6 +7,14 @@
 
 #include "TCPSocket.hpp"
 
+/*!
+ * \fn TCPSocket::~TCPSocket()
+ * \brief Socket is valid ?
+ *
+ * \param void
+ */
+
+
 TCPSocket::TCPSocket()
 {
     sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -15,10 +23,25 @@ TCPSocket::TCPSocket()
     }
 }
 
+/*!
+ * \fn TCPSocket::~TCPSocket()
+ * \brief Socket is valid ?
+ *
+ * \param void
+ */
+
 TCPSocket::~TCPSocket()
 {
     Sockets::CloseSocket(sock);
 }
+
+/*!
+ * \fn TCPSocket::Accept(const int socket, sockaddr_in &addr)
+ * \brief Socket is valid ?
+ *
+ * \param const int socket, sockaddr_in &addr
+ */
+
 
 bool TCPSocket::Accept(const int socket, sockaddr_in &addr)
 {
@@ -27,6 +50,14 @@ bool TCPSocket::Accept(const int socket, sockaddr_in &addr)
     sock = accept(socket, (sockaddr *)&addr, &addrlen);
     return sock ? true : false;
 }
+
+/*!
+ * \fn TCPSocket::InitAddr(const std::string &ipaddress, unsigned short port)
+ * \brief Socket is valid ?
+ *
+ * \param const std::string &ipaddress, unsigned short port
+ */
+
 
 sockaddr_in TCPSocket::InitAddr(const std::string &ipaddress, unsigned short port)
 {
@@ -37,6 +68,14 @@ sockaddr_in TCPSocket::InitAddr(const std::string &ipaddress, unsigned short por
     return server;
 }
 
+/*!
+ * \fn TCPSocket::Bind(const std::string &ipaddres, unsigned short port)
+ * \brief Socket is valid ?
+ *
+ * \param const std::string &ipaddres, unsigned short port
+ */
+
+
 bool TCPSocket::Bind(const std::string &ipaddres, unsigned short port)
 {
     // sockaddr_in server;
@@ -46,6 +85,14 @@ bool TCPSocket::Bind(const std::string &ipaddres, unsigned short port)
     // return bind(sock, reinterpret_cast<sockaddr *>(&server), sizeof(server));
 }
 
+/*!
+ * \fn TCPSocket::Connect(const std::string &ipaddress, unsigned short port)
+ * \brief Socket is valid ?
+ *
+ * \param const std::string &ipaddress, unsigned short port
+ */
+
+
 bool TCPSocket::Connect(const std::string &ipaddress, unsigned short port)
 {
     sockaddr_in server;
@@ -54,6 +101,14 @@ bool TCPSocket::Connect(const std::string &ipaddress, unsigned short port)
     server.sin_port = htons(port);
     return connect(sock, reinterpret_cast<sockaddr *>(&server), sizeof(server)) == 0;
 }
+
+/*!
+ * \fn TCPSocket::ListenOn(unsigned short port, unsigned short max_connections)
+ * \brief Socket is valid ?
+ *
+ * \param unsigned short port, unsigned short max_connections
+ */
+
 
 bool TCPSocket::ListenOn(unsigned short port, unsigned short max_connections)
 {
@@ -74,10 +129,26 @@ bool TCPSocket::ListenOn(unsigned short port, unsigned short max_connections)
     return true;
 }
 
+/*!
+ * \fn TCPSocket::Send(const std::string data) const
+ * \brief Socket is valid ?
+ *
+ * \param const std::string data
+ */
+
+
 int TCPSocket::Send(const std::string data) const
 {
     return send(sock, data.c_str(), data.size(), 0);
 }
+
+/*!
+ * \fn TCPSocket::Read(std::string &data) const
+ * \brief Socket is valid ?
+ *
+ * \param std::string &data
+ */
+
 
 int TCPSocket::Read(std::string &data) const
 {
@@ -90,6 +161,14 @@ int TCPSocket::Read(std::string &data) const
         data = buffer;
     return status;
 }
+
+/*!
+ * \fn TCPSocket::Recv(std::string &data, unsigned int len) const
+ * \brief Socket is valid ?
+ *
+ * \param std::string &data, unsigned int len
+ */
+
 
 int TCPSocket::Recv(std::string &data, unsigned int len) const
 {

@@ -10,6 +10,12 @@
 #include "Socket.hpp"
 #include "TCPSocket.hpp"
 
+/*! \class ServerClient
+* \brief Class representing the ServerClient
+*
+*  This class handle the server's clients
+*/
+
 class ServerClient
 {
     public:

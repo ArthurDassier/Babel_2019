@@ -7,6 +7,13 @@
 
 #include "Server.hpp"
 
+/*!
+ * \fn ns::Server::Server(const int port = DEFAULT_PORT)
+ * \brief Open connection with port in param
+ *
+ * \param int port representing the port
+ */
+
 ns::Server::Server(const int port = DEFAULT_PORT):
     _status(true),
     _max_connections(5),
@@ -25,11 +32,25 @@ ns::Server::Server(const int port = DEFAULT_PORT):
                     "DATE           TEXT)");
 }
 
+/*!
+ * \fn ns::Server::~Server()
+ * \brief Destroy the Server by reseting the shared pointers
+ *
+ * \param void
+ */
+
 ns::Server::~Server()
 {
     std::cout << "Destroying..." << std::endl;
     Sockets::CloseSocket(_sock.sock);
 }
+
+/*!
+ * \fn ns::Server::Run()
+ * \brief Run the server
+ *
+ * \param void
+ */
 
 void ns::Server::Run()
 {
@@ -37,6 +58,13 @@ void ns::Server::Run()
         PollEvent();
     }
 }
+
+/*!
+ * \fn ns::Server::PollEvent()
+ * \brief Poll the event
+ *
+ * \param void
+ */
 
 void ns::Server::PollEvent()
 {
@@ -55,6 +83,13 @@ void ns::Server::PollEvent()
         if (FD_ISSET(it->_sock._sock, &_sock_set))
             HandleReceive(*it);
 }
+
+/*!
+ * \fn ns::Server::HandleConnection()
+ * \brief Handle connection
+ *
+ * \param void
+ */
 
 void ns::Server::HandleConnection()
 {
@@ -84,6 +119,13 @@ void ns::Server::HandleConnection()
     }
 }
 
+/*!
+ * \fn ns::Server::HandleReceive(ServerClient client)
+ * \brief Handle receive
+ *
+ * \param ServerClient client
+ */
+
 void ns::Server::HandleReceive(ServerClient client)
 {
     int valread = 0;
@@ -105,6 +147,13 @@ void ns::Server::HandleReceive(ServerClient client)
     else if (valread > 0)
         MatchCommand(std::move(std::make_unique<ServerClient>(client)), buffer);
 }
+
+/*!
+ * \fn ns::Server::updateDatabase(client_p client)
+ * \brief updtae database
+ *
+ * \param client_p client
+ */
 
 bool ns::Server::updateDatabase(client_p client)
 {
@@ -131,6 +180,13 @@ bool ns::Server::updateDatabase(client_p client)
     return 1;
 }
 
+/*!
+ * \fn ns::Server::MatchCommand(client_p client, const std::string &packet)
+ * \brief Match command
+ *
+ * \param client_p client, const std::string &packet
+ */
+
 void ns::Server::MatchCommand(client_p client, const std::string &packet)
 {
     std::stringstream ss;
@@ -150,6 +206,13 @@ void ns::Server::MatchCommand(client_p client, const std::string &packet)
     }
 }
 
+/*!
+ * \fn ns::Server::addSocketsToSet(socket_t *max_sd)
+ * \brief add socket
+ *
+ * \param socket_t *max_sd
+ */
+
 void ns::Server::addSocketsToSet(socket_t *max_sd)
 {
     socket_t sd = 0;
@@ -166,6 +229,13 @@ void ns::Server::addSocketsToSet(socket_t *max_sd)
     }
 }
 
+/*!
+ * \fn ns::Server::removeClient(ServerClient client)
+ * \brief remove pecno
+ *
+ * \param ServerClient client
+ */
+
 void ns::Server::removeClient(ServerClient client)
 {
     close(client._sock._sock);
@@ -177,10 +247,24 @@ void ns::Server::removeClient(ServerClient client)
         _client_list.erase(it);
 }
 
+/*!
+ * \fn ns::Server::isRunning() const
+ * \brief Handle connection
+ *
+ * \param void
+ */
+
 bool ns::Server::isRunning() const
 {
     return _status;
 }
+
+/*!
+ * \fn ns::Server::initActions()
+ * \brief init actions
+ *
+ * \param void
+ */
 
 void ns::Server::initActions()
 {
@@ -189,14 +273,35 @@ void ns::Server::initActions()
     _fMap.emplace(std::make_pair("infos", std::bind(&Server::infos, this, std::placeholders::_1)));
 }
 
+/*!
+ * \fn ns::Server::call(client_p client)
+ * \brief Calling guys
+ *
+ * \param client_p client
+ */
+
 void ns::Server::call(client_p client)
 {
 }
+
+/*!
+ * \fn ns::Server::hangUp(client_p client)
+ * \brief Rccroche guys
+ *
+ * \param client_p client
+ */
 
 void ns::Server::hangUp(client_p client)
 {
 
 }
+
+/*!
+ * \fn ns::Server::infos(client_p client)
+ * \brief Handle connection
+ *
+ * \param client_p client
+ */
 
 void ns::Server::infos(client_p client)
 {
@@ -207,6 +312,13 @@ void ns::Server::infos(client_p client)
     client->_sock.send(_packet.getPacket());
 }
 
+/*!
+ * \fn ns::Server::buildConnectionPacket(const sockaddr_in &new_client)
+ * \brief build the conection packet
+ *
+ * \param const sockaddr_in &new_client
+ */
+
 std::string ns::Server::buildConnectionPacket(const sockaddr_in &new_client)
 {
     _packet.clear();
@@ -215,6 +327,13 @@ std::string ns::Server::buildConnectionPacket(const sockaddr_in &new_client)
     _packet.addData("port", ntohs(new_client.sin_port));
     return _packet.getPacket();
 }
+
+/*!
+ * \fn ns::Server::buildDisconnectionPacket(const sockaddr_in &client)
+ * \brief build disconnect packet
+ *
+ * \param const sockaddr_in &client
+ */
 
 std::string ns::Server::buildDisconnectionPacket(const sockaddr_in &client)
 {

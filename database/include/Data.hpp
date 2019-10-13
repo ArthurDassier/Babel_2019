@@ -12,6 +12,12 @@
 #include <string>
 #include <vector>
 
+/*! \class Data
+* \brief Class representing the Data
+*
+*  This class handle the Data
+*/
+
 namespace db
 {
     class Data {

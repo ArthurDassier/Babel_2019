@@ -26,6 +26,13 @@
 
 #define DEFAULT_PORT 0
 
+/*! \class Server
+* \brief Class representing the Server
+*
+*  This class handle of the logic of the program, it loads the libraires and the protocols
+*  it can switch at any given moments
+*/
+
 namespace ns
 {
     using sockaddr_in = struct sockaddr_in;

@@ -1,0 +1,53 @@
+.TH "cli::Client" 3 "Sun Oct 13 2019" "Version Alpha 1.2" "Babel_2019" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+cli::Client
+.SH SYNOPSIS
+.br
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "bool \fBauth\fP ()"
+.br
+.ti -1c
+.RI "bool \fBconnection\fP (const std::string &ip, const std::string &port, const std::string &name)"
+.br
+.ti -1c
+.RI "bool \fBconnectToServer\fP (const std::string &ip, unsigned short port)"
+.br
+.ti -1c
+.RI "void \fBrun\fP ()"
+.br
+.ti -1c
+.RI "void \fBinitStreaming\fP ()"
+.br
+.ti -1c
+.RI "void \fBsendMessage\fP (const int clientfd, const std::string &msg)"
+.br
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static void \fBopenStream\fP ()"
+.br
+.ti -1c
+.RI "static void \fBsendStream\fP ()"
+.br
+.ti -1c
+.RI "static void \fBaskForCall\fP (\fBUDPSocket\fP)"
+.br
+.ti -1c
+.RI "static void \fBsendInfos\fP (\fBTCPSocket\fP *, props_p)"
+.br
+.ti -1c
+.RI "static void \fBnewConnection\fP (\fBTCPSocket\fP *, props_p)"
+.br
+.in -1c
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Babel_2019 from the source code\&.

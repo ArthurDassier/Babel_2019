@@ -15,6 +15,12 @@
 
 #define MAX_RECV 1024
 
+/*! \class TCPSocket
+* \brief Class representing the TCPSocket
+*
+*  This class handle the differents sockets
+*/
+
 class TCPSocket
 {
 	public:

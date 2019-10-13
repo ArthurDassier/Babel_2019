@@ -1,0 +1,159 @@
+\hypertarget{class_u_d_p_socket}{}\section{U\+D\+P\+Socket Class Reference}
+\label{class_u_d_p_socket}\index{U\+D\+P\+Socket@{U\+D\+P\+Socket}}
+
+
+Class representing the \hyperlink{class_u_d_p_socket}{U\+D\+P\+Socket}.  
+
+
+
+
+{\ttfamily \#include $<$U\+D\+P\+Socket.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_u_d_p_socket_a4f86f3023f5a08f6355802599a10e100}{U\+D\+P\+Socket} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_socket}{Socket} is valid ? \end{DoxyCompactList}\item 
+\hyperlink{class_u_d_p_socket_adb1a5254938e5acf5d44ff7a347e9f0a}{$\sim$\+U\+D\+P\+Socket} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_socket}{Socket} is valid ? \end{DoxyCompactList}\item 
+bool \hyperlink{class_u_d_p_socket_afaaa0a469391a9f9ca9e7cf072f064b6}{Bind} (unsigned short port)
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_socket}{Socket} is valid ? \end{DoxyCompactList}\item 
+int \hyperlink{class_u_d_p_socket_a7de55d21adc2c0ad135c28eeac4edde9}{Send} (const char $\ast$data, unsigned int len)
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_socket}{Socket} is valid ? \end{DoxyCompactList}\item 
+int \hyperlink{class_u_d_p_socket_a4a97e4188e1c07646310d390993e93d2}{Read} (std\+::string \&data) const
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_socket}{Socket} is valid ? \end{DoxyCompactList}\item 
+int \hyperlink{class_u_d_p_socket_a0193bec0a3668e7bf9ca043bb4152ab8}{Receive} (char $\ast$buffer, unsigned int len)
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_socket}{Socket} is valid ? \end{DoxyCompactList}\item 
+sockaddr\+\_\+in \hyperlink{class_u_d_p_socket_a54eb0e16443ae0cab6a7bbc3d5ac4c5f}{get\+Addr} () const
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_socket}{Socket} is valid ? \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_u_d_p_socket_a70085ad4b4b8c09258f206843db08de2}\label{class_u_d_p_socket_a70085ad4b4b8c09258f206843db08de2}} 
+S\+O\+C\+K\+ET {\bfseries sock}
+\item 
+\mbox{\Hypertarget{class_u_d_p_socket_a85db9e3a4b4448e3a2e6988fed4cc5c6}\label{class_u_d_p_socket_a85db9e3a4b4448e3a2e6988fed4cc5c6}} 
+sockaddr\+\_\+in {\bfseries addr}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class representing the \hyperlink{class_u_d_p_socket}{U\+D\+P\+Socket}. 
+
+This class handle the differents sockets 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_u_d_p_socket_a4f86f3023f5a08f6355802599a10e100}\label{class_u_d_p_socket_a4f86f3023f5a08f6355802599a10e100}} 
+\index{U\+D\+P\+Socket@{U\+D\+P\+Socket}!U\+D\+P\+Socket@{U\+D\+P\+Socket}}
+\index{U\+D\+P\+Socket@{U\+D\+P\+Socket}!U\+D\+P\+Socket@{U\+D\+P\+Socket}}
+\subsubsection{\texorpdfstring{U\+D\+P\+Socket()}{UDPSocket()}}
+{\footnotesize\ttfamily U\+D\+P\+Socket\+::\+U\+D\+P\+Socket (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{class_socket}{Socket} is valid ? 
+
+
+\begin{DoxyParams}{Parameters}
+{\em void} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_u_d_p_socket_adb1a5254938e5acf5d44ff7a347e9f0a}\label{class_u_d_p_socket_adb1a5254938e5acf5d44ff7a347e9f0a}} 
+\index{U\+D\+P\+Socket@{U\+D\+P\+Socket}!````~U\+D\+P\+Socket@{$\sim$\+U\+D\+P\+Socket}}
+\index{````~U\+D\+P\+Socket@{$\sim$\+U\+D\+P\+Socket}!U\+D\+P\+Socket@{U\+D\+P\+Socket}}
+\subsubsection{\texorpdfstring{$\sim$\+U\+D\+P\+Socket()}{~UDPSocket()}}
+{\footnotesize\ttfamily U\+D\+P\+Socket\+::$\sim$\+U\+D\+P\+Socket (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{class_socket}{Socket} is valid ? 
+
+
+\begin{DoxyParams}{Parameters}
+{\em void} & \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_u_d_p_socket_afaaa0a469391a9f9ca9e7cf072f064b6}\label{class_u_d_p_socket_afaaa0a469391a9f9ca9e7cf072f064b6}} 
+\index{U\+D\+P\+Socket@{U\+D\+P\+Socket}!Bind@{Bind}}
+\index{Bind@{Bind}!U\+D\+P\+Socket@{U\+D\+P\+Socket}}
+\subsubsection{\texorpdfstring{Bind()}{Bind()}}
+{\footnotesize\ttfamily bool U\+D\+P\+Socket\+::\+Bind (\begin{DoxyParamCaption}\item[{unsigned short}]{port }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{class_socket}{Socket} is valid ? 
+
+
+\begin{DoxyParams}{Parameters}
+{\em unsigned} & short port \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_u_d_p_socket_a54eb0e16443ae0cab6a7bbc3d5ac4c5f}\label{class_u_d_p_socket_a54eb0e16443ae0cab6a7bbc3d5ac4c5f}} 
+\index{U\+D\+P\+Socket@{U\+D\+P\+Socket}!get\+Addr@{get\+Addr}}
+\index{get\+Addr@{get\+Addr}!U\+D\+P\+Socket@{U\+D\+P\+Socket}}
+\subsubsection{\texorpdfstring{get\+Addr()}{getAddr()}}
+{\footnotesize\ttfamily sockaddr\+\_\+in U\+D\+P\+Socket\+::get\+Addr (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+\hyperlink{class_socket}{Socket} is valid ? 
+
+
+\begin{DoxyParams}{Parameters}
+{\em void} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_u_d_p_socket_a4a97e4188e1c07646310d390993e93d2}\label{class_u_d_p_socket_a4a97e4188e1c07646310d390993e93d2}} 
+\index{U\+D\+P\+Socket@{U\+D\+P\+Socket}!Read@{Read}}
+\index{Read@{Read}!U\+D\+P\+Socket@{U\+D\+P\+Socket}}
+\subsubsection{\texorpdfstring{Read()}{Read()}}
+{\footnotesize\ttfamily int U\+D\+P\+Socket\+::\+Read (\begin{DoxyParamCaption}\item[{std\+::string \&}]{data }\end{DoxyParamCaption}) const}
+
+
+
+\hyperlink{class_socket}{Socket} is valid ? 
+
+
+\begin{DoxyParams}{Parameters}
+{\em std\+::string} & \&data \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_u_d_p_socket_a0193bec0a3668e7bf9ca043bb4152ab8}\label{class_u_d_p_socket_a0193bec0a3668e7bf9ca043bb4152ab8}} 
+\index{U\+D\+P\+Socket@{U\+D\+P\+Socket}!Receive@{Receive}}
+\index{Receive@{Receive}!U\+D\+P\+Socket@{U\+D\+P\+Socket}}
+\subsubsection{\texorpdfstring{Receive()}{Receive()}}
+{\footnotesize\ttfamily int U\+D\+P\+Socket\+::\+Receive (\begin{DoxyParamCaption}\item[{char $\ast$}]{buffer,  }\item[{unsigned int}]{len }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{class_socket}{Socket} is valid ? 
+
+
+\begin{DoxyParams}{Parameters}
+{\em char} & $\ast$buffer, unsigned int len \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_u_d_p_socket_a7de55d21adc2c0ad135c28eeac4edde9}\label{class_u_d_p_socket_a7de55d21adc2c0ad135c28eeac4edde9}} 
+\index{U\+D\+P\+Socket@{U\+D\+P\+Socket}!Send@{Send}}
+\index{Send@{Send}!U\+D\+P\+Socket@{U\+D\+P\+Socket}}
+\subsubsection{\texorpdfstring{Send()}{Send()}}
+{\footnotesize\ttfamily int U\+D\+P\+Socket\+::\+Send (\begin{DoxyParamCaption}\item[{const char $\ast$}]{data,  }\item[{unsigned int}]{len }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{class_socket}{Socket} is valid ? 
+
+
+\begin{DoxyParams}{Parameters}
+{\em const} & char $\ast$data, unsigned int len \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+network/include/U\+D\+P\+Socket.\+hpp\item 
+network/sockets/U\+D\+P\+Socket.\+cpp\end{DoxyCompactItemize}

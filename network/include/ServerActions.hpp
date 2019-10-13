@@ -12,6 +12,12 @@
 
 #include "ServerClient.hpp"
 
+/*! \class ServerActions
+* \brief Class representing the ServerActions
+*
+*  This class handle the server's actions
+*/
+
 class ServerActions
 {
 	public:

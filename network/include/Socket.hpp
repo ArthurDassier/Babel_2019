@@ -19,6 +19,12 @@ const int MAX_RECV = 1024;
 using sockaddr_in = struct sockaddr_in;
 using sockaddr = struct sockaddr;
 
+/*! \class Socket
+* \brief Class representing the Socket
+*
+*  This class handle the differents sockets
+*/
+
 class Socket
 {
     public:

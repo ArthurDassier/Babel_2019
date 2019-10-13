@@ -1,0 +1,155 @@
+.TH "TCPSocket" 3 "Sun Oct 13 2019" "Version Alpha 1.2" "Babel_2019" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+TCPSocket \- Class representing the \fBTCPSocket\fP\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <TCPSocket\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fB~TCPSocket\fP ()"
+.br
+.RI "\fBSocket\fP is valid ? "
+.ti -1c
+.RI "bool \fBAccept\fP (const int socket, sockaddr_in &addr)"
+.br
+.RI "\fBSocket\fP is valid ? "
+.ti -1c
+.RI "bool \fBBind\fP (const std::string &ipaddress, unsigned short port)"
+.br
+.RI "\fBSocket\fP is valid ? "
+.ti -1c
+.RI "bool \fBConnect\fP (const std::string &ipaddress, unsigned short port)"
+.br
+.RI "\fBSocket\fP is valid ? "
+.ti -1c
+.RI "bool \fBListenOn\fP (unsigned short port, unsigned short max_connections)"
+.br
+.RI "\fBSocket\fP is valid ? "
+.ti -1c
+.RI "int \fBSend\fP (const std::string data) const"
+.br
+.RI "\fBSocket\fP is valid ? "
+.ti -1c
+.RI "int \fBRead\fP (std::string &data) const"
+.br
+.RI "\fBSocket\fP is valid ? "
+.ti -1c
+.RI "int \fBRecv\fP (std::string &data, unsigned int len) const"
+.br
+.RI "\fBSocket\fP is valid ? "
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "SOCKET \fBsock\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Class representing the \fBTCPSocket\fP\&. 
+
+This class handle the differents sockets 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "TCPSocket::~TCPSocket ()"
+
+.PP
+\fBSocket\fP is valid ? 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvoid\fP 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "bool TCPSocket::Accept (const int socket, sockaddr_in & addr)"
+
+.PP
+\fBSocket\fP is valid ? 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIconst\fP int socket, sockaddr_in &addr 
+.RE
+.PP
+
+.SS "bool TCPSocket::Bind (const std::string & ipaddres, unsigned short port)"
+
+.PP
+\fBSocket\fP is valid ? 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIconst\fP std::string &ipaddres, unsigned short port 
+.RE
+.PP
+
+.SS "bool TCPSocket::Connect (const std::string & ipaddress, unsigned short port)"
+
+.PP
+\fBSocket\fP is valid ? 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIconst\fP std::string &ipaddress, unsigned short port 
+.RE
+.PP
+
+.SS "bool TCPSocket::ListenOn (unsigned short port, unsigned short max_connections)"
+
+.PP
+\fBSocket\fP is valid ? 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIunsigned\fP short port, unsigned short max_connections 
+.RE
+.PP
+
+.SS "int TCPSocket::Read (std::string & data) const"
+
+.PP
+\fBSocket\fP is valid ? 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIstd::string\fP &data 
+.RE
+.PP
+
+.SS "int TCPSocket::Recv (std::string & data, unsigned int len) const"
+
+.PP
+\fBSocket\fP is valid ? 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIstd::string\fP &data, unsigned int len 
+.RE
+.PP
+
+.SS "int TCPSocket::Send (const std::string data) const"
+
+.PP
+\fBSocket\fP is valid ? 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIconst\fP std::string data 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Babel_2019 from the source code\&.

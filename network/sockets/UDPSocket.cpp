@@ -7,6 +7,13 @@
 
 #include "UDPSocket.hpp"
 
+/*!
+ * \fn UDPSocket::UDPSocket()
+ * \brief Socket is valid ?
+ *
+ * \param void
+ */
+
 UDPSocket::UDPSocket()
 {
     sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
@@ -17,10 +24,24 @@ UDPSocket::UDPSocket()
     }
 }
 
+/*!
+ * \fn UDPSocket::~UDPSocket()
+ * \brief Socket is valid ?
+ *
+ * \param void
+ */
+
 UDPSocket::~UDPSocket()
 {
     Sockets::CloseSocket(sock);
 }
+
+/*!
+ * \fn UDPSocket::Bind(unsigned short port)
+ * \brief Socket is valid ?
+ *
+ * \param unsigned short port
+ */
 
 bool UDPSocket::Bind(unsigned short port)
 {
@@ -30,10 +51,24 @@ bool UDPSocket::Bind(unsigned short port)
     return bind(sock, reinterpret_cast<sockaddr *>(&addr), sizeof(addr));
 }
 
+/*!
+ * \fn UDPSocket::Send(const char *data, unsigned int len)
+ * \brief Socket is valid ?
+ *
+ * \param const char *data, unsigned int len
+ */
+
 int UDPSocket::Send(const char *data, unsigned int len)
 {
     return send(sock, data, len, 0);
 }
+
+/*!
+ * \fn UDPSocket::Read(std::string &data) const
+ * \brief Socket is valid ?
+ *
+ * \param std::string &data
+ */
 
 int UDPSocket::Read(std::string &data) const
 {
@@ -47,10 +82,25 @@ int UDPSocket::Read(std::string &data) const
     return status;
 }
 
+/*!
+ * \fn UDPSocket::Receive(char *buffer, unsigned int len)
+ * \brief Socket is valid ?
+ *
+ * \param char *buffer, unsigned int len
+ */
+
 int UDPSocket::Receive(char *buffer, unsigned int len)
 {
     return recv(sock, buffer, len, 0);
 }
+
+/*!
+ * \fn UDPSocket::getAddr() const
+ * \brief Socket is valid ?
+ *
+ * \param void
+ */
+
 sockaddr_in UDPSocket::getAddr() const
 {
     return addr;

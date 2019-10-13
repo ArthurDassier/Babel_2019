@@ -1,0 +1,38 @@
+\hypertarget{classdb_1_1_database}{}\section{db\+:\+:Database Class Reference}
+\label{classdb_1_1_database}\index{db\+::\+Database@{db\+::\+Database}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classdb_1_1_database_a5200addea0e3fc460ef27bc2844c46d4}\label{classdb_1_1_database_a5200addea0e3fc460ef27bc2844c46d4}} 
+{\bfseries Database} (const std\+::string \&)
+\item 
+\mbox{\Hypertarget{classdb_1_1_database_a910e5c167e9a09fe82502a6deb873cce}\label{classdb_1_1_database_a910e5c167e9a09fe82502a6deb873cce}} 
+sqlite3 $\ast$ {\bfseries get\+Handle} () const noexcept
+\item 
+\mbox{\Hypertarget{classdb_1_1_database_a36c7f9800efa1339aec390034159504a}\label{classdb_1_1_database_a36c7f9800efa1339aec390034159504a}} 
+void {\bfseries set\+DB} (sqlite3 $\ast$ptr)
+\item 
+\mbox{\Hypertarget{classdb_1_1_database_ab7a2977a4868371b89f71a5cf416af40}\label{classdb_1_1_database_ab7a2977a4868371b89f71a5cf416af40}} 
+bool {\bfseries connect} (const std\+::string \&)
+\item 
+\mbox{\Hypertarget{classdb_1_1_database_adbc0fb846b70c90943444291108a83e1}\label{classdb_1_1_database_adbc0fb846b70c90943444291108a83e1}} 
+bool {\bfseries create\+Table} (const std\+::string \&)
+\item 
+\mbox{\Hypertarget{classdb_1_1_database_a3a79798d2a578637e7766d07851e5969}\label{classdb_1_1_database_a3a79798d2a578637e7766d07851e5969}} 
+bool {\bfseries insert\+Data} (std\+::unique\+\_\+ptr$<$ \hyperlink{classdb_1_1_data}{Data} $>$)
+\item 
+\mbox{\Hypertarget{classdb_1_1_database_aacd31fe3f503a0952c19f97844bcf39b}\label{classdb_1_1_database_aacd31fe3f503a0952c19f97844bcf39b}} 
+bool {\bfseries get\+Data} (const std\+::string \&, const std\+::vector$<$ std\+::string $>$ \&=\{0\})
+\item 
+\mbox{\Hypertarget{classdb_1_1_database_af39290b0a332e70a58730a2a203971a2}\label{classdb_1_1_database_af39290b0a332e70a58730a2a203971a2}} 
+bool {\bfseries upsert\+Data} (const std\+::string \&, const std\+::string \&)
+\item 
+\mbox{\Hypertarget{classdb_1_1_database_ad224379ea6968245a23fcf1e92db8ab6}\label{classdb_1_1_database_ad224379ea6968245a23fcf1e92db8ab6}} 
+bool {\bfseries delete\+Data} (const std\+::string \&, const std\+::string \&)
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+database/include/Database.\+hpp\item 
+database/srcs/database.\+cpp\end{DoxyCompactItemize}

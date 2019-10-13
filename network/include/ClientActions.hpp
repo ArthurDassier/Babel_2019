@@ -9,6 +9,12 @@
 
 #include <iostream>
 
+/*! \class ClientActions
+* \brief Class representing the ClientActions
+*
+*  This class handle the ClientActions
+*/
+
 class ClientActions
 {
 	public:
