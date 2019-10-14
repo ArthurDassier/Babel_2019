@@ -8,6 +8,13 @@
 #include "mainwindow.h"
 #include <iostream>
 
+/*!
+ * \fn mainWindow::mainWindow()
+ * \brief ?
+ *
+ * \param void
+ */
+
 mainWindow::mainWindow(): QWidget()
 {
     setFixedSize(300, 150);
@@ -61,6 +68,13 @@ mainWindow::~mainWindow()
 {
 
 }
+
+/*!
+ * \fn mainWindow::takeIp()
+ * \brief ?
+ *
+ * \param void
+ */
 
 void mainWindow::takeIp()
 {
