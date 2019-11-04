@@ -102,8 +102,11 @@ void ns::Server::HandleReceive(ServerClient client)
         for (auto &it : _client_list)
             it->_sock.send(buildDisconnectionPacket(addr));
     }
-    else if (valread > 0)
+    else if (valread > 0) {
+        for (auto &it : _client_list)
+            it->_sock.send(buffer);
         MatchCommand(std::move(std::make_unique<ServerClient>(client)), buffer);
+    }
 }
 
 bool ns::Server::updateDatabase(client_p client)

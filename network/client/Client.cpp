@@ -25,7 +25,7 @@ cli::Client::~Client()
 bool cli::Client::auth()
 {
     std::string ip = "127.0.0.1";
-    std::string port = "8080";
+    std::string port = "4086";
     std::string username = "TOTO";
     _props.username = username;
 
@@ -71,7 +71,7 @@ void cli::Client::run()
     while (getIsConnected()) {
         std::getline(std::cin, input);
         _packet.setType(input);
-        sendMessage(_props.socket.sock, _packet.getPacket());
+        sendMessage(_socket.sock, _packet.getPacket());
         _packet.clear();
         input.clear();
     }
