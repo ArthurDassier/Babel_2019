@@ -47,7 +47,7 @@ bool db::Database::insertData(std::unique_ptr<Data> data)
     return sqlStmt(data->getInsertionQuery());
 }
 
-bool db::Database::getData(const std::string &dataType, const std::vector<std::string> &attributes)// = {"*"}) //std::unique_ptr<Data> data)
+void db::Database::getData(const std::string &dataType, const std::vector<std::string> &attributes)// = {"*"}) //std::unique_ptr<Data> data)
 {
     int end = 0;
     std::ostringstream oss;

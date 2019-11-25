@@ -39,7 +39,7 @@ namespace db
 			bool connect(const std::string &);
 			bool createTable(const std::string &);
 			bool insertData(std::unique_ptr<Data>);
-			bool getData(const std::string &, const std::vector<std::string> & = {0});
+			void getData(const std::string &, const std::vector<std::string> & = {0});
 			bool upsertData(const std::string &, const std::string &);
 			bool deleteData(const std::string &, const std::string &);
 
