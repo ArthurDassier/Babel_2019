@@ -12,7 +12,9 @@
 #include <thread>
 
 #include "ClientActions.hpp"
+#include "OpusE.hpp"
 #include "Packet.hpp"
+#include "PortAudio.hpp"
 #include "TCPSocket.hpp"
 #include "UDPSocket.hpp"
 
@@ -39,17 +41,18 @@ namespace cli
             bool connection(const std::string &ip, const std::string &port, const std::string &name);
             bool connectToServer(const std::string &ip, unsigned short port);
 
-            void run();
+            void run(char *argv[]);
 
-            void initStreaming();
-            static void openStream();
-            static void sendStream();
+            void initStreaming(int);
+            void openStream();
+            void sendStream();
 
             void sendMessage(const int clientfd, const std::string &msg);
 
             static void askForCall(UDPSocket);
             static void sendInfos(TCPSocket *, props_p);
             static void newConnection(TCPSocket *, props_p);
+            static void playStream(PaStream *);
 
         private:
             void initActions();
@@ -68,8 +71,10 @@ namespace cli
             bool _isConnected;
             props_s _props;
             utils::Packet _packet;
+            EncoderSystem _encoder;
             TCPSocket _socket;
             UDPSocket _udp;
+            int _udp_port;
     };
 
 }; // namespace cli

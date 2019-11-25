@@ -7,9 +7,10 @@
 
 #pragma once
 
-#include <stdio.h>
 #include <iostream>
 #include <memory>
+#include <stdio.h>
+#include <vector>
 
 #include "portaudio.h"
 
@@ -27,13 +28,19 @@ class PortAudio {
         PortAudio();
         ~PortAudio();
 
+        // readStream(void)
+
         void SetInputParameters();
         void SetOutputParameters();
         void SetData(int, int, int);
 
         void StartStream(PaStream *);
         void CloseStream(PaStream *);
+
+        std::vector<unsigned short> readStream(PaStream *);
         PaStream *RecordStream();
+
+        PaStream *writeStream(std::vector<unsigned short>);
 
         void PlayStream(PaStream *);
 
@@ -42,9 +49,9 @@ class PortAudio {
         void setDataFrameIndex();
 
     private:
-        PaError err;
-        PaStreamParameters inputParameters;
-        PaStreamParameters outputParameters;
+        PaError _err;
+        PaStreamParameters _inputParameters;
+        PaStreamParameters _outputParameters;
         paTestData _data;
 
         short _sample_rate;

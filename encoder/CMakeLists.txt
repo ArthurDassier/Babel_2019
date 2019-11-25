@@ -6,16 +6,16 @@ include_directories(
     ${CMAKE_INCLUDE_PATH}
 )
 
-add_library(audio
+add_library(encoder
     STATIC
-    ./srcs/PortAudio.cpp
+    ./srcs/OpusE.cpp
 )
 
-target_link_libraries(audio
+target_link_libraries(encoder
     ${CONAN_LIBS}
 )
-target_include_directories(audio INTERFACE
+target_include_directories(encoder INTERFACE
     ./include
 )
 
-SET_TARGET_PROPERTIES(audio PROPERTIES LINKER_LANGUAGE CXX)
+SET_TARGET_PROPERTIES(encoder PROPERTIES LINKER_LANGUAGE CXX)

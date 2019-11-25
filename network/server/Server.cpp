@@ -149,7 +149,8 @@ void ns::Server::MatchCommand(client_p client, const std::string &packet)
             it->second(std::move(client), std::move(std::make_unique<utils::pt>(root)));
         }
     } catch (const std::exception &e) {
-        std::cerr << "Read json errror: " << e.what() << std::endl;
+        std::cout << packet << std::endl;
+        std::cerr << "Read json error: " << e.what() << std::endl;
     }
 }
 

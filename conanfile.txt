@@ -11,3 +11,4 @@ qt
 
 [options]
 qt:qtx11extras=True
+qt:with_mysql=False

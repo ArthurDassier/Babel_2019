@@ -20,6 +20,8 @@ add_executable(babel_client
 )
 
 target_link_libraries(babel_client
+    audio
+    encoder
     pthread
     utils
 )

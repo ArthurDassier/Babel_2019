@@ -14,8 +14,8 @@
 #include <iostream>
 #include <string>
 #include <sstream>
-
-#include "/home/adassier/.conan/data/opus/1.3.1/bincrafters/stable/package/1d877a3df840030e6a8abb74c5ffb9088d08b47a/include/opus/opus.h"
+#include <vector>
+#include <opus.h>
 
 #define FRAME_SIZE (960)
 #define SAMPLE_RATE (48000)
@@ -42,8 +42,10 @@ class EncoderSystem
         bool encoderCreate();
         bool decoderCreate();
 
-        unsigned char* encode(unsigned char *, int);
-        unsigned char* decode(unsigned char *, int);
+        // unsigned char* encode(unsigned char *, int);
+        std::vector<unsigned char> encode(std::vector<unsigned short>);
+        // unsigned char *decode(unsigned char *, int);
+        std::vector<unsigned short> decode(std::vector<unsigned char>);
 
         int getEncodeLen() const;
 };

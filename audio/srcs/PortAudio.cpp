@@ -11,8 +11,8 @@ PortAudio::PortAudio():
     _sample_rate(44100),
     _frame_per_buffer(512)
 {
-    err = Pa_Initialize();
-    if (err != paNoError)
+    _err = Pa_Initialize();
+    if (_err != paNoError)
         exit(84);
 }
 
@@ -25,15 +25,15 @@ PortAudio::~PortAudio()
 
 void PortAudio::SetInputParameters()
 {
-    inputParameters.device = Pa_GetDefaultInputDevice();
-    if (inputParameters.device == paNoDevice) {
+    _inputParameters.device = Pa_GetDefaultInputDevice();
+    if (_inputParameters.device == paNoDevice) {
         std::cerr << "Error: No default input device." << std::endl;
         return;
     }
-    inputParameters.channelCount = 2;
-    inputParameters.sampleFormat = paFloat32;
-    inputParameters.suggestedLatency = Pa_GetDeviceInfo(inputParameters.device)->defaultLowInputLatency;
-    inputParameters.hostApiSpecificStreamInfo = NULL;
+    _inputParameters.channelCount = 2;
+    _inputParameters.sampleFormat = paFloat32;
+    _inputParameters.suggestedLatency = Pa_GetDeviceInfo(_inputParameters.device)->defaultLowInputLatency;
+    _inputParameters.hostApiSpecificStreamInfo = NULL;
 }
 
 void PortAudio::SetData(int num_seconds, int sample_rate, int num_channels)
@@ -53,28 +53,28 @@ void PortAudio::SetData(int num_seconds, int sample_rate, int num_channels)
 
 void PortAudio::SetOutputParameters()
 {
-    outputParameters.device = Pa_GetDefaultInputDevice();
-    if (outputParameters.device == paNoDevice) {
-        std::cerr << "Error: No default input device." << std::endl;
+    _outputParameters.device = Pa_GetDefaultInputDevice();
+    if (_outputParameters.device == paNoDevice) {
+        std::cerr << "error: No default input device." << std::endl;
         return;
     }
-    outputParameters.channelCount = 2;
-    outputParameters.sampleFormat = paFloat32;
-    outputParameters.suggestedLatency = Pa_GetDeviceInfo(outputParameters.device)->defaultLowOutputLatency;
-    outputParameters.hostApiSpecificStreamInfo = NULL;
+    _outputParameters.channelCount = 2;
+    _outputParameters.sampleFormat = paFloat32;
+    _outputParameters.suggestedLatency = Pa_GetDeviceInfo(_outputParameters.device)->defaultLowOutputLatency;
+    _outputParameters.hostApiSpecificStreamInfo = NULL;
 }
 
 void PortAudio::StartStream(PaStream *stream)
 {
-    err = Pa_StartStream(stream);
-    if (err != paNoError)
+    _err = Pa_StartStream(stream);
+    if (_err != paNoError)
         exit(84);
 }
 
 void PortAudio::CloseStream(PaStream *stream)
 {
-    err = Pa_CloseStream(stream);
-    if (err != paNoError)
+    _err = Pa_CloseStream(stream);
+    if (_err != paNoError)
         exit(84);
 }
 
@@ -116,24 +116,42 @@ int recordCallback(const void *inputBuffer,
     return finished;
 }
 
+std::vector<unsigned short> PortAudio::readStream(PaStream *stream)
+{
+    unsigned long bufferSize = 480;
+    std::vector<unsigned short> captured(bufferSize * 2);
+    PaError _err = Pa_ReadStream(stream, captured.data(), bufferSize);
+    if (_err != paNoError)
+        std::cerr << "Pa_ReadStream failed: " << Pa_GetErrorText(_err) << std::endl;
+    return captured;
+}
+
 PaStream *PortAudio::RecordStream()
 {
     PaStream *stream;
 
-    err = Pa_OpenStream(
+    _err = Pa_OpenStream(
         &stream,
-        &inputParameters,
+        &_inputParameters,
         NULL,
         44100,
         _frame_per_buffer,
         paClipOff,
         recordCallback,
         &_data);
-    if (err != paNoError) {
-        std::cout << err << std::endl;
-        std::cout << Pa_GetErrorText(err) << std::endl;
+    if (_err != paNoError) {
+        std::cout << _err << std::endl;
+        std::cout << Pa_GetErrorText(_err) << std::endl;
         exit(84);
     }
+    return stream;
+}
+
+PaStream *PortAudio::writeStream(std::vector<unsigned short> decoded)
+{
+    PaStream *stream;
+
+    Pa_WriteStream(stream, decoded.data(), 480);
     return stream;
 }
 
@@ -175,18 +193,18 @@ static int playCallback(const void *inputBuffer, void *outputBuffer,
 
 void PortAudio::PlayStream(PaStream *stream)
 {
-    err = Pa_OpenStream(
+    _err = Pa_OpenStream(
         &stream,
         NULL,
-        &outputParameters,
+        &_outputParameters,
         44100,
         _frame_per_buffer,
         paClipOff,
         playCallback,
         &_data);
-    if (err != paNoError) {
-        std::cout << err << std::endl;
-        std::cout << Pa_GetErrorText(err) << std::endl;
+    if (_err != paNoError) {
+        std::cout << _err << std::endl;
+        std::cout << Pa_GetErrorText(_err) << std::endl;
         exit(84);
     }
 }
@@ -207,31 +225,31 @@ void PortAudio::setDataFrameIndex()
     _data.frameIndex = 0;
 }
 
-int main()
-{
-    PortAudio test;
-    PaStream *stream;
-    test.SetInputParameters();
-    std::cout << "1" << std::endl;
-    test.SetData(5, 44100, 2);
-    std::cout << "2" << std::endl;
-    stream = test.RecordStream();
-    std::cout << "3" << std::endl;
-    test.StartStream(stream);
-    std::cout << "4" << std::endl;
-    Pa_Sleep(3000);
-    std::cout << "5" << std::endl;
-    test.CloseStream(stream);
-    std::cout << "6" << std::endl;
-    test.SetOutputParameters();
-    test.setDataFrameIndex();
-    std::cout << "7" << std::endl;
-    test.PlayStream(stream);
-    std::cout << "8" << std::endl;
-    test.StartStream(stream);
-    Pa_Sleep(3000);
-    std::cout << "9" << std::endl;
-    test.CloseStream(stream);
-    std::cout << "10" << std::endl;
-    return (0);
-}
+// int main()
+// {
+//     PortAudio test;
+//     PaStream *stream;
+//     test.SetInputParameters();
+//     std::cout << "1" << std::endl;
+//     test.SetData(5, 44100, 2);
+//     std::cout << "2" << std::endl;
+//     stream = test.RecordStream();
+//     std::cout << "3" << std::endl;
+//     test.StartStream(stream);
+//     std::cout << "4" << std::endl;
+//     Pa_Sleep(3000);
+//     std::cout << "5" << std::endl;
+//     test.CloseStream(stream);
+//     std::cout << "6" << std::endl;
+//     test.SetOutputParameters();
+//     test.setDataFrameIndex();
+//     std::cout << "7" << std::endl;
+//     test.PlayStream(stream);
+//     std::cout << "8" << std::endl;
+//     test.StartStream(stream);
+//     Pa_Sleep(3000);
+//     std::cout << "9" << std::endl;
+//     test.CloseStream(stream);
+//     std::cout << "10" << std::endl;
+//     return (0);
+// }

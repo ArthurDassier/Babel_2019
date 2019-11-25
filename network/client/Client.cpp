@@ -7,6 +7,10 @@
 
 #include "Client.hpp"
 
+#define MAXLINE 1024
+
+// int PORT = 0;
+
 cli::Client::Client():
     _isConnected(false)
 {
@@ -64,7 +68,7 @@ bool cli::Client::connectToServer(const std::string &ip, unsigned short port)
     return true;
 }
 
-void cli::Client::run()
+void cli::Client::run(char *argv[])
 {
     std::string input;
 
@@ -72,25 +76,144 @@ void cli::Client::run()
         std::getline(std::cin, input);
         _packet.setType(input);
         sendMessage(_socket.sock, _packet.getPacket());
+        if (input.compare("call") == 0)
+            initStreaming(std::atoi(argv[2]));
         _packet.clear();
         input.clear();
     }
 }
 
-void cli::Client::initStreaming()
+static void readStream(int udpSocket, sockaddr_in serverStorage)
 {
-    std::thread open_t(openStream);
-    std::thread send_t(sendStream);
+    int nBytes;
+    char buffer[1024];
+    socklen_t addr_size, client_addr_size;
+    int i;
+    addr_size = sizeof serverStorage;
+    while (1)
+    {
+        bzero(buffer, sizeof(buffer));
+        // std::cout << "RECV LOOP" << std::endl;
+        nBytes = recvfrom(udpSocket, buffer, 1024, 0, (struct sockaddr *)&serverStorage, &addr_size);
+        // std::cout << buffer << std::endl;
+    }
+}
 
+void cli::Client::initStreaming(int PORT)
+{
+    int sockfd;
+    char buffer[MAXLINE];
+    struct sockaddr_in servaddr;
+    struct sockaddr_in clientaddr;
+
+    // Creating socket file descriptor
+    // PORT = std::atoi(argv[2]);
+    if ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
+    {
+        perror("socket creation failed");
+        exit(EXIT_FAILURE);
+    }
+    std::cout << "Sockfd: " << sockfd << std::endl;
+
+    memset(&servaddr, 0, sizeof(servaddr));
+
+    servaddr.sin_family = AF_INET;
+    std::cout << "serveraddr: " << (PORT != 8080 ? 4086 : 8080) << std::endl;
+    servaddr.sin_port = htons(PORT != 8080 ? 4086 : 8080);
+    servaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+
+    clientaddr.sin_family = AF_INET;
+    std::cout << "clientaddr: " << PORT << std::endl;
+    clientaddr.sin_port = htons(PORT == 8080 ? 4086 : 8080);
+    clientaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+
+    bind(sockfd, (struct sockaddr *)&clientaddr, sizeof(clientaddr));
+
+    std::string msg = "lol";
+
+    int n = 0;
+    socklen_t len = 0;
+    PortAudio test;
+    std::vector<unsigned short> tmp;
+
+    std::thread open_t(readStream, sockfd, clientaddr);
     open_t.detach();
-    send_t.detach();
+    // while (1)
+    // {
+        std::cout << "SEND LOOP" << std::endl;
+        // std::cin >> msg;
+        PaStream *stream;
+        test.SetInputParameters();
+        std::cout << "1" << std::endl;
+        test.SetData(5, 44100, 2);
+        std::cout << "2" << std::endl;
+        stream = test.RecordStream();
+        std::cout << "3" << std::endl;
+        test.StartStream(stream);
+        Pa_Sleep(3000);
+        // sleep(3000);
+        tmp = test.readStream(stream);
+        std::vector<unsigned char> encoded =
+            _encoder.encode(tmp);
+        std::string encoded_msg(encoded.begin(), encoded.end());
+        std::cout << encoded_msg << std::endl;
+        test.CloseStream(stream);
+        _packet.setType("audio");
+        // _packet.addData("data", encoded_msg);
+        sendto(sockfd, _packet.getPacket().c_str(), _packet.getPacket().size(),
+               MSG_CONFIRM, (const struct sockaddr *)&servaddr,
+               sizeof(servaddr));
+        _packet.clear();
+        // test.SetOutputParameters();
+        // test.setDataFrameIndex();
+        // test.PlayStream(stream);
+        // test.StartStream(stream);
+        // Pa_Sleep(3000);
+        // test.CloseStream(stream);
+        msg.clear();
+    // }
+    close(sockfd);
 }
 
 void cli::Client::openStream()
 {
-    while (1) {
-        // recvfrom();
-    }
+    PortAudio test;
+    PaStream *stream;
+    // std::vector<unsigned short> stream;
+
+    // do {
+        test.SetInputParameters();
+        std::cout << "1" << std::endl;
+        test.SetData(5, 44100, 2);
+        std::cout << "2" << std::endl;
+        stream = test.RecordStream();
+        std::cout << "3" << std::endl;
+        // std::vector<unsigned char> encoded =
+        //     _encoder.encode(stream);
+        // std::string encoded_msg(encoded.begin(), encoded.end());
+        // test.StartStream(stream);
+        // std::cout << "4" << std::endl;
+        // Pa_Sleep(3000);
+        // std::cout << "5" << std::endl;
+        // test.CloseStream(stream);
+        // std::cout << "6" << std::endl;
+        // test.SetOutputParameters();
+        // test.setDataFrameIndex();
+        // std::cout << "7" << std::endl;
+        // // test.PlayStream(stream);
+        // // std::cout << "8" << std::endl;
+        // // test.StartStream(stream);
+        Pa_Sleep(5);
+        sleep(5);
+        // std::cout << "9" << std::endl;
+        _packet.setType("audio");
+        // _packet.addData("data", encoded_msg);
+        std::cout << _packet.getPacket() << std::endl;
+        _socket.Send(_packet.getPacket());
+        _packet.clear();
+        // test.CloseStream(stream);
+        // std::cout << "10" << std::endl;
+    // } while (true);
 }
 
 void cli::Client::sendStream()
@@ -113,6 +236,24 @@ void cli::Client::newConnection(TCPSocket *socket, props_p props)
     std::cout << "New connection..." << std::endl;
 }
 
+void cli::Client::playStream(PaStream *stream)
+{
+    PortAudio test;
+
+    std::cout << "1" << std::endl;
+    test.SetData(5, 44100, 2);
+    std::cout << "2" << std::endl;
+    // stream = test.RecordStream();
+    // std::cout << "3" << std::endl;
+    // test.SetOutputParameters();
+    // std::cout << "4" << std::endl;
+    // test.setDataFrameIndex();
+    // std::cout << "5" << std::endl;
+    // test.PlayStream(stream);
+    // std::cout << "6" << std::endl;
+    // std::cout << "play stream" << std::endl;
+}
+
 void cli::Client::initActions()
 {
     _fMap.emplace(std::make_pair("welcome", std::bind(
@@ -121,6 +262,9 @@ void cli::Client::initActions()
     _fMap.emplace(std::make_pair("connection", std::bind(
         Client::newConnection, std::placeholders::_1, std::placeholders::_2
     )));
+    // _fMap.emplace(std::make_pair("call", std::bind(
+    //     Client::initStreaming, std::placeholders::_1
+    // )));
 }
 
 void cli::Client::initListener(TCPSocket *socket)
@@ -177,13 +321,40 @@ void cli::Client::listener(TCPSocket *socket, UDPSocket client, props_p infos,
 void cli::Client::handleReceive(TCPSocket *socket, const utils::pt packet, props_p infos,
     std::unique_ptr<action_map> fMap)
 {
-    try {
+    EncoderSystem encoder;
+    try
+    {
         std::string type = packet.get<std::string>("type");
-        auto it = fMap->find(type);
-        if (it != fMap->end())
-            it->second(socket, std::move(infos));
-        else {
-            std::cerr << "No matching command found." << std::endl;
+        if (type.compare("audio") == 0) {
+            std::string data = packet.get<std::string>("data");
+            std::vector<unsigned char> encoded;
+            for (auto &it : data)
+                encoded.push_back(it);
+            PortAudio test;
+            PaStream *stream;
+            test.SetOutputParameters();
+            test.setDataFrameIndex();
+            std::vector<unsigned short> decoded = encoder.decode(encoded);
+            stream = test.writeStream(decoded);
+            test.PlayStream(stream);
+            test.StartStream(stream);
+            Pa_Sleep(3000);
+            test.CloseStream(stream);
+            // std::cout << stream << std::endl;
+            // playStream(&stream);
+            std::cout << "play stream" << std::endl;
+        }
+        else if (type.compare("call") == 0) {
+            // initStreaming(_udp_port);
+        }
+        else
+        {
+            auto it = fMap->find(type);
+            if (it != fMap->end())
+                it->second(socket, std::move(infos));
+            else {
+                std::cerr << "No matching command found." << std::endl;
+            }
         }
     }
     catch (const std::exception &e)

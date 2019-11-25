@@ -9,11 +9,11 @@
 
 #include "Client.hpp"
 
-int main(__attribute__((unused)) int argc, char **argv)
+int main(__attribute__((unused)) int argc, char *argv[])
 {
     cli::Client client;
 
     client.auth();
-    client.run();
+    client.run(argv);
     return 0;
 }
