@@ -16,7 +16,7 @@ class session : public std::enable_shared_from_this<session>
         session(tcp::socket socket)
             : _socket(std::move(socket)),
               _isCall(false),
-              _isCo(true)
+              _isDeco(false)
         {
         }
 
@@ -32,7 +32,7 @@ class session : public std::enable_shared_from_this<session>
 
         bool wantToDeco()
         {
-            return _isCo;
+            return _isDeco;
         }
 
     private:
@@ -59,8 +59,8 @@ class session : public std::enable_shared_from_this<session>
                 } 
                 else
                 {
-                    std::cout << "deco de : " << _socket.remote_endpoint().address().to_string() << std::endl;
-                    _isCo = false;
+                    // std::cout << "deco de : " << _socket.remote_endpoint().address().to_string() << std::endl;
+                    _isDeco = true;
                 }
                 });
         }
@@ -88,7 +88,7 @@ class session : public std::enable_shared_from_this<session>
         enum { max_length = 1024 };
         char _data[max_length];
         bool _isCall;
-        bool _isCo;
+        bool _isDeco;
 };
 
 class tcp_server
@@ -100,21 +100,25 @@ class tcp_server
             _clientNb(1)
         {
 
-            //faire une thread avec le check call;
-            _thread_check_call = std::thread(&tcp_server::check_call, this, std::ref(_list_session));
+            _thread_check_co = std::thread(&tcp_server::check_session, this, std::ref(_list_session));
             do_accept();
         }
 
     private:
 
-        void check_call(std::list<std::shared_ptr<session> >& _list)
+        void check_session(std::list<std::pair<std::shared_ptr<session>, int> >& _list)
         {
             while (1) {
-                usleep(3000000);
-                // std::cout << "je passe la" << std::endl;
+                usleep(1000000);
                 for (auto const& i : _list) {
-                    if (i->wantToCall() == true)
-                        std::cout << "ya une session qui veut call" << std::endl;
+                    if (i.first->wantToDeco() == true) {
+                        std::cout << "session qui deco: " << i.second << std::endl;
+                         _list.remove(std::make_pair(i.first, i.second));
+                         break;
+                    } else {
+                        if (i.first->wantToCall() == true)
+                            std::cout << "session qui call: " << i.second << std::endl;
+                    }
                 }
             }
         }
@@ -130,7 +134,7 @@ class tcp_server
                     std::cout << "new session created, client" << _clientNb << ": " << s << std::endl;
                     // std::make_shared<session>(std::move(_socket))->start();
                     std::shared_ptr<session> new_session = std::make_shared<session>(std::move(_socket));
-                    _list_session.push_back(new_session);
+                    _list_session.push_back(std::make_pair(new_session, _clientNb));
                     new_session->start();
                     _clientNb++;
                 }
@@ -140,8 +144,9 @@ class tcp_server
 
         tcp::acceptor _acceptor;
         tcp::socket _socket;
-        std::list<std::shared_ptr<session> > _list_session;
+        std::list<std::pair<std::shared_ptr<session>, int> > _list_session;
         std::thread _thread_check_call;
+        std::thread _thread_check_co;
         int _clientNb;
 };
 
