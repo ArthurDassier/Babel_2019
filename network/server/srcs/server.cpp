@@ -100,7 +100,7 @@ class tcp_server
             _clientNb(1)
         {
 
-            _thread_check_co = std::thread(&tcp_server::check_session, this, std::ref(_list_session));
+            _thread_check = std::thread(&tcp_server::check_session, this, std::ref(_list_session));
             do_accept();
         }
 
@@ -145,8 +145,7 @@ class tcp_server
         tcp::acceptor _acceptor;
         tcp::socket _socket;
         std::list<std::pair<std::shared_ptr<session>, int> > _list_session;
-        std::thread _thread_check_call;
-        std::thread _thread_check_co;
+        std::thread _thread_check;
         int _clientNb;
 };
 
