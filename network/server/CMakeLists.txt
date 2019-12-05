@@ -15,7 +15,7 @@ SET(USED_LIBS
 )
 
 ADD_EXECUTABLE(babel_server
-    ./srcs/server.cpp
+    ./srcs/udp.cpp
 )
 
 TARGET_LINK_LIBRARIES(babel_server
