@@ -1,0 +1,163 @@
+.TH "ns::Server" 3 "Sun Oct 13 2019" "Version Alpha 1.2" "Babel_2019" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ns::Server
+.SH SYNOPSIS
+.br
+.PP
+.PP
+Inherits \fBServerActions\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBServer\fP (const int port)"
+.br
+.RI "Open connection with port in param\&. "
+.ti -1c
+.RI "\fB~Server\fP ()"
+.br
+.RI "Destroy the \fBServer\fP by reseting the shared pointers\&. "
+.ti -1c
+.RI "void \fBremoveClient\fP (\fBServerClient\fP)"
+.br
+.RI "remove pecno "
+.ti -1c
+.RI "void \fBPollEvent\fP ()"
+.br
+.RI "Poll the event\&. "
+.ti -1c
+.RI "void \fBRun\fP ()"
+.br
+.RI "Run the server\&. "
+.ti -1c
+.RI "void \fBshutdown\fP ()"
+.br
+.ti -1c
+.RI "void \fBHandleConnection\fP ()"
+.br
+.RI "Handle connection\&. "
+.ti -1c
+.RI "void \fBHandleReceive\fP (\fBServerClient\fP)"
+.br
+.RI "Handle receive\&. "
+.ti -1c
+.RI "bool \fBupdateDatabase\fP (client_p)"
+.br
+.RI "updtae database "
+.ti -1c
+.RI "void \fBMatchCommand\fP (client_p client, const std::string &command)"
+.br
+.RI "Match command\&. "
+.ti -1c
+.RI "void \fBCall\fP (client_p client)"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "Server::Server (const int port = \fCDEFAULT_PORT\fP)"
+
+.PP
+Open connection with port in param\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIint\fP port representing the port 
+.RE
+.PP
+
+.SS "Server::~Server ()"
+
+.PP
+Destroy the \fBServer\fP by reseting the shared pointers\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvoid\fP 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void Server::HandleConnection ()"
+
+.PP
+Handle connection\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvoid\fP 
+.RE
+.PP
+
+.SS "void Server::HandleReceive (\fBServerClient\fP client)"
+
+.PP
+Handle receive\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fI\fBServerClient\fP\fP client 
+.RE
+.PP
+
+.SS "void Server::MatchCommand (client_p client, const std::string & packet)"
+
+.PP
+Match command\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIclient_p\fP client, const std::string &packet 
+.RE
+.PP
+
+.SS "void Server::PollEvent ()"
+
+.PP
+Poll the event\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvoid\fP 
+.RE
+.PP
+
+.SS "void Server::removeClient (\fBServerClient\fP client)"
+
+.PP
+remove pecno 
+.PP
+\fBParameters:\fP
+.RS 4
+\fI\fBServerClient\fP\fP client 
+.RE
+.PP
+
+.SS "void Server::Run ()"
+
+.PP
+Run the server\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvoid\fP 
+.RE
+.PP
+
+.SS "bool Server::updateDatabase (client_p client)"
+
+.PP
+updtae database 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIclient_p\fP client 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Babel_2019 from the source code\&.

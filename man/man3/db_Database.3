@@ -1,0 +1,43 @@
+.TH "db::Database" 3 "Sun Oct 13 2019" "Version Alpha 1.2" "Babel_2019" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+db::Database
+.SH SYNOPSIS
+.br
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBDatabase\fP (const std::string &)"
+.br
+.ti -1c
+.RI "sqlite3 * \fBgetHandle\fP () const noexcept"
+.br
+.ti -1c
+.RI "void \fBsetDB\fP (sqlite3 *ptr)"
+.br
+.ti -1c
+.RI "bool \fBconnect\fP (const std::string &)"
+.br
+.ti -1c
+.RI "bool \fBcreateTable\fP (const std::string &)"
+.br
+.ti -1c
+.RI "bool \fBinsertData\fP (std::unique_ptr< \fBData\fP >)"
+.br
+.ti -1c
+.RI "bool \fBgetData\fP (const std::string &, const std::vector< std::string > &={0})"
+.br
+.ti -1c
+.RI "bool \fBupsertData\fP (const std::string &, const std::string &)"
+.br
+.ti -1c
+.RI "bool \fBdeleteData\fP (const std::string &, const std::string &)"
+.br
+.in -1c
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Babel_2019 from the source code\&.

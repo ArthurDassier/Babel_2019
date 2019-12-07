@@ -8,6 +8,16 @@
 #include "mainwindow.h"
 #include <iostream>
 
+<<<<<<< .merge_file_Dzd9sP
+=======
+/*!
+ * \fn mainWindow::mainWindow()
+ * \brief ?
+ *
+ * \param void
+ */
+
+>>>>>>> .merge_file_LFotbP
 mainWindow::mainWindow(): QWidget()
 {
     setFixedSize(300, 150);
@@ -61,6 +71,13 @@ mainWindow::~mainWindow()
 {
 
 }
+
+/*!
+ * \fn mainWindow::takeIp()
+ * \brief ?
+ *
+ * \param void
+ */
 
 void mainWindow::takeIp()
 {

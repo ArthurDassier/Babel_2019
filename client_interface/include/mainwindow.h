@@ -10,6 +10,12 @@
 
 #include <QtWidgets>
 
+/*! \class mainWindow
+* \brief Class representing the QT interface
+*
+*  This class handle the interface
+*/
+
 class mainWindow : public QWidget
 {
     Q_OBJECT

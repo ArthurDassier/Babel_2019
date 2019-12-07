@@ -12,6 +12,12 @@
 
 #include "Data.hpp"
 
+/*! \class ClientDatabase
+* \brief Class representing the ClientDatabase
+*
+*  This class handle the ClientDatabase
+*/
+
 namespace db
 {
     using IP = std::string;

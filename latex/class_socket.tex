@@ -1,0 +1,213 @@
+\hypertarget{class_socket}{}\section{Socket Class Reference}
+\label{class_socket}\index{Socket@{Socket}}
+
+
+Class representing the \hyperlink{class_socket}{Socket}.  
+
+
+
+
+{\ttfamily \#include $<$Socket.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_socket_a7c3256c4fc6e2c603df73201049fae5a}{Socket} ()
+\begin{DoxyCompactList}\small\item\em Open connection. \end{DoxyCompactList}\item 
+bool \hyperlink{class_socket_a6afde2dca985dacdfa770141192e2daf}{create} ()
+\begin{DoxyCompactList}\small\item\em Create socket. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_socket_aa4bd270e7bd26c1484c8cf1f114124ae}\label{class_socket_aa4bd270e7bd26c1484c8cf1f114124ae}} 
+bool {\bfseries create\+\_\+listening\+\_\+\+T\+CP} (const int)
+\item 
+bool \hyperlink{class_socket_ad345c15e8e9f12c8fda4117e9dcc5835}{bind} (const int, uint32\+\_\+t, uint32\+\_\+t)
+\begin{DoxyCompactList}\small\item\em Bind socket. \end{DoxyCompactList}\item 
+bool \hyperlink{class_socket_a4cafff80a6e9116615c663b58032e4c8}{listen} () const
+\begin{DoxyCompactList}\small\item\em Listen \hyperlink{class_socket}{Socket}. \end{DoxyCompactList}\item 
+bool \hyperlink{class_socket_a97890001096a3d61683992015eaffdfa}{accept} (\hyperlink{class_socket}{Socket} \&) const
+\begin{DoxyCompactList}\small\item\em accept connection \end{DoxyCompactList}\item 
+bool \hyperlink{class_socket_a33302b899ea60cce8ed98ba5a187c3f0}{connect} (const std\+::string, const int)
+\begin{DoxyCompactList}\small\item\em Open connection with string in param. \end{DoxyCompactList}\item 
+bool \hyperlink{class_socket_a26f80b1f9440bc48f0df6e9dd0a20c03}{send} (const std\+::string) const
+\begin{DoxyCompactList}\small\item\em the send \end{DoxyCompactList}\item 
+int \hyperlink{class_socket_a6e655e03426daad8ab34489ccf1860ff}{read} (std\+::string \&) const
+\begin{DoxyCompactList}\small\item\em Open connection with string in param. \end{DoxyCompactList}\item 
+int \hyperlink{class_socket_aba586befe39d7c3f48ef1ea8c777be53}{recv} (std\+::string \&) const
+\begin{DoxyCompactList}\small\item\em Open recv franc. \end{DoxyCompactList}\item 
+bool \hyperlink{class_socket_aa1bf03020dfad0037edc66f8833f106b}{is\+\_\+valid} () const
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_socket}{Socket} is valid ? \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_socket_a3a4668ad89c1060dffcc895dbe382697}\label{class_socket_a3a4668ad89c1060dffcc895dbe382697}} 
+int {\bfseries \+\_\+sock}
+\item 
+\mbox{\Hypertarget{class_socket_a9bf139a6579ffb01153fc2eb07cc45ea}\label{class_socket_a9bf139a6579ffb01153fc2eb07cc45ea}} 
+sockaddr\+\_\+in {\bfseries \+\_\+addr}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class representing the \hyperlink{class_socket}{Socket}. 
+
+This class handle the differents sockets 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_socket_a7c3256c4fc6e2c603df73201049fae5a}\label{class_socket_a7c3256c4fc6e2c603df73201049fae5a}} 
+\index{Socket@{Socket}!Socket@{Socket}}
+\index{Socket@{Socket}!Socket@{Socket}}
+\subsubsection{\texorpdfstring{Socket()}{Socket()}}
+{\footnotesize\ttfamily Socket\+::\+Socket (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Open connection. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em void} & \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_socket_a97890001096a3d61683992015eaffdfa}\label{class_socket_a97890001096a3d61683992015eaffdfa}} 
+\index{Socket@{Socket}!accept@{accept}}
+\index{accept@{accept}!Socket@{Socket}}
+\subsubsection{\texorpdfstring{accept()}{accept()}}
+{\footnotesize\ttfamily bool Socket\+::accept (\begin{DoxyParamCaption}\item[{\hyperlink{class_socket}{Socket} \&}]{new\+\_\+socket }\end{DoxyParamCaption}) const}
+
+
+
+accept connection 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_socket}{Socket}} & \&new\+\_\+socket \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_socket_ad345c15e8e9f12c8fda4117e9dcc5835}\label{class_socket_ad345c15e8e9f12c8fda4117e9dcc5835}} 
+\index{Socket@{Socket}!bind@{bind}}
+\index{bind@{bind}!Socket@{Socket}}
+\subsubsection{\texorpdfstring{bind()}{bind()}}
+{\footnotesize\ttfamily bool Socket\+::bind (\begin{DoxyParamCaption}\item[{const int}]{port,  }\item[{uint32\+\_\+t}]{addr,  }\item[{uint32\+\_\+t}]{family }\end{DoxyParamCaption})}
+
+
+
+Bind socket. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em const} & int port, uint32\+\_\+t addr, uint32\+\_\+t family \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_socket_a33302b899ea60cce8ed98ba5a187c3f0}\label{class_socket_a33302b899ea60cce8ed98ba5a187c3f0}} 
+\index{Socket@{Socket}!connect@{connect}}
+\index{connect@{connect}!Socket@{Socket}}
+\subsubsection{\texorpdfstring{connect()}{connect()}}
+{\footnotesize\ttfamily bool Socket\+::connect (\begin{DoxyParamCaption}\item[{const std\+::string}]{host,  }\item[{const int}]{port }\end{DoxyParamCaption})}
+
+
+
+Open connection with string in param. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em const} & std\+::string host, const int port \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_socket_a6afde2dca985dacdfa770141192e2daf}\label{class_socket_a6afde2dca985dacdfa770141192e2daf}} 
+\index{Socket@{Socket}!create@{create}}
+\index{create@{create}!Socket@{Socket}}
+\subsubsection{\texorpdfstring{create()}{create()}}
+{\footnotesize\ttfamily bool Socket\+::create (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Create socket. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em void} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_socket_aa1bf03020dfad0037edc66f8833f106b}\label{class_socket_aa1bf03020dfad0037edc66f8833f106b}} 
+\index{Socket@{Socket}!is\+\_\+valid@{is\+\_\+valid}}
+\index{is\+\_\+valid@{is\+\_\+valid}!Socket@{Socket}}
+\subsubsection{\texorpdfstring{is\+\_\+valid()}{is\_valid()}}
+{\footnotesize\ttfamily bool Socket\+::is\+\_\+valid (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+\hyperlink{class_socket}{Socket} is valid ? 
+
+
+\begin{DoxyParams}{Parameters}
+{\em void} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_socket_a4cafff80a6e9116615c663b58032e4c8}\label{class_socket_a4cafff80a6e9116615c663b58032e4c8}} 
+\index{Socket@{Socket}!listen@{listen}}
+\index{listen@{listen}!Socket@{Socket}}
+\subsubsection{\texorpdfstring{listen()}{listen()}}
+{\footnotesize\ttfamily bool Socket\+::listen (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Listen \hyperlink{class_socket}{Socket}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em void} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_socket_a6e655e03426daad8ab34489ccf1860ff}\label{class_socket_a6e655e03426daad8ab34489ccf1860ff}} 
+\index{Socket@{Socket}!read@{read}}
+\index{read@{read}!Socket@{Socket}}
+\subsubsection{\texorpdfstring{read()}{read()}}
+{\footnotesize\ttfamily int Socket\+::read (\begin{DoxyParamCaption}\item[{std\+::string \&}]{s }\end{DoxyParamCaption}) const}
+
+
+
+Open connection with string in param. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em std\+::string} & \&s \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_socket_aba586befe39d7c3f48ef1ea8c777be53}\label{class_socket_aba586befe39d7c3f48ef1ea8c777be53}} 
+\index{Socket@{Socket}!recv@{recv}}
+\index{recv@{recv}!Socket@{Socket}}
+\subsubsection{\texorpdfstring{recv()}{recv()}}
+{\footnotesize\ttfamily int Socket\+::recv (\begin{DoxyParamCaption}\item[{std\+::string \&}]{s }\end{DoxyParamCaption}) const}
+
+
+
+Open recv franc. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em std\+::string} & \&s \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_socket_a26f80b1f9440bc48f0df6e9dd0a20c03}\label{class_socket_a26f80b1f9440bc48f0df6e9dd0a20c03}} 
+\index{Socket@{Socket}!send@{send}}
+\index{send@{send}!Socket@{Socket}}
+\subsubsection{\texorpdfstring{send()}{send()}}
+{\footnotesize\ttfamily bool Socket\+::send (\begin{DoxyParamCaption}\item[{const std\+::string}]{msg }\end{DoxyParamCaption}) const}
+
+
+
+the send 
+
+
+\begin{DoxyParams}{Parameters}
+{\em const} & std\+::string msg) \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+network/include/Socket.\+hpp\item 
+network/server/Socket.\+cpp\end{DoxyCompactItemize}

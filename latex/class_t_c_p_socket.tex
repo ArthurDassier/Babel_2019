@@ -1,0 +1,173 @@
+\hypertarget{class_t_c_p_socket}{}\section{T\+C\+P\+Socket Class Reference}
+\label{class_t_c_p_socket}\index{T\+C\+P\+Socket@{T\+C\+P\+Socket}}
+
+
+Class representing the \hyperlink{class_t_c_p_socket}{T\+C\+P\+Socket}.  
+
+
+
+
+{\ttfamily \#include $<$T\+C\+P\+Socket.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_t_c_p_socket_af357e6923a0f8adbbb8e46fab4523991}{$\sim$\+T\+C\+P\+Socket} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_socket}{Socket} is valid ? \end{DoxyCompactList}\item 
+bool \hyperlink{class_t_c_p_socket_a3b6b62c9fc568585dc62f2763455a058}{Accept} (const int socket, sockaddr\+\_\+in \&addr)
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_socket}{Socket} is valid ? \end{DoxyCompactList}\item 
+bool \hyperlink{class_t_c_p_socket_ace5b4e24ee632208ccc5edc74dd151c9}{Bind} (const std\+::string \&ipaddress, unsigned short port)
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_socket}{Socket} is valid ? \end{DoxyCompactList}\item 
+bool \hyperlink{class_t_c_p_socket_ac816c30175550d8d9a14c89c1c5ec8da}{Connect} (const std\+::string \&ipaddress, unsigned short port)
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_socket}{Socket} is valid ? \end{DoxyCompactList}\item 
+bool \hyperlink{class_t_c_p_socket_aef6184730320c1336600f6cab1546a38}{Listen\+On} (unsigned short port, unsigned short max\+\_\+connections)
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_socket}{Socket} is valid ? \end{DoxyCompactList}\item 
+int \hyperlink{class_t_c_p_socket_aaf5b33093a15e670da96eed106b953a0}{Send} (const std\+::string data) const
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_socket}{Socket} is valid ? \end{DoxyCompactList}\item 
+int \hyperlink{class_t_c_p_socket_a45e9155a64fb9dca84aee4967a719aff}{Read} (std\+::string \&data) const
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_socket}{Socket} is valid ? \end{DoxyCompactList}\item 
+int \hyperlink{class_t_c_p_socket_a120e18e534e4cabcd7a947302517b174}{Recv} (std\+::string \&data, unsigned int len) const
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_socket}{Socket} is valid ? \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_t_c_p_socket_a7e8163cb9b0647c15816d1d2a1d3deec}\label{class_t_c_p_socket_a7e8163cb9b0647c15816d1d2a1d3deec}} 
+S\+O\+C\+K\+ET {\bfseries sock}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class representing the \hyperlink{class_t_c_p_socket}{T\+C\+P\+Socket}. 
+
+This class handle the differents sockets 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_t_c_p_socket_af357e6923a0f8adbbb8e46fab4523991}\label{class_t_c_p_socket_af357e6923a0f8adbbb8e46fab4523991}} 
+\index{T\+C\+P\+Socket@{T\+C\+P\+Socket}!````~T\+C\+P\+Socket@{$\sim$\+T\+C\+P\+Socket}}
+\index{````~T\+C\+P\+Socket@{$\sim$\+T\+C\+P\+Socket}!T\+C\+P\+Socket@{T\+C\+P\+Socket}}
+\subsubsection{\texorpdfstring{$\sim$\+T\+C\+P\+Socket()}{~TCPSocket()}}
+{\footnotesize\ttfamily T\+C\+P\+Socket\+::$\sim$\+T\+C\+P\+Socket (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{class_socket}{Socket} is valid ? 
+
+
+\begin{DoxyParams}{Parameters}
+{\em void} & \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_t_c_p_socket_a3b6b62c9fc568585dc62f2763455a058}\label{class_t_c_p_socket_a3b6b62c9fc568585dc62f2763455a058}} 
+\index{T\+C\+P\+Socket@{T\+C\+P\+Socket}!Accept@{Accept}}
+\index{Accept@{Accept}!T\+C\+P\+Socket@{T\+C\+P\+Socket}}
+\subsubsection{\texorpdfstring{Accept()}{Accept()}}
+{\footnotesize\ttfamily bool T\+C\+P\+Socket\+::\+Accept (\begin{DoxyParamCaption}\item[{const int}]{socket,  }\item[{sockaddr\+\_\+in \&}]{addr }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{class_socket}{Socket} is valid ? 
+
+
+\begin{DoxyParams}{Parameters}
+{\em const} & int socket, sockaddr\+\_\+in \&addr \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_t_c_p_socket_ace5b4e24ee632208ccc5edc74dd151c9}\label{class_t_c_p_socket_ace5b4e24ee632208ccc5edc74dd151c9}} 
+\index{T\+C\+P\+Socket@{T\+C\+P\+Socket}!Bind@{Bind}}
+\index{Bind@{Bind}!T\+C\+P\+Socket@{T\+C\+P\+Socket}}
+\subsubsection{\texorpdfstring{Bind()}{Bind()}}
+{\footnotesize\ttfamily bool T\+C\+P\+Socket\+::\+Bind (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{ipaddres,  }\item[{unsigned short}]{port }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{class_socket}{Socket} is valid ? 
+
+
+\begin{DoxyParams}{Parameters}
+{\em const} & std\+::string \&ipaddres, unsigned short port \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_t_c_p_socket_ac816c30175550d8d9a14c89c1c5ec8da}\label{class_t_c_p_socket_ac816c30175550d8d9a14c89c1c5ec8da}} 
+\index{T\+C\+P\+Socket@{T\+C\+P\+Socket}!Connect@{Connect}}
+\index{Connect@{Connect}!T\+C\+P\+Socket@{T\+C\+P\+Socket}}
+\subsubsection{\texorpdfstring{Connect()}{Connect()}}
+{\footnotesize\ttfamily bool T\+C\+P\+Socket\+::\+Connect (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{ipaddress,  }\item[{unsigned short}]{port }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{class_socket}{Socket} is valid ? 
+
+
+\begin{DoxyParams}{Parameters}
+{\em const} & std\+::string \&ipaddress, unsigned short port \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_t_c_p_socket_aef6184730320c1336600f6cab1546a38}\label{class_t_c_p_socket_aef6184730320c1336600f6cab1546a38}} 
+\index{T\+C\+P\+Socket@{T\+C\+P\+Socket}!Listen\+On@{Listen\+On}}
+\index{Listen\+On@{Listen\+On}!T\+C\+P\+Socket@{T\+C\+P\+Socket}}
+\subsubsection{\texorpdfstring{Listen\+On()}{ListenOn()}}
+{\footnotesize\ttfamily bool T\+C\+P\+Socket\+::\+Listen\+On (\begin{DoxyParamCaption}\item[{unsigned short}]{port,  }\item[{unsigned short}]{max\+\_\+connections }\end{DoxyParamCaption})}
+
+
+
+\hyperlink{class_socket}{Socket} is valid ? 
+
+
+\begin{DoxyParams}{Parameters}
+{\em unsigned} & short port, unsigned short max\+\_\+connections \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_t_c_p_socket_a45e9155a64fb9dca84aee4967a719aff}\label{class_t_c_p_socket_a45e9155a64fb9dca84aee4967a719aff}} 
+\index{T\+C\+P\+Socket@{T\+C\+P\+Socket}!Read@{Read}}
+\index{Read@{Read}!T\+C\+P\+Socket@{T\+C\+P\+Socket}}
+\subsubsection{\texorpdfstring{Read()}{Read()}}
+{\footnotesize\ttfamily int T\+C\+P\+Socket\+::\+Read (\begin{DoxyParamCaption}\item[{std\+::string \&}]{data }\end{DoxyParamCaption}) const}
+
+
+
+\hyperlink{class_socket}{Socket} is valid ? 
+
+
+\begin{DoxyParams}{Parameters}
+{\em std\+::string} & \&data \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_t_c_p_socket_a120e18e534e4cabcd7a947302517b174}\label{class_t_c_p_socket_a120e18e534e4cabcd7a947302517b174}} 
+\index{T\+C\+P\+Socket@{T\+C\+P\+Socket}!Recv@{Recv}}
+\index{Recv@{Recv}!T\+C\+P\+Socket@{T\+C\+P\+Socket}}
+\subsubsection{\texorpdfstring{Recv()}{Recv()}}
+{\footnotesize\ttfamily int T\+C\+P\+Socket\+::\+Recv (\begin{DoxyParamCaption}\item[{std\+::string \&}]{data,  }\item[{unsigned int}]{len }\end{DoxyParamCaption}) const}
+
+
+
+\hyperlink{class_socket}{Socket} is valid ? 
+
+
+\begin{DoxyParams}{Parameters}
+{\em std\+::string} & \&data, unsigned int len \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{class_t_c_p_socket_aaf5b33093a15e670da96eed106b953a0}\label{class_t_c_p_socket_aaf5b33093a15e670da96eed106b953a0}} 
+\index{T\+C\+P\+Socket@{T\+C\+P\+Socket}!Send@{Send}}
+\index{Send@{Send}!T\+C\+P\+Socket@{T\+C\+P\+Socket}}
+\subsubsection{\texorpdfstring{Send()}{Send()}}
+{\footnotesize\ttfamily int T\+C\+P\+Socket\+::\+Send (\begin{DoxyParamCaption}\item[{const std\+::string}]{data }\end{DoxyParamCaption}) const}
+
+
+
+\hyperlink{class_socket}{Socket} is valid ? 
+
+
+\begin{DoxyParams}{Parameters}
+{\em const} & std\+::string data \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+network/include/T\+C\+P\+Socket.\+hpp\item 
+network/sockets/T\+C\+P\+Socket.\+cpp\end{DoxyCompactItemize}

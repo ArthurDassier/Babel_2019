@@ -1,0 +1,46 @@
+.TH "utils::Packet" 3 "Sun Oct 13 2019" "Version Alpha 1.2" "Babel_2019" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+utils::Packet
+.SH SYNOPSIS
+.br
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "std::string const \fBgetPacket\fP () noexcept"
+.br
+.ti -1c
+.RI "void \fBsetType\fP (const std::string)"
+.br
+.ti -1c
+.RI "template<typename T > void \fBaddData\fP (const std::string name, const T data)"
+.br
+.ti -1c
+.RI "template<typename T > void \fBaddToVector\fP (const T data)"
+.br
+.ti -1c
+.RI "std::vector< std::array< float, 2 > > \fBgetVector\fP () const noexcept"
+.br
+.ti -1c
+.RI "std::size_t \fBgetVectorSize\fP () const noexcept"
+.br
+.ti -1c
+.RI "template<typename T > void \fBaddPairToList\fP (const std::string name1, const std::string name2, T elem1, T elem2)"
+.br
+.ti -1c
+.RI "template<typename T > void \fBaddDataToList\fP (const std::string name, const T data)"
+.br
+.ti -1c
+.RI "template<typename T > void \fBaddList\fP (const std::string name, std::vector< T > data)"
+.br
+.ti -1c
+.RI "void \fBclear\fP ()"
+.br
+.in -1c
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Babel_2019 from the source code\&.

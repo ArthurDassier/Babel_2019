@@ -1,0 +1,182 @@
+\hypertarget{classns_1_1_server}{}\section{ns\+:\+:Server Class Reference}
+\label{classns_1_1_server}\index{ns\+::\+Server@{ns\+::\+Server}}
+Inheritance diagram for ns\+:\+:Server\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classns_1_1_server}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classns_1_1_server_a349ed2f3b045602da2f1b9b91a11b78c}{Server} (const int port)
+\begin{DoxyCompactList}\small\item\em Open connection with port in param. \end{DoxyCompactList}\item 
+\hyperlink{classns_1_1_server_a4b3aa2579cb1c8cd1d069582c14d0fa6}{$\sim$\+Server} ()
+\begin{DoxyCompactList}\small\item\em Destroy the \hyperlink{classns_1_1_server}{Server} by reseting the shared pointers. \end{DoxyCompactList}\item 
+void \hyperlink{classns_1_1_server_a101fc02efc9caec89146f34619c03e95}{remove\+Client} (\hyperlink{class_server_client}{Server\+Client})
+\begin{DoxyCompactList}\small\item\em remove pecno \end{DoxyCompactList}\item 
+void \hyperlink{classns_1_1_server_a9e8e68bd5147b294ed9a0d23c1189f6d}{Poll\+Event} ()
+\begin{DoxyCompactList}\small\item\em Poll the event. \end{DoxyCompactList}\item 
+void \hyperlink{classns_1_1_server_ac0ac436c081e25c992d2b6dd1632ff71}{Run} ()
+\begin{DoxyCompactList}\small\item\em Run the server. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classns_1_1_server_abf2a4da899c012d24a89a003fc2b3366}\label{classns_1_1_server_abf2a4da899c012d24a89a003fc2b3366}} 
+void {\bfseries shutdown} ()
+\item 
+void \hyperlink{classns_1_1_server_add5a181b9d70456b7e80cb258f32b8fd}{Handle\+Connection} ()
+\begin{DoxyCompactList}\small\item\em Handle connection. \end{DoxyCompactList}\item 
+void \hyperlink{classns_1_1_server_ad1d8a69bcfb01d6a13a05afe6a4de7cb}{Handle\+Receive} (\hyperlink{class_server_client}{Server\+Client})
+\begin{DoxyCompactList}\small\item\em Handle receive. \end{DoxyCompactList}\item 
+bool \hyperlink{classns_1_1_server_a8b83ee853238667ba56c4bb1f064364e}{update\+Database} (client\+\_\+p)
+\begin{DoxyCompactList}\small\item\em updtae database \end{DoxyCompactList}\item 
+void \hyperlink{classns_1_1_server_a99e12a7ee8a2bc21ada58e6870990189}{Match\+Command} (client\+\_\+p client, const std\+::string \&command)
+\begin{DoxyCompactList}\small\item\em Match command. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classns_1_1_server_a1f8c4e0dd82588f988427c5ff0de4832}\label{classns_1_1_server_a1f8c4e0dd82588f988427c5ff0de4832}} 
+void {\bfseries Call} (client\+\_\+p client)
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classns_1_1_server_a349ed2f3b045602da2f1b9b91a11b78c}\label{classns_1_1_server_a349ed2f3b045602da2f1b9b91a11b78c}} 
+\index{ns\+::\+Server@{ns\+::\+Server}!Server@{Server}}
+\index{Server@{Server}!ns\+::\+Server@{ns\+::\+Server}}
+\subsubsection{\texorpdfstring{Server()}{Server()}}
+{\footnotesize\ttfamily Server\+::\+Server (\begin{DoxyParamCaption}\item[{const int}]{port = {\ttfamily DEFAULT\+\_\+PORT} }\end{DoxyParamCaption})}
+
+
+
+Open connection with port in param. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em int} & port representing the port \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classns_1_1_server_a4b3aa2579cb1c8cd1d069582c14d0fa6}\label{classns_1_1_server_a4b3aa2579cb1c8cd1d069582c14d0fa6}} 
+\index{ns\+::\+Server@{ns\+::\+Server}!````~Server@{$\sim$\+Server}}
+\index{````~Server@{$\sim$\+Server}!ns\+::\+Server@{ns\+::\+Server}}
+\subsubsection{\texorpdfstring{$\sim$\+Server()}{~Server()}}
+{\footnotesize\ttfamily Server\+::$\sim$\+Server (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Destroy the \hyperlink{classns_1_1_server}{Server} by reseting the shared pointers. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em void} & \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classns_1_1_server_add5a181b9d70456b7e80cb258f32b8fd}\label{classns_1_1_server_add5a181b9d70456b7e80cb258f32b8fd}} 
+\index{ns\+::\+Server@{ns\+::\+Server}!Handle\+Connection@{Handle\+Connection}}
+\index{Handle\+Connection@{Handle\+Connection}!ns\+::\+Server@{ns\+::\+Server}}
+\subsubsection{\texorpdfstring{Handle\+Connection()}{HandleConnection()}}
+{\footnotesize\ttfamily void Server\+::\+Handle\+Connection (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Handle connection. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em void} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classns_1_1_server_ad1d8a69bcfb01d6a13a05afe6a4de7cb}\label{classns_1_1_server_ad1d8a69bcfb01d6a13a05afe6a4de7cb}} 
+\index{ns\+::\+Server@{ns\+::\+Server}!Handle\+Receive@{Handle\+Receive}}
+\index{Handle\+Receive@{Handle\+Receive}!ns\+::\+Server@{ns\+::\+Server}}
+\subsubsection{\texorpdfstring{Handle\+Receive()}{HandleReceive()}}
+{\footnotesize\ttfamily void Server\+::\+Handle\+Receive (\begin{DoxyParamCaption}\item[{\hyperlink{class_server_client}{Server\+Client}}]{client }\end{DoxyParamCaption})}
+
+
+
+Handle receive. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_server_client}{Server\+Client}} & client \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classns_1_1_server_a99e12a7ee8a2bc21ada58e6870990189}\label{classns_1_1_server_a99e12a7ee8a2bc21ada58e6870990189}} 
+\index{ns\+::\+Server@{ns\+::\+Server}!Match\+Command@{Match\+Command}}
+\index{Match\+Command@{Match\+Command}!ns\+::\+Server@{ns\+::\+Server}}
+\subsubsection{\texorpdfstring{Match\+Command()}{MatchCommand()}}
+{\footnotesize\ttfamily void Server\+::\+Match\+Command (\begin{DoxyParamCaption}\item[{client\+\_\+p}]{client,  }\item[{const std\+::string \&}]{packet }\end{DoxyParamCaption})}
+
+
+
+Match command. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em client\+\_\+p} & client, const std\+::string \&packet \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classns_1_1_server_a9e8e68bd5147b294ed9a0d23c1189f6d}\label{classns_1_1_server_a9e8e68bd5147b294ed9a0d23c1189f6d}} 
+\index{ns\+::\+Server@{ns\+::\+Server}!Poll\+Event@{Poll\+Event}}
+\index{Poll\+Event@{Poll\+Event}!ns\+::\+Server@{ns\+::\+Server}}
+\subsubsection{\texorpdfstring{Poll\+Event()}{PollEvent()}}
+{\footnotesize\ttfamily void Server\+::\+Poll\+Event (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Poll the event. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em void} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classns_1_1_server_a101fc02efc9caec89146f34619c03e95}\label{classns_1_1_server_a101fc02efc9caec89146f34619c03e95}} 
+\index{ns\+::\+Server@{ns\+::\+Server}!remove\+Client@{remove\+Client}}
+\index{remove\+Client@{remove\+Client}!ns\+::\+Server@{ns\+::\+Server}}
+\subsubsection{\texorpdfstring{remove\+Client()}{removeClient()}}
+{\footnotesize\ttfamily void Server\+::remove\+Client (\begin{DoxyParamCaption}\item[{\hyperlink{class_server_client}{Server\+Client}}]{client }\end{DoxyParamCaption})}
+
+
+
+remove pecno 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{class_server_client}{Server\+Client}} & client \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classns_1_1_server_ac0ac436c081e25c992d2b6dd1632ff71}\label{classns_1_1_server_ac0ac436c081e25c992d2b6dd1632ff71}} 
+\index{ns\+::\+Server@{ns\+::\+Server}!Run@{Run}}
+\index{Run@{Run}!ns\+::\+Server@{ns\+::\+Server}}
+\subsubsection{\texorpdfstring{Run()}{Run()}}
+{\footnotesize\ttfamily void Server\+::\+Run (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Run the server. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em void} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classns_1_1_server_a8b83ee853238667ba56c4bb1f064364e}\label{classns_1_1_server_a8b83ee853238667ba56c4bb1f064364e}} 
+\index{ns\+::\+Server@{ns\+::\+Server}!update\+Database@{update\+Database}}
+\index{update\+Database@{update\+Database}!ns\+::\+Server@{ns\+::\+Server}}
+\subsubsection{\texorpdfstring{update\+Database()}{updateDatabase()}}
+{\footnotesize\ttfamily bool Server\+::update\+Database (\begin{DoxyParamCaption}\item[{client\+\_\+p}]{client }\end{DoxyParamCaption})}
+
+
+
+updtae database 
+
+
+\begin{DoxyParams}{Parameters}
+{\em client\+\_\+p} & client \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+network/include/Server.\+hpp\item 
+network/server/server.\+cpp\end{DoxyCompactItemize}
