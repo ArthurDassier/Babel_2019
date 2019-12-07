@@ -12,6 +12,12 @@
 
 using boost::asio::ip::udp;
 
+enum messageType {
+    WELCOME = 0,
+    INFO = 1,
+    UNKNOW = 2
+};
+
 std::string make_daytime_string()
 {
     using namespace std; // For time_t, time and ctime;
@@ -41,7 +47,7 @@ class udp_server
                     // std::cout << std::get<2>(i) << " and " << c_end << std::endl;
                     int result = (c_end-std::get<2>(i)) / 100;
                     // std::cout << "le temps: " << result << std::endl;
-                    if (result >= 5) {
+                    if (result >= 10) {
                         std::cout << "deco du client" << std::get<1>(i) << std::endl;
                         _list.remove(std::make_tuple(std::get<0>(i), std::get<1>(i), std::get<2>(i)));
                         break;
@@ -73,6 +79,7 @@ class udp_server
                     if (std::get<0>(i) == _remote_endpoint) {
                         std::cout << "il existe deja" << std::endl;
                         *(std::clock_t *)&std::get<2>(i) = std::clock();
+                        find_command(data, buff_size, std::get<1>(i));
                         isExist = true;
                         break;
                     }
@@ -80,14 +87,11 @@ class udp_server
                 if (isExist == false) {
                     std::clock_t c_start = std::clock();
                     _list_client.push_back(std::make_tuple(_remote_endpoint, _clientNb, c_start));
+                    sender_message(WELCOME, _clientNb);
                     _clientNb++;
                     std::cout << "il existe pas" << std::endl;
+                    start_receive();
                 }
-                _socket.async_send_to(boost::asio::buffer(*message), _remote_endpoint,
-                boost::bind(&udp_server::handle_send, this, message,
-                    boost::asio::placeholders::error,
-                    boost::asio::placeholders::bytes_transferred));
-
                 start_receive();
             }
         }
@@ -96,6 +100,56 @@ class udp_server
             const boost::system::error_code& /*error*/,
             std::size_t /*bytes_transferred*/)
         {
+        }
+
+        void find_command(std::string data, std::size_t buff_size, int currentClient)
+        {
+            if (data.compare("call") == 0)
+                call_fct();
+            else if (data.compare("info") == 0)
+                sender_message(INFO, currentClient);
+            else
+                sender_message(UNKNOW, currentClient);
+        }
+
+        void sender_message(messageType message_type, int currentClient)
+        {
+            std::string w_message;
+            if (message_type == WELCOME)
+                w_message += "Welcome, you're the client " + std::to_string(currentClient) + "\n";
+            else if (message_type == INFO)
+                w_message += "As you have asked client " + std::to_string(currentClient) + "\n";
+            else if (message_type == UNKNOW)
+                w_message += "Your command is unknow.\n";
+
+            if (message_type == WELCOME || message_type == INFO) {
+                w_message += "Here you can see the list of client connected:\n";
+                for (auto const& i : _list_client) {
+                    std::stringstream ss;
+                    ss << std::get<0>(i);
+                    std::string str = ss.str();
+                    w_message += "-client " + std::to_string(std::get<1>(i)) + " on " + str + "\n";
+                }
+            }
+
+            if (message_type == INFO || message_type == UNKNOW)
+                w_message += "Here you can see the list of commands:\n-info = get information about clients connected\n-call \"client nb\" = call the client depends on the number given\n";
+
+            boost::shared_ptr<std::string> message(new std::string(w_message));
+            _socket.async_send_to(boost::asio::buffer(*message), _remote_endpoint,
+                boost::bind(&udp_server::handle_send, this, message,
+                boost::asio::placeholders::error,
+                boost::asio::placeholders::bytes_transferred));
+        }
+
+        void call_fct()
+        {
+            std::string w_message("Ouais ca arrive la feature\n");
+            boost::shared_ptr<std::string> message(new std::string(w_message));
+            _socket.async_send_to(boost::asio::buffer(*message), _remote_endpoint,
+                boost::bind(&udp_server::handle_send, this, message,
+                boost::asio::placeholders::error,
+                boost::asio::placeholders::bytes_transferred));
         }
 
         udp::socket _socket;

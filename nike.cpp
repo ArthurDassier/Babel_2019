@@ -76,7 +76,7 @@ int main()
             std::getline(std::cin, str);
             socket.send_to(boost::asio::buffer(str), receiver_endpoint); // (3)
 
-            boost::array<char, 128> recv_buf; // (4)
+            boost::array<char, 1024> recv_buf; // (4)
             udp::endpoint sender_endpoint;
             size_t len = socket.receive_from(boost::asio::buffer(recv_buf), sender_endpoint); // (5)
 
