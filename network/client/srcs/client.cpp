@@ -7,14 +7,13 @@
 
 #include <QtCore/QCoreApplication>
 
-#include "QtClient.hpp"
+#include "Client.hpp"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
+    Client s;
 
-    MyTcpSocket s;
-    s.doConnect();
-
+    s.SayHello();
     return a.exec();
 }

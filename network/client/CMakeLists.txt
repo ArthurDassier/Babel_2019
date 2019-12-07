@@ -11,11 +11,11 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(SOURCES
     ./srcs/client.cpp
-    ./srcs/QtClient.cpp
+    ./srcs/Client.cpp
 )
 
 set(MOC_HEADERS
-    ./include/QtClient.hpp
+    ./include/Client.hpp
 )
 
 # find_package(Qt5Widgets CONFIG REQUIRED)
@@ -28,7 +28,7 @@ QT5_WRAP_CPP(moc_manager ${MOC_HEADERS})
 
 add_executable(babel_client
     ./srcs/client.cpp
-    ./srcs/QtClient.cpp
+    ./srcs/Client.cpp
     ${moc_manager}
 )
 
