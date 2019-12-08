@@ -14,6 +14,6 @@ int main(int argc, char *argv[])
     QCoreApplication a(argc, argv);
     Client s;
 
-    s.SayHello();
+    s.SaySomething();
     return a.exec();
 }

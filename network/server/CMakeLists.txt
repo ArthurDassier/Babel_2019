@@ -23,11 +23,11 @@ TARGET_LINK_LIBRARIES(babel_server
     pthread
 )
 
-# include_directories(
-#     ./include
-#     ${CMAKE_INCLUDE_PATH}
-#     ${Boost_INCLUDE_DIR}
-# )
+include_directories(
+    ./include
+    ${CMAKE_INCLUDE_PATH}
+    ${Boost_INCLUDE_DIR}
+)
 
 # find_package(Boost COMPONENTS SYSTEM)
 

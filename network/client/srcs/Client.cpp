@@ -15,11 +15,15 @@ Client::Client(QObject *parent):
     connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
 }
 
-void Client::SayHello()
+void Client::SaySomething()
 {
     QByteArray Data;
-    Data.append("Hello from UDP Land");
+    QTextStream qtin(stdin); 
+    QString word;
     QHostAddress addr("127.0.0.1");
+
+    qtin >> word;
+    Data = word.toUtf8();
     socket->writeDatagram(Data, addr, 8080);
 }
 
@@ -32,7 +36,10 @@ void Client::readyRead()
     quint16 senderPort;
     socket->readDatagram(Buffer.data(), Buffer.size(), &sender, &senderPort);
 
-    qDebug() << "Message from: " << sender.toString();
-    qDebug() << "Message port: " << senderPort;
-    qDebug() << "Message: " << Buffer;
+    // qDebug() << "Message from: " << sender.toString();
+    // qDebug() << "Message port: " << senderPort;
+    // qDebug() << "Message: " << Buffer;
+    std::string test(Buffer.data());
+    std::cout << test;
+    SaySomething();
 }

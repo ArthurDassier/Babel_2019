@@ -18,7 +18,7 @@ class Client : public QObject
     public:
         explicit Client(QObject *parent = 0);
         ~Client(){};
-        void SayHello();
+        void SaySomething();
 
         void initSocket();
         void readPendingDatagrams();
