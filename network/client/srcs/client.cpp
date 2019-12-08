@@ -12,7 +12,7 @@
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    Client s;
+    Client s(argv[1], std::atoi(argv[2]));
 
     s.SaySomething();
     return a.exec();

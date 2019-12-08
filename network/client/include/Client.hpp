@@ -16,7 +16,7 @@ class Client : public QObject
 {
     Q_OBJECT
     public:
-        explicit Client(QObject *parent = 0);
+        explicit Client(std::string addr, int port, QObject *parent = 0);
         ~Client(){};
         void SaySomething();
 
@@ -30,4 +30,6 @@ class Client : public QObject
 
     private:
         QUdpSocket *socket;
+        std::string _add;
+        int _port;
 };
