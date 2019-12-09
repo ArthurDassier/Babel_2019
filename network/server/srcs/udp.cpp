@@ -81,9 +81,13 @@ void udp_server::handle_send(boost::shared_ptr<std::string> /*message*/,
 
 void udp_server::find_command(std::string data, std::size_t buff_size, int currentClient)
 {
-    if (data.compare("call") == 0)
-        call_fct();
-    else if (data.compare("info") == 0)
+    std::string command = data.substr(0, data.find('-'));
+    std::string clientNbAsk = data.substr(data.find('-') + 1);
+
+    // std::cout << clientNbAsk << std::endl;
+    if (command.compare("call") == 0)
+        call_fct(currentClient, std::atoi(clientNbAsk.c_str()));
+    else if (command.compare("info") == 0)
         sender_message(INFO, currentClient);
     else
         sender_message(UNKNOW, currentClient);
@@ -110,7 +114,7 @@ void udp_server::sender_message(messageType message_type, int currentClient)
     }
 
     if (message_type == INFO || message_type == UNKNOW)
-        w_message += "Here you can see the list of commands:\n-info = get information about clients connected\n-call \"client nb\" = call the client depends on the number given\n";
+        w_message += "Here you can see the list of commands:\n-info = get information about clients connected\n-call-\"client nb\" = call the client depends on the number given\n";
 
     boost::shared_ptr<std::string> message(new std::string(w_message));
     _socket.async_send_to(boost::asio::buffer(*message), _remote_endpoint,
@@ -119,10 +123,16 @@ void udp_server::sender_message(messageType message_type, int currentClient)
         boost::asio::placeholders::bytes_transferred));
 }
 
-void udp_server::call_fct()
+void udp_server::call_fct(int currentClient, int clientAsk)
 {
-    std::string w_message("Ouais ca arrive la feature\n");
-    boost::shared_ptr<std::string> message(new std::string(w_message));
+    std::string tmp;
+    for (auto const& i : _list_client) {
+        if (std::get<1>(i) == clientAsk) {
+            tmp += std::get<0>(i).address().to_string() + ":" + std::to_string(std::get<0>(i).port());
+        }
+    }
+    // attention manque la gestion d'erreur
+    boost::shared_ptr<std::string> message(new std::string(tmp));
     _socket.async_send_to(boost::asio::buffer(*message), _remote_endpoint,
         boost::bind(&udp_server::handle_send, this, message,
         boost::asio::placeholders::error,

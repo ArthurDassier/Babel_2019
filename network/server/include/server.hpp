@@ -44,7 +44,7 @@ class udp_server
             std::size_t /*bytes_transferred*/);
         void find_command(std::string data, std::size_t buff_size, int currentClient);
         void sender_message(messageType message_type, int currentClient);
-        void call_fct();
+        void call_fct(int currentClient, int clientAsk);
 
         udp::socket _socket;
         udp::endpoint _remote_endpoint;
