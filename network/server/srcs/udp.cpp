@@ -128,7 +128,7 @@ void udp_server::call_fct(int currentClient, int clientAsk)
     std::string tmp;
     for (auto const& i : _list_client) {
         if (std::get<1>(i) == clientAsk) {
-            tmp += "@" + std::get<0>(i).address().to_string() + ":" + std::to_string(std::get<0>(i).port());
+            tmp += std::get<0>(i).address().to_string() + ":" + std::to_string(std::get<0>(i).port());
             boost::shared_ptr<std::string> message(new std::string(tmp));
                 _socket.async_send_to(boost::asio::buffer(*message), _remote_endpoint,
                 boost::bind(&udp_server::handle_send, this, message,
@@ -137,7 +137,6 @@ void udp_server::call_fct(int currentClient, int clientAsk)
                 return;
         }
     }
-    // attention manque la gestion d'erreur
     tmp += "The client whose you want to call doesn't exist.\n";
     boost::shared_ptr<std::string> message(new std::string(tmp));
     _socket.async_send_to(boost::asio::buffer(*message), _remote_endpoint,

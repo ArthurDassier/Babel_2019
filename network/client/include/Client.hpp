@@ -21,7 +21,6 @@ class Client : public QWidget
         ~Client(){};
 
         void initSocket();
-        void tryToCall(std::string);
 
     signals:
 
@@ -30,6 +29,7 @@ class Client : public QWidget
         void readyRead();
         void takeIp();
         void SaySomething();
+        void tryToCall();
 
     private:
         QUdpSocket *socket;

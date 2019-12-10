@@ -53,7 +53,7 @@ Client::Client(std::string addr, int port, QObject *parent):
     _gridLayout->addWidget(_buttonCall, 2, 1);
 
     QObject::connect(_buttonCommand, SIGNAL(clicked()), this, SLOT(SaySomething()));
-    QObject::connect(_buttonCall, SIGNAL(clicked()), this, SLOT(takeIp()));
+    QObject::connect(_buttonCall, SIGNAL(clicked()), this, SLOT(tryToCall()));
 
     this->setLayout(_gridLayout);
 
@@ -62,6 +62,9 @@ Client::Client(std::string addr, int port, QObject *parent):
 
 void Client::SaySomething()
 {
+    if (_lineCommand->text() == "")
+        return;
+
     QByteArray Data;
     // QTextStream qtin(stdin);
     QString word = _lineCommand->text();
@@ -92,21 +95,19 @@ void Client::readyRead()
     // SaySomething();
 }
 
-void Client::tryToCall(std::string str)
+void Client::tryToCall()
 {
-    str.erase(str.begin());
-    std::cout << "Voici qui je dois call: " << str << std::endl;
+    if (_lineAddress->text() == "" || _linePort->text() == "")
+        return;
 
-    std::string addresse = str.substr(0, str.find(':'));
-    std::string port = str.substr(str.find(':') + 1);
-    QString qstr = QString::fromUtf8(addresse.c_str());
+    QString qstr = QString::fromUtf8(_lineAddress->text().toStdString().c_str());
     QHostAddress addr(qstr);
-    quint16 f_port(std::stoi(port));
-    std::cout << "port : " << str.substr(str.find(':')) << std::endl;
+    quint16 f_port(std::stoi(_linePort->text().toStdString()));
 
     QByteArray Data;
-    Data.append("Hello from UDP");
+    Data.append("Hello from other client\n");
     socket->writeDatagram(Data, addr, f_port);
+    //voir si le texte peut apparaitre si trop gros...
 }
 
 void Client::takeIp()
