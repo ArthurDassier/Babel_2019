@@ -31,7 +31,6 @@ class Client : public QObject
 
     private:
         QUdpSocket *socket;
-        // QUdpSocket *socket_call;
-        std::string _add;
-        int _port;
+        QHostAddress _add;
+        quint16 _port;
 };

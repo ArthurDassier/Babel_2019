@@ -8,31 +8,26 @@
 #include "Client.hpp"
 
 Client::Client(std::string addr, int port, QObject *parent):
-    _add(addr),
-    _port(port),
     QObject(parent)
 {
     socket = new QUdpSocket(this);
     socket->bind(QHostAddress::LocalHost, 4086);
     connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
 
-    // socket_call = new QUdpSocket(this);
-    // socket_call->bind(QHostAddress::LocalHost, 4084);
-    // connect(socket_call, SIGNAL(), this, SLOT());
+    QString str = QString::fromUtf8(addr.c_str());
+    _add = str;
+    _port = port;
 }
 
 void Client::SaySomething()
 {
     QByteArray Data;
-    QTextStream qtin(stdin); 
+    QTextStream qtin(stdin);
     QString word;
-    QString str = QString::fromUtf8(_add.c_str());
-    QHostAddress addr(str);
 
     qtin >> word;
     Data = word.toUtf8();
-    quint16 port(_port);
-    socket->writeDatagram(Data, addr, port);
+    socket->writeDatagram(Data, _add, _port);
 }
 
 void Client::readyRead()
