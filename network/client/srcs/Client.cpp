@@ -15,6 +15,10 @@ Client::Client(std::string addr, int port, QObject *parent):
     socket = new QUdpSocket(this);
     socket->bind(QHostAddress::LocalHost, 4086);
     connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
+
+    // socket_call = new QUdpSocket(this);
+    // socket_call->bind(QHostAddress::LocalHost, 4084);
+    // connect(socket_call, SIGNAL(), this, SLOT());
 }
 
 void Client::SaySomething()
@@ -43,7 +47,26 @@ void Client::readyRead()
     // qDebug() << "Message from: " << sender.toString();
     // qDebug() << "Message port: " << senderPort;
     // qDebug() << "Message: " << Buffer;
-    std::string test(Buffer.data());
-    std::cout << test;
+    std::string str(Buffer.data());
+    std::cout << str << std::endl;
+    if (str[0] == '@')
+        tryToCall(str);
     SaySomething();
+}
+
+void Client::tryToCall(std::string str)
+{
+    str.erase(str.begin());
+    std::cout << "Voici qui je dois call: " << str << std::endl;
+
+    std::string addresse = str.substr(0, str.find(':'));
+    std::string port = str.substr(str.find(':') + 1);
+    QString qstr = QString::fromUtf8(addresse.c_str());
+    QHostAddress addr(qstr);
+    quint16 f_port(std::stoi(port));
+    std::cout << "port : " << str.substr(str.find(':')) << std::endl;
+
+    QByteArray Data;
+    Data.append("Hello from UDP");
+    socket->writeDatagram(Data, addr, f_port);
 }

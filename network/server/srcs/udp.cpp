@@ -24,7 +24,7 @@ void udp_server::check_clock(std::list<std::tuple<udp::endpoint, int, std::clock
             // std::cout << std::get<2>(i) << " and " << c_end << std::endl;
             int result = (c_end-std::get<2>(i)) / 100;
             // std::cout << "le temps: " << result << std::endl;
-            if (result >= 10) {
+            if (result >= 30) {
                 std::cout << "deco du client" << std::get<1>(i) << std::endl;
                 _list.remove(std::make_tuple(std::get<0>(i), std::get<1>(i), std::get<2>(i)));
                 break;
@@ -128,10 +128,17 @@ void udp_server::call_fct(int currentClient, int clientAsk)
     std::string tmp;
     for (auto const& i : _list_client) {
         if (std::get<1>(i) == clientAsk) {
-            tmp += std::get<0>(i).address().to_string() + ":" + std::to_string(std::get<0>(i).port());
+            tmp += "@" + std::get<0>(i).address().to_string() + ":" + std::to_string(std::get<0>(i).port());
+            boost::shared_ptr<std::string> message(new std::string(tmp));
+                _socket.async_send_to(boost::asio::buffer(*message), _remote_endpoint,
+                boost::bind(&udp_server::handle_send, this, message,
+                boost::asio::placeholders::error,
+                boost::asio::placeholders::bytes_transferred));
+                return;
         }
     }
     // attention manque la gestion d'erreur
+    tmp += "The client whose you want to call doesn't exist.\n";
     boost::shared_ptr<std::string> message(new std::string(tmp));
     _socket.async_send_to(boost::asio::buffer(*message), _remote_endpoint,
         boost::bind(&udp_server::handle_send, this, message,

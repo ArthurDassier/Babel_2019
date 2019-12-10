@@ -21,15 +21,17 @@ class Client : public QObject
         void SaySomething();
 
         void initSocket();
-        void readPendingDatagrams();
+        void tryToCall(std::string);
 
     signals:
+
 
     public slots:
         void readyRead();
 
     private:
         QUdpSocket *socket;
+        // QUdpSocket *socket_call;
         std::string _add;
         int _port;
 };
