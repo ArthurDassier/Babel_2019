@@ -18,7 +18,7 @@ set(MOC_HEADERS
     ./include/Client.hpp
 )
 
-# find_package(Qt5Widgets CONFIG REQUIRED)
+find_package(Qt5Widgets CONFIG REQUIRED)
 find_package(Qt5Network CONFIG REQUIRED)
 
 add_definitions(${QT_DEFINITIONS})
@@ -33,7 +33,7 @@ add_executable(babel_client
 )
 
 target_link_libraries(babel_client
-    # Qt5::Widgets
+    Qt5::Widgets
     Qt5::Network
 )
 

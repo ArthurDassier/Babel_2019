@@ -11,9 +11,11 @@
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication a(argc, argv);
+    QApplication a(argc, argv);
     Client s(argv[1], std::atoi(argv[2]));
 
-    s.SaySomething();
+    s.show();
+
+    // s.SaySomething();
     return a.exec();
 }
