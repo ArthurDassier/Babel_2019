@@ -13,6 +13,7 @@
 #include <vector>
 
 #include "portaudio.h"
+#include "opus.h"
 
 #define SAMPLE_SILENCE (0.0f)
 
@@ -57,3 +58,11 @@ class PortAudio {
 
         bool _isFreeable;
 };
+
+// class testAudio
+// {
+//     public:
+//         testAudio();
+//         ~testAudio();
+//     private:
+// }
