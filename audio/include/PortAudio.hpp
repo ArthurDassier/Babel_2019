@@ -59,10 +59,29 @@ class PortAudio {
         bool _isFreeable;
 };
 
-// class testAudio
-// {
-//     public:
-//         testAudio();
-//         ~testAudio();
-//     private:
-// }
+#define CHANNELS 2
+#define BUFFER_SIZE 480
+#define SAMPLE_RATE 48000
+
+class testAudio
+{
+    public:
+        testAudio();
+        ~testAudio();
+
+        PaStream *openStream();
+        void startStream(PaStream* stream);
+        std::vector<unsigned short> readStream(PaStream* stream);
+        std::vector<unsigned char> encode(std::vector<unsigned short> captured);
+        std::vector<unsigned short> decode(std::vector<unsigned char> encoded, opus_int32 &dec_bytes);
+        void writeStream(PaStream* stream, std::vector<unsigned short> decoded);
+        void stopStream(PaStream* stream);
+        void closeStream(PaStream* stream);
+
+        OpusEncoder *getEncoder();
+        OpusDecoder *getDecoder();
+
+    private:
+        OpusEncoder *_enc;
+        OpusDecoder* _dec;
+};
