@@ -13,14 +13,15 @@ PortAudio::PortAudio():
     _isFreeable(false)
 {
     _err = Pa_Initialize();
-    if (_err != paNoError)
+    if (_err != paNoError) {
+        std::cout << "Can't use PortAudio" << std::endl;
         exit(84);
+    }
 }
 
 PortAudio::~PortAudio()
 {
     Pa_Terminate();
-    std::cout << "C LLAAA : " << *_data.recordedSamples << std::endl;
     if (_isFreeable == true)
         free(_data.recordedSamples);
 }
@@ -134,15 +135,18 @@ PaStream *PortAudio::RecordStream()
 {
     PaStream *stream;
 
-    _err = Pa_OpenStream(
-        &stream,
-        &_inputParameters,
-        NULL,
-        44100,
-        _frame_per_buffer,
-        paClipOff,
-        recordCallback,
-        &_data);
+    // _err = Pa_OpenStream(
+    //     &stream,
+    //     &_inputParameters,
+    //     NULL,
+    //     44100,
+    //     _frame_per_buffer,
+    //     paClipOff,
+    //     recordCallback,
+    //     &_data);
+    _err = Pa_OpenDefaultStream(&stream,
+      2, 2, paInt16, 48000,
+      480, nullptr, nullptr);
     if (_err != paNoError) {
         std::cout << _err << std::endl;
         std::cout << Pa_GetErrorText(_err) << std::endl;

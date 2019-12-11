@@ -8,7 +8,8 @@
 #include "Client.hpp"
 
 Client::Client(std::string addr, int port, QObject *parent):
-    QWidget()
+    QWidget(),
+    _isCalling(false)
 {
     socket = new QUdpSocket(this);
     socket->bind(QHostAddress::LocalHost, 4086);
@@ -59,12 +60,12 @@ Client::Client(std::string addr, int port, QObject *parent):
 
     this->setWindowTitle("Babel");
 
-    // _son.SetInputParameters();
+    // _sonSend.SetInputParameters();
 }
 
 Client::~Client()
 {
-    // _son.~PortAudio();
+    // _sonSend.~PortAudio();
 }
 
 void Client::SaySomething()
@@ -94,12 +95,31 @@ void Client::readyRead()
     // qDebug() << "Message from: " << sender.toString();
     // qDebug() << "Message port: " << senderPort;
     // qDebug() << "Message: " << Buffer;
-    _textResponse->setText(Buffer.data());
+    if (_isCalling == false)
+        _textResponse->setText(Buffer.data());
+    else {
+        _textResponse->setText("en appelle\n");
+        // _sonSend.SetInputParameters();
+        _sonSend.SetData(5, 44100, 2);
+        _sonSend.SetOutputParameters();
+        _sonSend.setDataFrameIndex();
+        std::vector<unsigned short> decoded(Buffer.data(), Buffer.data() + Buffer.size());
+        std::cout << "vector: " << decoded.data() << std::endl;
+        _streamReceive = _sonSend.writeStream(decoded);
+        _sonSend.PlayStream(_streamReceive);
+        std::cout << "fin du play" << std::endl;
+    }
     // std::string str(Buffer.data());
     // std::cout << str << std::endl;
     // if (str[0] == '@')
     //     tryToCall(str);
     // SaySomething();
+    std::string receive = _textResponse->text().toStdString();
+
+    if (receive.compare("Hello from other client\n") == 0) {
+        std::cout << "qq veut call" << std::endl;
+        _isCalling = true;
+    }
 }
 
 void Client::tryToCall()
@@ -114,34 +134,306 @@ void Client::tryToCall()
     QByteArray Data;
     Data.append("Hello from other client\n");
     socket->writeDatagram(Data, addr, f_port);
+    _add = addr;
+    _port = f_port; //attention mtn parle a lautre client
 
-    PaStream *stream;
-    _son.SetInputParameters();
-    std::cout << "1" << std::endl;
-    _son.SetData(5, 44100, 2);
-    std::cout << "2" << std::endl;
-    stream = _son.RecordStream();
-    std::cout << "3" << std::endl;
-    _son.StartStream(stream);
-    std::cout << "4" << std::endl;
-    Pa_Sleep(3000);
-    std::cout << "5" << std::endl;
-    _son.CloseStream(stream);
-    std::cout << "6" << std::endl;
-    _son.SetOutputParameters();
-    _son.setDataFrameIndex();
-    std::cout << "7" << std::endl;
-    _son.PlayStream(stream);
-    std::cout << "8" << std::endl;
-    _son.StartStream(stream);
-    Pa_Sleep(3000);
-    std::cout << "9" << std::endl;
-    _son.CloseStream(stream);
-    std::cout << "10" << std::endl;
+    /* test de port audio a la main */
+    // PaStream* stream = nullptr;
+    // int const bufferSize = 480;
+    // std::vector<unsigned short> captured(bufferSize * 2);
+    // PaError paErr;
+    // int const sampleRate = 48000;
+    // int const durationSeconds = 5;
+    // int framesProcessed = 0;
+    // if ((paErr = Pa_OpenDefaultStream(&stream,
+    //     2, 2, paInt16, sampleRate,
+    //     bufferSize, nullptr, nullptr)) != paNoError)
+    // {
+    //     std::cout << "Pa_OpenDefaultStream failed: " << Pa_GetErrorText(paErr) << "\n";
+    // }
+    // if ((paErr = Pa_StartStream(stream)) != paNoError) 
+    // {
+    //     std::cout << "Pa_StartStream failed: " << Pa_GetErrorText(paErr) << "\n";
+    // }
+    // if ((paErr = Pa_ReadStream(stream, 
+    //     captured.data(), bufferSize)) != paNoError)
+    // {
+    //     std::cout << "Pa_ReadStream failed: " << Pa_GetErrorText(paErr) << "\n";
+    // }
+    // while (framesProcessed < sampleRate * durationSeconds)
+    // {
+    //     if ((paErr = Pa_ReadStream(stream, 
+    //         captured.data(), bufferSize)) != paNoError)
+    //     {
+    //         std::cout << "Pa_ReadStream failed: " << Pa_GetErrorText(paErr) << "\n";
+    //     }
+    //     if ((paErr = Pa_WriteStream(stream, captured.data(), bufferSize)) != paNoError)
+    //     {
+    //         std::cout << "Pa_WriteStream failed: " << Pa_GetErrorText(paErr) << "\n";
+    //     }
+    //     framesProcessed += bufferSize;
+    // }
+    // if ((paErr = Pa_StopStream(stream)) != paNoError)
+    // {
+    //     std::cout << "Pa_StopStream failed: " << Pa_GetErrorText(paErr) << "\n";
+    // }
+
+    int opusErr;
+    PaError paErr;
+    std::string s;
+
+    int const channels = 2;
+    int const bufferSize = 480;
+    int const sampleRate = 48000;
+    int const durationSeconds = 5;
+
+    int framesProcessed = 0;
+
+    std::vector<unsigned short> captured(bufferSize * channels);
+    std::vector<unsigned short> decoded(bufferSize * channels);
+    // * 2: byte count, 16 bit samples
+    std::vector<unsigned char> encoded(bufferSize * channels * 2);
+
+    // initialize opus
+    OpusEncoder* enc = opus_encoder_create(
+        sampleRate, channels, OPUS_APPLICATION_AUDIO, &opusErr);
+    if (opusErr != OPUS_OK)
+    {
+        std::cout << "opus_encoder_create failed: " << opusErr << "\n";
+        std::getline(std::cin, s);
+        return 1;
+    }
+
+    OpusDecoder* dec = opus_decoder_create(
+        sampleRate, channels, &opusErr);
+    if (opusErr != OPUS_OK)
+    {
+        std::cout << "opus_decoder_create failed: " << opusErr << "\n";
+        std::getline(std::cin, s);
+        return 1;
+    }
+
+    // initialize portaudio
+    if ((paErr = Pa_Initialize()) != paNoError)
+    {
+        std::cout << "Pa_Initialize failed: " << Pa_GetErrorText(paErr) << "\n";
+        std::getline(std::cin, s);
+        return 1;
+    }
+
+    PaStream* stream = nullptr;
+    if ((paErr = Pa_OpenDefaultStream(&stream,
+        channels, channels, paInt16, sampleRate,
+        bufferSize, nullptr, nullptr)) != paNoError)
+    {
+        std::cout << "Pa_OpenDefaultStream failed: " << Pa_GetErrorText(paErr) << "\n";
+        std::getline(std::cin, s);
+        return 1;
+    }
+
+    // start stream
+    if ((paErr = Pa_StartStream(stream)) != paNoError) 
+    {
+        std::cout << "Pa_StartStream failed: " << Pa_GetErrorText(paErr) << "\n";
+        std::getline(std::cin, s);
+        return 1;
+    }
+
+    // capture, encode, decode & render durationSeconds of audio
+    while (framesProcessed < sampleRate * durationSeconds)
+    {
+        if ((paErr = Pa_ReadStream(stream, 
+            captured.data(), bufferSize)) != paNoError)
+        {
+            std::cout << "Pa_ReadStream failed: " << Pa_GetErrorText(paErr) << "\n";
+            std::getline(std::cin, s);
+            return 1;
+        }
+
+        if ((enc_bytes = opus_encode(enc, reinterpret_cast<opus_int16 const*>(
+            captured.data()), 480, encoded.data(), encoded.size())) < 0)
+        {
+            std::cout << "opus_encode failed: " << enc_bytes << "\n";
+            std::getline(std::cin, s);
+            return 1;
+        }
+
+        if ((dec_bytes = opus_decode(dec, encoded.data(), enc_bytes,
+            reinterpret_cast<opus_int16*>(decoded.data()), 480, 0)) < 0)
+        {
+            std::cout << "opus_decode failed: " << dec_bytes << "\n";
+            std::getline(std::cin, s);
+            return 1;
+        }
+
+        if ((paErr = Pa_WriteStream(stream, decoded.data(), bufferSize)) != paNoError)
+        {
+            std::cout << "Pa_WriteStream failed: " << Pa_GetErrorText(paErr) << "\n";
+            std::getline(std::cin, s);
+            return 1;
+        }
+
+        framesProcessed += bufferSize;
+    }
+
+    // stop stream
+    if ((paErr = Pa_StopStream(stream)) != paNoError)
+    {
+        std::cout << "Pa_StopStream failed: " << Pa_GetErrorText(paErr) << "\n";
+        std::getline(std::cin, s);
+        return 1;
+    }
+
+    // cleanup portaudio
+    if ((paErr = Pa_CloseStream(stream)) != paNoError) 
+    {
+        std::cout << "Pa_CloseStream failed: " << Pa_GetErrorText(paErr) << "\n";
+        std::getline(std::cin, s);
+        return 1;
+    }
+
+    if ((paErr = Pa_Terminate()) != paNoError) 
+    {
+        std::cout << "Pa_Terminate failed: " << Pa_GetErrorText(paErr) << "\n";
+        std::getline(std::cin, s);
+        return 1;
+    }
+
+    // cleanup opus
+    opus_decoder_destroy(dec);
+    opus_encoder_destroy(enc);
+
+
+
+
+
+
+
+    /* test avec port audio de ttt */
+    // PaStream *stream;
+    // _sonSend.SetInputParameters();
+    // _sonSend.SetData(5, 44100, 2);
+    // stream = _sonSend.RecordStream();
+    // _sonSend.StartStream(stream);
+    // Pa_Sleep(3000);
+    // // Data.clear();
+    // std::vector<unsigned short> dataS = _sonSend.readStream(stream);
+    // PaStream *new_stream = _sonSend.writeStream(dataS);
+    // _sonSend.PlayStream(new_stream);
+
+    // // Data = reinterpret_cast<char*>(_sonSend.readStream(stream).data());
+    // // socket->writeDatagram(Data, _add, _port);
+    // _sonSend.CloseStream(stream);
+    // _sonSend.SetOutputParameters();
+    // _sonSend.setDataFrameIndex();
+    // _sonSend.PlayStream(stream);
+    // _streamSend = nullptr;
+
+    // _threadInputSon = std::thread(&Client::audioInput, this);
+    // _threadSendSon = std::thread(&Client::audioSend, this);
+    // _threadOutputSon = std::thread(&Client::audioOutput, this);
+
+    // PaStream *stream;
+    // _sonSend.SetInputParameters();
+    // std::cout << "1" << std::endl;
+    // _sonSend.SetData(5, 44100, 2);
+    // std::cout << "2" << std::endl;
+    // stream = _sonSend.RecordStream();
+    // std::cout << "3" << std::endl;
+    // _sonSend.StartStream(stream);
+    // std::cout << "4" << std::endl;
+    // Pa_Sleep(3000);
+    // std::cout << "5" << std::endl;
+    // _sonSend.CloseStream(stream);
+    // std::cout << "6" << std::endl;
+    // _sonSend.SetOutputParameters();
+    // _sonSend.setDataFrameIndex();
+    // std::cout << "7" << std::endl;
+    // _sonSend.PlayStream(stream);
+    // std::cout << "8" << std::endl;
+    // _sonSend.StartStream(stream);
+    // Pa_Sleep(3000);
+    // std::cout << "9" << std::endl;
+    // _sonSend.CloseStream(stream);
+    // std::cout << "10" << std::endl;
 }
 
 void Client::takeIp()
 {
     std::cout << "adresse ip: " << _lineAddress->text().toStdString() << std::endl;
     std::cout << "port: " << _linePort->text().toStdString() << std::endl;
+}
+
+void Client::audioInput()
+{
+    QByteArray Data;
+    QString word;
+
+    _sonSend.SetInputParameters();
+    while (1) {
+        usleep(2000000);
+        _sonSend.SetData(5, 44100, 2);
+        _streamSend = _sonSend.RecordStream();
+        _sonSend.StartStream(_streamSend);
+        Pa_Sleep(3000);
+        _sonSend.CloseStream(_streamSend);
+        word = (const char*)_streamSend;
+        Data = word.toUtf8();
+        socket->writeDatagram(Data, _add, _port);
+    }
+}
+
+void Client::audioSend()
+{
+    while (1) {
+        usleep(2000000);
+        QByteArray Data;
+        QString word = (const char*)_streamSend;
+        Data = word.toUtf8();
+        socket->writeDatagram(Data, _add, _port);
+    }
+}
+
+void Client::audioOutput()
+{
+    _sonSend.SetOutputParameters();
+    _sonSend.setDataFrameIndex();
+    while (1) {
+        QString str = _textResponse->text();
+        _streamReceive = (void *) str.toStdString().c_str();
+        _sonSend.PlayStream(_streamReceive);
+        // usleep(1000000);
+    }
+}
+
+void Client::testSon()
+{
+    PaStream *stream;
+    _sonSend.SetInputParameters();
+    // _sonReceive.SetInputParameters();
+    while (1) {
+        // PaStream *stream;
+        // _sonSend.SetInputParameters();
+        std::cout << "1" << std::endl;
+        _sonSend.SetData(5, 44100, 2);
+        std::cout << "2" << std::endl;
+        stream = _sonSend.RecordStream();
+        std::cout << "3" << std::endl;
+        _sonSend.StartStream(stream);
+        std::cout << "4" << std::endl;
+        Pa_Sleep(3000);
+        std::cout << "5" << std::endl;
+        _sonSend.CloseStream(stream);
+        std::cout << "6" << std::endl;
+        _sonReceive.SetOutputParameters();
+        _sonReceive.setDataFrameIndex();
+        std::cout << "7" << std::endl;
+        _sonReceive.PlayStream(stream);
+        std::cout << "8" << std::endl;
+        _sonSend.StartStream(stream);
+        Pa_Sleep(3000);
+        std::cout << "9" << std::endl;
+        _sonSend.CloseStream(stream);
+        std::cout << "10" << std::endl;
+    }
 }

@@ -12,6 +12,7 @@
 #include <QtNetwork/QUdpSocket>
 #include <QtCore/QObject>
 #include <QtWidgets>
+#include "unistd.h"
 #include <thread>
 #include <mutex>
 
@@ -24,7 +25,11 @@ class Client : public QWidget
         explicit Client(std::string addr, int port, QObject *parent = 0);
         ~Client();
 
-        void initSocket();
+        void audioInput();
+        void audioSend();
+        void audioOutput();
+
+        void testSon(); //a virer avant la fin c juste un test
 
     signals:
 
@@ -58,7 +63,12 @@ class Client : public QWidget
 
         QGridLayout *_gridLayout;
 
-        PortAudio _son;
+        bool _isCalling;
+
+        PortAudio _sonSend;
+        PortAudio _sonReceive;
+        PaStream *_streamSend;
+        PaStream *_streamReceive;
 
         std::thread _threadInputSon;
         std::thread _threadSendSon;

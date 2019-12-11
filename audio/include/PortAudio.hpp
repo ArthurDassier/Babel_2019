@@ -28,8 +28,6 @@ class PortAudio {
         PortAudio();
         ~PortAudio();
 
-        // readStream(void)
-
         void SetInputParameters();
         void SetOutputParameters();
         void SetData(int, int, int);
