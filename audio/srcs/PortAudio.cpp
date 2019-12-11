@@ -9,7 +9,8 @@
 
 PortAudio::PortAudio():
     _sample_rate(44100),
-    _frame_per_buffer(512)
+    _frame_per_buffer(512),
+    _isFreeable(false)
 {
     _err = Pa_Initialize();
     if (_err != paNoError)
@@ -19,7 +20,8 @@ PortAudio::PortAudio():
 PortAudio::~PortAudio()
 {
     Pa_Terminate();
-    if (_data.recordedSamples)
+    std::cout << "C LLAAA : " << *_data.recordedSamples << std::endl;
+    if (_isFreeable == true)
         free(_data.recordedSamples);
 }
 
@@ -49,6 +51,8 @@ void PortAudio::SetData(int num_seconds, int sample_rate, int num_channels)
 
     for (int i = 0; i < numSamples; ++i)
         _data.recordedSamples[i] = 0;
+
+    _isFreeable = true;
 }
 
 void PortAudio::SetOutputParameters()

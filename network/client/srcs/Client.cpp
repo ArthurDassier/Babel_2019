@@ -58,6 +58,13 @@ Client::Client(std::string addr, int port, QObject *parent):
     this->setLayout(_gridLayout);
 
     this->setWindowTitle("Babel");
+
+    // _son.SetInputParameters();
+}
+
+Client::~Client()
+{
+    // _son.~PortAudio();
 }
 
 void Client::SaySomething()
@@ -107,7 +114,30 @@ void Client::tryToCall()
     QByteArray Data;
     Data.append("Hello from other client\n");
     socket->writeDatagram(Data, addr, f_port);
-    //voir si le texte peut apparaitre si trop gros...
+
+    PaStream *stream;
+    _son.SetInputParameters();
+    std::cout << "1" << std::endl;
+    _son.SetData(5, 44100, 2);
+    std::cout << "2" << std::endl;
+    stream = _son.RecordStream();
+    std::cout << "3" << std::endl;
+    _son.StartStream(stream);
+    std::cout << "4" << std::endl;
+    Pa_Sleep(3000);
+    std::cout << "5" << std::endl;
+    _son.CloseStream(stream);
+    std::cout << "6" << std::endl;
+    _son.SetOutputParameters();
+    _son.setDataFrameIndex();
+    std::cout << "7" << std::endl;
+    _son.PlayStream(stream);
+    std::cout << "8" << std::endl;
+    _son.StartStream(stream);
+    Pa_Sleep(3000);
+    std::cout << "9" << std::endl;
+    _son.CloseStream(stream);
+    std::cout << "10" << std::endl;
 }
 
 void Client::takeIp()

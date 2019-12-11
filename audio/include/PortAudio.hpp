@@ -56,4 +56,6 @@ class PortAudio {
 
         short _sample_rate;
         short _frame_per_buffer;
+
+        bool _isFreeable;
 };

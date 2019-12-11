@@ -35,6 +35,7 @@ add_executable(babel_client
 target_link_libraries(babel_client
     Qt5::Widgets
     Qt5::Network
+    audio
 )
 
 set_target_properties(babel_client PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}")

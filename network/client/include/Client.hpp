@@ -12,13 +12,17 @@
 #include <QtNetwork/QUdpSocket>
 #include <QtCore/QObject>
 #include <QtWidgets>
+#include <thread>
+#include <mutex>
+
+#include "PortAudio.hpp"
 
 class Client : public QWidget
 {
     Q_OBJECT
     public:
         explicit Client(std::string addr, int port, QObject *parent = 0);
-        ~Client(){};
+        ~Client();
 
         void initSocket();
 
@@ -53,4 +57,10 @@ class Client : public QWidget
         QPushButton *_buttonCall;
 
         QGridLayout *_gridLayout;
+
+        PortAudio _son;
+
+        std::thread _threadInputSon;
+        std::thread _threadSendSon;
+        std::thread _threadOutputSon;
 };
