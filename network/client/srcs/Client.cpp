@@ -99,14 +99,12 @@ void Client::readyRead()
         _textResponse->setText(Buffer.data());
     else {
         _textResponse->setText("en appelle\n");
-        // _sonSend.SetInputParameters();
-        _sonSend.SetData(5, 44100, 2);
-        _sonSend.SetOutputParameters();
-        _sonSend.setDataFrameIndex();
-        std::vector<unsigned short> decoded(Buffer.data(), Buffer.data() + Buffer.size());
-        std::cout << "vector: " << decoded.data() << std::endl;
-        _streamReceive = _sonSend.writeStream(decoded);
-        _sonSend.PlayStream(_streamReceive);
+        PaStream *stream = _test.openStream();
+        std::vector<unsigned short> decoded(BUFFER_SIZE * CHANNELS);
+        opus_int32 dec_bytes;
+        std::vector<unsigned char> encoded(Buffer.data(), Buffer.data() + Buffer.size());
+        _test.decode(encoded, dec_bytes);
+        _test.writeStream(stream, decoded);
         std::cout << "fin du play" << std::endl;
     }
     // std::string str(Buffer.data());
@@ -241,26 +239,30 @@ void Client::tryToCall()
     // opus_encoder_destroy(enc);
 
 
-    testAudio test;
+    // testAudio test;
     PaStream *stream;
     std::vector<unsigned short> captured(BUFFER_SIZE * CHANNELS);
     std::vector<unsigned short> decoded(BUFFER_SIZE * CHANNELS);
     std::vector<unsigned char> encoded(BUFFER_SIZE * CHANNELS * 2);
     opus_int32 dec_bytes;
     int i = 0;
+    QByteArray send;
 
-    stream = test.openStream();
-    test.startStream(stream);
+    stream = _test.openStream();
+    _test.startStream(stream);
 
     while (i < SAMPLE_RATE * 5) { //5-> les secondes que ca dure
-        captured = test.readStream(stream);
-        encoded = test.encode(captured);
-        decoded = test.decode(encoded, dec_bytes);
-        test.writeStream(stream, decoded);
+        captured = _test.readStream(stream);
+        encoded = _test.encode(captured);
+        /* envoyer */
+        send = reinterpret_cast<char*>(encoded.data());
+        socket->writeDatagram(send, _add, _port);
+        // decoded = _test.decode(encoded, dec_bytes);
+        // _test.writeStream(stream, decoded);
         i += BUFFER_SIZE;
     }
-    test.stopStream(stream);
-    test.closeStream(stream);
+    _test.stopStream(stream);
+    _test.closeStream(stream);
     // test.~testAudio();
 
 

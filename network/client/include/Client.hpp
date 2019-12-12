@@ -70,6 +70,8 @@ class Client : public QWidget
         PaStream *_streamSend;
         PaStream *_streamReceive;
 
+        testAudio _test;
+
         std::thread _threadInputSon;
         std::thread _threadSendSon;
         std::thread _threadOutputSon;
