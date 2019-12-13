@@ -301,6 +301,34 @@ testAudio::~testAudio()
     opus_decoder_destroy(_dec);
 }
 
+void testAudio::initOutputInfo()
+{
+    _outputInfo.device = Pa_GetDefaultOutputDevice();
+    if (_outputInfo.device == paNoDevice) {
+        std::cout << "error: No default output device." << std::endl;
+        exit(84);
+    }
+    _outputInfo.channelCount = 2; //2 ?
+    _outputInfo.sampleFormat = paFloat32;
+    _outputInfo.suggestedLatency = Pa_GetDeviceInfo(_outputInfo.device)->defaultLowOutputLatency;
+    _outputInfo.hostApiSpecificStreamInfo = NULL;
+}
+
+void testAudio::initData(int num_seconds, int sample_rate, int num_channels)
+{
+    int numSamples;
+    int numBytes;
+
+    _data.maxFrameIndex = num_seconds * sample_rate;
+    _data.frameIndex = 0;
+    numSamples = _data.maxFrameIndex * num_channels;
+    numBytes = numSamples * sizeof(float);
+    _data.recordedSamples = static_cast<float *>(malloc(numBytes));
+
+    for (int i = 0; i < numSamples; ++i)
+        _data.recordedSamples[i] = 0;
+}
+
 PaStream *testAudio::openStream()
 {
     PaError paErr;
@@ -372,6 +400,7 @@ void testAudio::writeStream(PaStream* stream, std::vector<unsigned short> decode
 
     if ((paErr = Pa_WriteStream(stream, decoded.data(), BUFFER_SIZE)) != paNoError) {
         std::cout << "Pa_WriteStream failed: " << Pa_GetErrorText(paErr) << std::endl;
+        exit(84);
     }
 }
 
@@ -403,4 +432,61 @@ OpusEncoder *testAudio::getEncoder()
 OpusDecoder *testAudio::getDecoder()
 {
     return _dec;
+}
+
+
+static int patestCallback(const void *inputBuffer, void *outputBuffer,
+                        unsigned long framesPerBuffer,
+                        const PaStreamCallbackTimeInfo *timeInfo,
+                        PaStreamCallbackFlags statusFlags,
+                        void *userData)
+{
+    paTestData *data = static_cast<paTestData *>(userData);
+    float *rptr = &data->recordedSamples[data->frameIndex * 2];
+    float *wptr = static_cast<float *>(outputBuffer);
+    unsigned int i;
+    int finished;
+    unsigned int framesLeft = data->maxFrameIndex - data->frameIndex;
+
+    if (framesLeft < framesPerBuffer) {
+        /* final buffer... */
+        for (i = 0; i < framesLeft; ++i) {
+            *wptr++ = *rptr++; /* left */
+            *wptr++ = *rptr++; /* right */
+        }
+        for (; i < framesPerBuffer; ++i) {
+            *wptr++ = 0; /* left */
+            *wptr++ = 0; /* right */
+        }
+        data->frameIndex += framesLeft;
+        finished = paComplete;
+    } else {
+        for (i = 0; i < framesPerBuffer; ++i) {
+            *wptr++ = *rptr++; /* left */
+            *wptr++ = *rptr++; /* right */
+        }
+        data->frameIndex += framesPerBuffer;
+        finished = paContinue;
+    }
+    return finished;
+}
+
+void testAudio::playStream(PaStream *stream)
+{
+    PaError paErr;
+
+    paErr = Pa_OpenStream(
+        &stream,
+        NULL,
+        &_outputInfo,
+        44100,
+        512, //frame_per_buffer
+        paClipOff,
+        patestCallback,
+        &_data);
+    if (paErr != paNoError) {
+        std::cout << paErr << std::endl;
+        std::cout << Pa_GetErrorText(paErr) << std::endl;
+        exit(84);
+    }
 }

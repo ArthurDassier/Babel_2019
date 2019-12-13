@@ -69,12 +69,15 @@ class testAudio
         testAudio();
         ~testAudio();
 
+        void initOutputInfo();
+        void initData(int, int, int);
         PaStream *openStream();
         void startStream(PaStream* stream);
         std::vector<unsigned short> readStream(PaStream* stream);
         std::vector<unsigned char> encode(std::vector<unsigned short> captured);
         std::vector<unsigned short> decode(std::vector<unsigned char> encoded, opus_int32 &dec_bytes);
         void writeStream(PaStream* stream, std::vector<unsigned short> decoded);
+        void playStream(PaStream *stream);
         void stopStream(PaStream* stream);
         void closeStream(PaStream* stream);
 
@@ -84,4 +87,6 @@ class testAudio
     private:
         OpusEncoder *_enc;
         OpusDecoder* _dec;
+        PaStreamParameters _outputInfo;
+        paTestData _data;
 };
