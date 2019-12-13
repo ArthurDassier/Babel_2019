@@ -9,7 +9,8 @@
 
 Client::Client(std::string addr, int port, QObject *parent):
     QWidget(),
-    _isCalling(false)
+    _isCalling(false),
+    _firstTime(true)
 {
     socket = new QUdpSocket(this);
     socket->bind(QHostAddress::LocalHost, 4086);
@@ -100,16 +101,20 @@ void Client::readyRead()
     else {
         _textResponse->setText("en appelle\n");
         // PaStream *stream = _test.openStream();
-        PaStream *stream;
-        _test.initData(5, 48000, 2);
-        // _test.playStream(stream);
+        if (_firstTime == true) {
+            _test.initOutputInfo();
+            _test.playStream(_streamReceive);
+            _firstTime = false;
+        }
+        _test.startStream(_streamReceive);
         std::vector<unsigned short> decoded(BUFFER_SIZE * CHANNELS);
         opus_int32 dec_bytes;
         std::vector<unsigned char> encoded(Buffer.data(), Buffer.data() + Buffer.size());
         _test.decode(encoded, dec_bytes);
         std::cout << "~DECODED " << Buffer.size() << std::endl;
-        // _test.writeStream(stream, decoded);
+        _test.writeStream(_streamReceive, decoded);
         std::cout << "fin du play" << std::endl;
+        _test.stopStream(_streamReceive);
     }
     // std::string str(Buffer.data());
     // std::cout << str << std::endl;

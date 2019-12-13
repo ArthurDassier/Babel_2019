@@ -303,14 +303,24 @@ testAudio::~testAudio()
 
 void testAudio::initOutputInfo()
 {
-    _outputInfo.device = Pa_GetDefaultOutputDevice();
+    // _outputInfo.device = Pa_GetDefaultOutputDevice();
+    // if (_outputInfo.device == paNoDevice) {
+    //     std::cout << "error: No default output device." << std::endl;
+    //     exit(84);
+    // }
+    // _outputInfo.channelCount = 2; //2 ?
+    // _outputInfo.sampleFormat = paFloat32;
+    // _outputInfo.suggestedLatency = Pa_GetDeviceInfo(_outputInfo.device)->defaultLowOutputLatency;
+    // _outputInfo.hostApiSpecificStreamInfo = NULL;
+
+    _outputInfo.device = Pa_GetDefaultOutputDevice(); /* default output device */
     if (_outputInfo.device == paNoDevice) {
-        std::cout << "error: No default output device." << std::endl;
+        std::cout << "Error: No default output device." << std::endl;
         exit(84);
     }
-    _outputInfo.channelCount = 2; //2 ?
-    _outputInfo.sampleFormat = paFloat32;
-    _outputInfo.suggestedLatency = Pa_GetDeviceInfo(_outputInfo.device)->defaultLowOutputLatency;
+    _outputInfo.channelCount = 2;       /* stereo output */
+    _outputInfo.sampleFormat = paFloat32; /* 32 bit floating point output */
+    _outputInfo.suggestedLatency = 0.050; // Pa_GetDeviceInfo( outputParameters.device )->defaultLowOutputLatency;
     _outputInfo.hostApiSpecificStreamInfo = NULL;
 }
 
@@ -473,17 +483,33 @@ static int patestCallback(const void *inputBuffer, void *outputBuffer,
 
 void testAudio::playStream(PaStream *stream)
 {
+    // PaError paErr;
+
+    // paErr = Pa_OpenStream(
+    //     &stream,
+    //     NULL,
+    //     &_outputInfo,
+    //     44100,
+    //     512, //frame_per_buffer
+    //     paClipOff,
+    //     patestCallback,
+    //     &_data);
+    // if (paErr != paNoError) {
+    //     std::cout << paErr << std::endl;
+    //     std::cout << Pa_GetErrorText(paErr) << std::endl;
+    //     exit(84);
+    // }
     PaError paErr;
 
     paErr = Pa_OpenStream(
-        &stream,
-        NULL,
-        &_outputInfo,
-        44100,
-        512, //frame_per_buffer
-        paClipOff,
-        patestCallback,
-        &_data);
+            &stream,
+            NULL, /* no input */
+            &_outputInfo,
+            44100,
+            1024,
+            paClipOff,      /* we won't output out of range samples so don't bother clipping them */
+            NULL, /* no callback, use blocking API */
+            NULL ); /* no callback, so no callback userData */
     if (paErr != paNoError) {
         std::cout << paErr << std::endl;
         std::cout << Pa_GetErrorText(paErr) << std::endl;

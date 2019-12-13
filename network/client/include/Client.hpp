@@ -64,6 +64,7 @@ class Client : public QWidget
         QGridLayout *_gridLayout;
 
         bool _isCalling;
+        bool _firstTime;
 
         PortAudio _sonSend;
         PortAudio _sonReceive;
