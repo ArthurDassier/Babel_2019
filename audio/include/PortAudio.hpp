@@ -77,7 +77,7 @@ class testAudio
         std::vector<unsigned char> encode(std::vector<unsigned short> captured);
         std::vector<unsigned short> decode(std::vector<unsigned char> encoded, opus_int32 &dec_bytes);
         void writeStream(PaStream* stream, std::vector<unsigned short> decoded);
-        void playStream(PaStream *stream);
+        PaStream *playStream();
         void stopStream(PaStream* stream);
         void closeStream(PaStream* stream);
 

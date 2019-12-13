@@ -481,7 +481,7 @@ static int patestCallback(const void *inputBuffer, void *outputBuffer,
     return finished;
 }
 
-void testAudio::playStream(PaStream *stream)
+PaStream *testAudio::playStream()
 {
     // PaError paErr;
 
@@ -500,6 +500,7 @@ void testAudio::playStream(PaStream *stream)
     //     exit(84);
     // }
     PaError paErr;
+    PaStream *stream;
 
     paErr = Pa_OpenStream(
             &stream,
@@ -508,11 +509,12 @@ void testAudio::playStream(PaStream *stream)
             44100,
             1024,
             paClipOff,      /* we won't output out of range samples so don't bother clipping them */
-            NULL, /* no callback, use blocking API */
-            NULL ); /* no callback, so no callback userData */
+            patestCallback, /* no callback, use blocking API */
+            &_data ); /* no callback, so no callback userData */
     if (paErr != paNoError) {
         std::cout << paErr << std::endl;
         std::cout << Pa_GetErrorText(paErr) << std::endl;
         exit(84);
     }
+    return stream;
 }

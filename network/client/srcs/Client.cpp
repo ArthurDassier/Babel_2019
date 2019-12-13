@@ -100,21 +100,22 @@ void Client::readyRead()
         _textResponse->setText(Buffer.data());
     else {
         _textResponse->setText("en appelle\n");
-        // PaStream *stream = _test.openStream();
-        if (_firstTime == true) {
-            _test.initOutputInfo();
-            _test.playStream(_streamReceive);
-            _firstTime = false;
-        }
-        _test.startStream(_streamReceive);
+        PaStream *stream = _test.openStream();
+        // if (_firstTime == true) {
+        _test.initOutputInfo();
+        _test.initData(5, 44100, 2);
+        stream = _test.playStream();
+            // _firstTime = false;
+        // }
+        // _test.startStream(_streamReceive);
         std::vector<unsigned short> decoded(BUFFER_SIZE * CHANNELS);
         opus_int32 dec_bytes;
         std::vector<unsigned char> encoded(Buffer.data(), Buffer.data() + Buffer.size());
-        _test.decode(encoded, dec_bytes);
+        decoded = _test.decode(encoded, dec_bytes);
         std::cout << "~DECODED " << Buffer.size() << std::endl;
         _test.writeStream(_streamReceive, decoded);
         std::cout << "fin du play" << std::endl;
-        _test.stopStream(_streamReceive);
+        // _test.stopStream(_streamReceive);
     }
     // std::string str(Buffer.data());
     // std::cout << str << std::endl;
