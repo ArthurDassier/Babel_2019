@@ -410,7 +410,7 @@ void testAudio::writeStream(PaStream* stream, std::vector<unsigned short> decode
 
     if ((paErr = Pa_WriteStream(stream, decoded.data(), BUFFER_SIZE)) != paNoError) {
         std::cout << "Pa_WriteStream failed: " << Pa_GetErrorText(paErr) << std::endl;
-        exit(84);
+        // exit(84);
     }
 }
 
