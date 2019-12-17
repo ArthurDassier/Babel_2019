@@ -25,12 +25,6 @@ class Client : public QWidget
         explicit Client(std::string addr, int port, QObject *parent = 0);
         ~Client();
 
-        void audioInput();
-        void audioSend();
-        void audioOutput();
-
-        void testSon(); //a virer avant la fin c juste un test
-
     signals:
 
 
@@ -66,16 +60,7 @@ class Client : public QWidget
         bool _isCalling;
         bool _firstTime;
 
-        PortAudio _sonSend;
-        PortAudio _sonReceive;
-        PaStream *_streamSend;
-        PaStream *_streamReceive;
-
         PaStream *_stream;
 
         testAudio _test;
-
-        std::thread _threadInputSon;
-        std::thread _threadSendSon;
-        std::thread _threadOutputSon;
 };
