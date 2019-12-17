@@ -13,7 +13,7 @@ Client::Client(std::string addr, int port, QObject *parent):
     _firstTime(true)
 {
     socket = new QUdpSocket(this);
-    socket->bind(QHostAddress::LocalHost, 4086);
+    // socket->bind(QHostAddress::LocalHost, 4086);
     connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
 
     QString str = QString::fromUtf8(addr.c_str());
@@ -129,17 +129,18 @@ void Client::readyRead()
         _textResponse->setText(Buffer.data());
     else {
         _textResponse->setText("en appelle\n");
-        PaStream *stream = _test.openStream();
-        _test.startStream(stream);
+        // PaStream *stream = _test.openStream();
+        // _test.startStream(stream);
+
         std::string str = Buffer.toStdString();
-        str.erase(str.begin());
         std::vector<unsigned char> encoded(str.begin(), str.end()); //ici pour le recu
         std::vector<unsigned char> decode_char = charToUChar(str);
         std::vector<unsigned short> decoded = _test.decode(decode_char);
         std::cout << "decoded: ";
         for (auto const& c : decoded)
             std::cout << c << ' ';
-        _test.writeStream(stream, decoded);
+        _test.writeStream(_stream, decoded);
+
         // std::vector<unsigned short> decoded(BUFFER_SIZE * CHANNELS);
         // opus_int32 dec_bytes;
         // std::vector<unsigned char> encoded(Buffer.data(), Buffer.data() + Buffer.size());
@@ -147,8 +148,8 @@ void Client::readyRead()
         // std::cout << "~DECODED " << Buffer.size() << std::endl;
         // _test.writeStream(stream, decoded);
         std::cout << "fin du play" << std::endl;
-        _test.stopStream(stream);
-        _test.closeStream(stream);
+        // _test.stopStream(stream);
+        // _test.closeStream(stream);
 
     }
     // std::string str(Buffer.data());
@@ -161,6 +162,8 @@ void Client::readyRead()
     if (receive.compare("Hello from other client\n") == 0) {
         std::cout << "qq veut call" << std::endl;
         _isCalling = true;
+        _stream = _test.openStream();
+        _test.startStream(_stream);
     }
 }
 
@@ -286,7 +289,7 @@ void Client::tryToCall()
     // testAudio test;
     PaStream *stream;
     // std::vector<unsigned short> captured(BUFFER_SIZE * CHANNELS);
-    // std::vector<unsigned short> decoded(BUFFER_SIZE * CHANNELS);
+    std::vector<unsigned short> decoded(BUFFER_SIZE * CHANNELS);
     // std::vector<unsigned char> encoded(BUFFER_SIZE * CHANNELS * 2);
     opus_int32 dec_bytes;
     int i = 0;
@@ -304,7 +307,7 @@ void Client::tryToCall()
         std::vector<unsigned char> encoded = _test.encode(captured);
         std::string encoded_msg(encoded.begin(), encoded.end());
         msg += encoded_msg;
-        std::string new_msg = char(6) + uCharToChar(encoded);
+        std::string new_msg = uCharToChar(encoded);//char(6) + uCharToChar(encoded);
         QByteArray NewData;
         NewData.append(new_msg.c_str());
         socket->writeDatagram(NewData, _add, _port);
@@ -313,7 +316,11 @@ void Client::tryToCall()
         /* envoyer */
         // send = reinterpret_cast<char*>(encoded.data());
         // socket->writeDatagram(send, _add, _port);
-        // decoded = _test.decode(encoded, dec_bytes);
+
+        // std::vector<unsigned char> decode_char = charToUChar(new_msg);
+        // std::vector<unsigned short> decoded = _test.decode(decode_char);
+
+        // decoded = _test.decode(encoded);
         // _test.writeStream(stream, decoded);
         i += BUFFER_SIZE;
     }
