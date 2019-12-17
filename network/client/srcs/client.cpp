@@ -15,7 +15,6 @@ int main(int argc, char *argv[])
     Client s(argv[1], std::atoi(argv[2]));
 
     s.show();
-    // s.testSon();
 
     return a.exec();
 }
