@@ -18,11 +18,14 @@ int main()
 
     while (i < SAMPLE_RATE * 5) { //5-> les secondes que ca dure
         captured = _test.readStream(stream);
+        std::cout << "captured: ";
+        for (auto const& c : captured)
+            std::cout << c << ' ';
         encoded = _test.encode(captured);
-        /* envoyer */
-        // send = reinterpret_cast<char*>(encoded.data());
-        // socket->writeDatagram(send, _add, _port);
-        decoded = _test.decode(encoded, dec_bytes);
+        decoded = _test.decode(encoded);
+        std::cout << "decoded: ";
+        for (auto const& c : decoded)
+            std::cout << c << ' ';
         _test.writeStream(test, decoded);
         i += BUFFER_SIZE;
     }

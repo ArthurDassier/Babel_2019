@@ -390,10 +390,10 @@ std::vector<unsigned char> testAudio::encode(std::vector<unsigned short> capture
     return encoded;
 }
 
-std::vector<unsigned short> testAudio::decode(std::vector<unsigned char> encoded, opus_int32 &dec_bytes)
+std::vector<unsigned short> testAudio::decode(std::vector<unsigned char> encoded)
 {
     std::vector<unsigned short> decoded(BUFFER_SIZE * CHANNELS);
-    // opus_int32 dec_bytes;
+    opus_int32 dec_bytes;
     opus_int32 enc_bytes = 150; //128 de base...
 
     if ((dec_bytes = opus_decode(_dec, encoded.data(), enc_bytes,

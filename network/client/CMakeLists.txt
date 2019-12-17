@@ -10,7 +10,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(SOURCES
-    ./srcs/client.cpp
+    ./srcs/sond.cpp
     ./srcs/Client.cpp
 )
 
@@ -27,7 +27,7 @@ include_directories(${CMAKE_BINARY_DIR})
 QT5_WRAP_CPP(moc_manager ${MOC_HEADERS})
 
 add_executable(babel_client
-    ./srcs/client.cpp
+    ./srcs/sond.cpp
     ./srcs/Client.cpp
     ${moc_manager}
 )
