@@ -132,21 +132,21 @@ void Client::readyRead()
         // PaStream *stream = _test.openStream();
         // _test.startStream(stream);
 
-        std::string str = Buffer.toStdString();
-        std::vector<unsigned char> encoded(str.begin(), str.end()); //ici pour le recu
-        std::vector<unsigned char> decode_char = charToUChar(str);
-        std::vector<unsigned short> decoded = _test.decode(decode_char);
-        std::cout << "decoded: ";
-        for (auto const& c : decoded)
-            std::cout << c << ' ';
-        _test.writeStream(_stream, decoded);
+        // std::string str = Buffer.toStdString();
+        // std::vector<unsigned char> encoded(str.begin(), str.end()); //ici pour le recu
+        // std::vector<unsigned char> decode_char = charToUChar(str);
+        // std::vector<unsigned short> decoded = _test.decode(decode_char);
+        // std::cout << "decoded: ";
+        // for (auto const& c : decoded)
+        //     std::cout << c << ' ';
+        // _test.writeStream(_stream, decoded);
 
-        // std::vector<unsigned short> decoded(BUFFER_SIZE * CHANNELS);
-        // opus_int32 dec_bytes;
-        // std::vector<unsigned char> encoded(Buffer.data(), Buffer.data() + Buffer.size());
-        // decoded = _test.decode(encoded);
-        // std::cout << "~DECODED " << Buffer.size() << std::endl;
-        // _test.writeStream(stream, decoded);
+        std::vector<unsigned short> decoded(BUFFER_SIZE * CHANNELS);
+        opus_int32 dec_bytes;
+        std::vector<unsigned char> encoded(Buffer.data(), Buffer.data() + Buffer.size());
+        decoded = _test.decode(encoded);
+        std::cout << "~DECODED " << Buffer.size() << std::endl;
+        _test.writeStream(_stream, decoded);
         std::cout << "fin du play" << std::endl;
         // _test.stopStream(stream);
         // _test.closeStream(stream);
@@ -288,9 +288,9 @@ void Client::tryToCall()
 
     // testAudio test;
     PaStream *stream;
-    // std::vector<unsigned short> captured(BUFFER_SIZE * CHANNELS);
+    std::vector<unsigned short> captured(BUFFER_SIZE * CHANNELS);
     std::vector<unsigned short> decoded(BUFFER_SIZE * CHANNELS);
-    // std::vector<unsigned char> encoded(BUFFER_SIZE * CHANNELS * 2);
+    std::vector<unsigned char> encoded(BUFFER_SIZE * CHANNELS * 2);
     opus_int32 dec_bytes;
     int i = 0;
     QByteArray send;
@@ -299,23 +299,23 @@ void Client::tryToCall()
     _test.startStream(stream);
 
     while (i < SAMPLE_RATE * 5) { //5-> les secondes que ca dure
-        std::string msg("");
-        std::vector<unsigned short> captured = _test.readStream(stream);
-        std::cout << "captured: ";
-        for (auto const& c : captured)
-            std::cout << c << ' ';
-        std::vector<unsigned char> encoded = _test.encode(captured);
-        std::string encoded_msg(encoded.begin(), encoded.end());
-        msg += encoded_msg;
-        std::string new_msg = uCharToChar(encoded);//char(6) + uCharToChar(encoded);
-        QByteArray NewData;
-        NewData.append(new_msg.c_str());
-        socket->writeDatagram(NewData, _add, _port);
-        // captured = _test.readStream(stream);
-        // encoded = _test.encode(captured);
+        // std::string msg("");
+        // std::vector<unsigned short> captured = _test.readStream(stream);
+        // std::cout << "captured: ";
+        // for (auto const& c : captured)
+        //     std::cout << c << ' ';
+        // std::vector<unsigned char> encoded = _test.encode(captured);
+        // std::string encoded_msg(encoded.begin(), encoded.end());
+        // msg += encoded_msg;
+        // std::string new_msg = uCharToChar(encoded);//char(6) + uCharToChar(encoded);
+        // QByteArray NewData;
+        // NewData.append(new_msg.c_str());
+        // socket->writeDatagram(NewData, _add, _port);
+        captured = _test.readStream(stream);
+        encoded = _test.encode(captured);
         /* envoyer */
-        // send = reinterpret_cast<char*>(encoded.data());
-        // socket->writeDatagram(send, _add, _port);
+        send = reinterpret_cast<char*>(encoded.data());
+        socket->writeDatagram(send, _add, _port);
 
         // std::vector<unsigned char> decode_char = charToUChar(new_msg);
         // std::vector<unsigned short> decoded = _test.decode(decode_char);
