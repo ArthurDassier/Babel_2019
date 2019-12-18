@@ -33,6 +33,8 @@ class Client : public QWidget
         void takeIp();
         void SaySomething();
         void tryToCall();
+        void speaking();
+        void listening(QByteArray Buffer);
 
     private:
         QUdpSocket *socket;
@@ -60,7 +62,8 @@ class Client : public QWidget
         bool _isCalling;
         bool _firstTime;
 
-        PaStream *_stream;
+        PaStream *_streamSpeak;
+        PaStream *_streamListen;
 
         testAudio _test;
 };
