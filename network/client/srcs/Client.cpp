@@ -149,6 +149,8 @@ void Client::tryToCall()
 
     _streamSpeak = _test.openStream();
     _test.startStream(_streamSpeak);
+    _streamListen = _test.openStream();
+    _test.startStream(_streamListen);
     _timerSpeak->start();
     _isCalling = true;
     // PaStream *stream;
