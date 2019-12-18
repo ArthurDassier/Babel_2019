@@ -25,6 +25,8 @@ class Client : public QWidget
         explicit Client(std::string addr, int port, QObject *parent = 0);
         ~Client();
 
+        void listening(QByteArray Buffer);
+
     signals:
 
 
@@ -34,7 +36,7 @@ class Client : public QWidget
         void SaySomething();
         void tryToCall();
         void speaking();
-        void listening(QByteArray Buffer);
+
 
     private:
         QUdpSocket *socket;
@@ -64,6 +66,8 @@ class Client : public QWidget
 
         PaStream *_streamSpeak;
         PaStream *_streamListen;
+
+        QTimer *_timerSpeak;
 
         testAudio _test;
 };

@@ -10,7 +10,8 @@
 Client::Client(std::string addr, int port, QObject *parent):
     QWidget(),
     _isCalling(false),
-    _firstTime(true)
+    _firstTime(true),
+    _timerSpeak(new QTimer())
 {
     socket = new QUdpSocket(this);
     connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
@@ -58,6 +59,9 @@ Client::Client(std::string addr, int port, QObject *parent):
     this->setLayout(_gridLayout);
 
     this->setWindowTitle("Babel");
+
+    _timerSpeak->setInterval(1);
+    connect(_timerSpeak, SIGNAL(timeout()), this, SLOT(speaking()));
 }
 
 Client::~Client()
@@ -122,6 +126,9 @@ void Client::readyRead()
         _isCalling = true;
         _streamListen = _test.openStream();
         _test.startStream(_streamListen);
+        _streamSpeak = _test.openStream();
+        _test.startStream(_streamSpeak);
+        _timerSpeak->start();
     }
 }
 
@@ -140,6 +147,10 @@ void Client::tryToCall()
     _add = addr;
     _port = f_port; //attention mtn parle a lautre client
 
+    _streamSpeak = _test.openStream();
+    _test.startStream(_streamSpeak);
+    _timerSpeak->start();
+    _isCalling = true;
     // PaStream *stream;
     // std::vector<unsigned short> captured(BUFFER_SIZE * CHANNELS);
     // std::vector<unsigned short> decoded(BUFFER_SIZE * CHANNELS);
@@ -186,17 +197,11 @@ void Client::speaking()
     std::vector<unsigned short> captured(BUFFER_SIZE * CHANNELS);
     std::vector<unsigned char> encoded(BUFFER_SIZE * CHANNELS * 2);
     QByteArray send;
-    _streamSpeak = _test.openStream();
-    _test.startStream(_streamSpeak);
 
-    while (1) { //5-> les secondes que ca dure
-        captured = _test.readStream(_streamSpeak);
-        encoded = _test.encode(captured);
-        send = reinterpret_cast<char*>(encoded.data());
-        socket->writeDatagram(send, _add, _port);
-    }
-    _test.stopStream(_streamSpeak);
-    _test.closeStream(_streamSpeak);
+    captured = _test.readStream(_streamSpeak);
+    encoded = _test.encode(captured);
+    send = reinterpret_cast<char*>(encoded.data());
+    socket->writeDatagram(send, _add, _port);
 }
 
 void Client::listening(QByteArray Buffer)
