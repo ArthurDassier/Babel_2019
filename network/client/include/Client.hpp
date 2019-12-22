@@ -16,6 +16,7 @@
 #include <thread>
 #include <mutex>
 
+#include "ClientInterface.hpp"
 #include "PortAudio.hpp"
 
 class Client : public QWidget
@@ -23,43 +24,22 @@ class Client : public QWidget
     Q_OBJECT
     public:
         explicit Client(std::string addr, int port, QObject *parent = 0);
-        ~Client();
+        ~Client() = default;
 
         void listening(QByteArray Buffer);
 
     signals:
 
-
     public slots:
         void readyRead();
-        void takeIp();
-        void SaySomething();
-        void tryToCall();
+        void sendToServer();
+        void initCall();
         void speaking();
-
 
     private:
         QUdpSocket *socket;
         QHostAddress _add;
         quint16 _port;
-
-        QLabel *_labelResponse;
-        QLabel *_textResponse;
-        QFormLayout *_responseLayout;
-
-        QLabel *_labelCommand;
-        QLineEdit *_lineCommand;
-        QFormLayout *_commandLayout;
-        QPushButton *_buttonCommand;
-
-        QLabel *_labelPort;
-        QLineEdit *_linePort;
-        QLabel *_labelAddress;
-        QLineEdit *_lineAddress;
-        QFormLayout *_callLayout;
-        QPushButton *_buttonCall;
-
-        QGridLayout *_gridLayout;
 
         bool _isCalling;
         bool _firstTime;
@@ -69,5 +49,6 @@ class Client : public QWidget
 
         QTimer *_timerSpeak;
 
+        ClientInterface UI;
         testAudio _test;
 };

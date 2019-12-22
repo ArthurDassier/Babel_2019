@@ -1,32 +1,44 @@
-include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup()
-
-find_package(Qt5Widgets CONFIG REQUIRED)
+project(client_interface)
 
 include_directories(
     ./include
+    ${CMAKE_BINARY_DIR}
     ${CMAKE_INCLUDE_PATH}
 )
-
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-set(MOC_FILES
-    ./include/mainwindow.h
+set(SOURCES
+    ./srcs/ClientInterface.cpp
+    ./srcs/QtInterface.cpp
 )
 
-QT5_WRAP_CPP(moc_manager ${MOC_FILES})
+set(MOC_HEADERS
+    ./include/ClientInterface.hpp
+    ./include/QtInterface.hpp
+)
 
-add_executable(interface
-    ./main.cpp
-    ./mainwindow.cpp
+find_package(Qt5Widgets CONFIG REQUIRED)
+
+add_definitions(${QT_DEFINITIONS})
+
+QT5_WRAP_CPP(moc_manager ${MOC_HEADERS})
+
+add_library(interface
+    STATIC
+    ./srcs/ClientInterface.cpp
+    ./srcs/QtInterface.cpp
     ${moc_manager}
 )
 
+target_include_directories(interface INTERFACE
+    ./include()
+)
+
 target_link_libraries(interface
-    # ${CONAN_LIBS}
     Qt5::Widgets
 )
-set_target_properties(interface PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}")
+
+set_target_properties(interface PROPERTIES LINKER_LANGUAGE CXX)
