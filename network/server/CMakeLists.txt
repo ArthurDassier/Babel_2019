@@ -15,7 +15,8 @@ SET(USED_LIBS
 )
 
 ADD_EXECUTABLE(babel_server
-    ./srcs/udp.cpp
+    ./srcs/server.cpp
+    ./srcs/Server.cpp
 )
 
 TARGET_LINK_LIBRARIES(babel_server
@@ -28,15 +29,5 @@ include_directories(
     ${CMAKE_INCLUDE_PATH}
     ${Boost_INCLUDE_DIR}
 )
-
-# find_package(Boost COMPONENTS SYSTEM)
-
-# add_executable(babel_server
-#     ./srcs/server.cpp
-# )
-
-# target_link_libraries(babel_server
-#     ${Boost_LIBRARIES}
-# )
 
 set_target_properties(babel_server PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}")

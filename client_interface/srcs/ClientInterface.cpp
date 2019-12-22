@@ -7,7 +7,7 @@
 
 #include "ClientInterface.hpp"
 
-ClientInterface::ClientInterface(QObject *parent):
+ui::ClientInterface::ClientInterface(QObject *parent):
     QtInterface(parent),
     _address(nullptr),
     _command(nullptr),
@@ -15,7 +15,7 @@ ClientInterface::ClientInterface(QObject *parent):
 {
 }
 
-QFormLayout *ClientInterface::callLayout()
+QFormLayout *ui::ClientInterface::callLayout()
 {
     QFormLayout *layout = createFormLayout();
     QLabel *addressLabel = createLabel("Address:");
@@ -28,7 +28,7 @@ QFormLayout *ClientInterface::callLayout()
     return layout;
 }
 
-QFormLayout *ClientInterface::commandLayout()
+QFormLayout *ui::ClientInterface::commandLayout()
 {
     QFormLayout *layout = createFormLayout();
     QLabel *commandLabel = createLabel("Command:");
@@ -38,7 +38,7 @@ QFormLayout *ClientInterface::commandLayout()
     return layout;
 }
 
-QFormLayout *ClientInterface::responseLayout()
+QFormLayout *ui::ClientInterface::responseLayout()
 {
     QFormLayout *layout = createFormLayout();
     QLabel *response = createLabel("Response:");
@@ -48,20 +48,20 @@ QFormLayout *ClientInterface::responseLayout()
     return layout;
 }
 
-QPushButton *ClientInterface::callButton() {
+QPushButton *ui::ClientInterface::callButton() {
     _callButton = createPushButton("Call", this);
-    _callButton->setIcon(QIcon("Green_circle.png"));
+    _callButton->setIcon(QIcon("assets/Green_circle.png"));
 
     return _callButton;
 }
 
-QPushButton *ClientInterface::commandButton() {
+QPushButton *ui::ClientInterface::commandButton() {
     _commandButton = createPushButton("Send to server", this);
 
     return _commandButton;
 }
 
-QGridLayout *ClientInterface::renderInterface()
+QGridLayout *ui::ClientInterface::renderInterface()
 {
     QGridLayout *gridLayout = new QGridLayout();
 
@@ -73,35 +73,35 @@ QGridLayout *ClientInterface::renderInterface()
     return gridLayout;
 }
 
-void ClientInterface::setResponse(const QString &text)
+void ui::ClientInterface::setResponse(const QString &text)
 {
     _response->setText(text);
 }
 
-QLineEdit *ClientInterface::getAddress() const noexcept {
+QLineEdit *ui::ClientInterface::getAddress() const noexcept {
     return _address;
 }
 
-QPushButton *ClientInterface::getCallButton() const noexcept
+QPushButton *ui::ClientInterface::getCallButton() const noexcept
 {
     return _callButton;
 }
 
-QLineEdit *ClientInterface::getCommand() const noexcept {
+QLineEdit *ui::ClientInterface::getCommand() const noexcept {
     return _command;
 }
 
-QPushButton *ClientInterface::getCommandButton() const noexcept
+QPushButton *ui::ClientInterface::getCommandButton() const noexcept
 {
     return _commandButton;
 }
 
-QLineEdit *ClientInterface::getPort() const noexcept
+QLineEdit *ui::ClientInterface::getPort() const noexcept
 {
     return _port;
 }
 
-QLabel *ClientInterface::getResponse() const noexcept
+QLabel *ui::ClientInterface::getResponse() const noexcept
 {
     return _response;
 }

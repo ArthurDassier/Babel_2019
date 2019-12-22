@@ -11,36 +11,38 @@
 
 #include "QtInterface.hpp"
 
-class ClientInterface : public QtInterface
-{
-	public:
-        ClientInterface(QObject *parent);
-        ~ClientInterface() = default;
+namespace ui {
+    class ClientInterface : public QtInterface
+    {
+        public:
+            ClientInterface(QObject *parent);
+            ~ClientInterface() = default;
 
-        QFormLayout *callLayout();
-        QFormLayout *commandLayout();
-        QFormLayout *responseLayout();
-        
-        QPushButton *callButton();
-        QPushButton *commandButton();
+            QFormLayout *callLayout();
+            QFormLayout *commandLayout();
+            QFormLayout *responseLayout();
+            
+            QPushButton *callButton();
+            QPushButton *commandButton();
 
-        QGridLayout *renderInterface();
+            QGridLayout *renderInterface();
 
-        void        setResponse(const QString &text);
+            void        setResponse(const QString &text);
 
-        QLineEdit   *getAddress() const noexcept;
-        QPushButton *getCallButton() const noexcept;
-        QLineEdit   *getCommand() const noexcept;
-        QPushButton *getCommandButton() const noexcept;
-        QLineEdit   *getPort() const noexcept;
-        QLabel      *getResponse() const noexcept;
+            QLineEdit   *getAddress() const noexcept;
+            QPushButton *getCallButton() const noexcept;
+            QLineEdit   *getCommand() const noexcept;
+            QPushButton *getCommandButton() const noexcept;
+            QLineEdit   *getPort() const noexcept;
+            QLabel      *getResponse() const noexcept;
 
-    protected:
-    private:
-        QLabel      *_response;
-        QLineEdit   *_address;
-        QLineEdit   *_command;
-        QLineEdit   *_port;
-        QPushButton *_callButton;
-        QPushButton *_commandButton;
-};
+        protected:
+        private:
+            QLabel      *_response;
+            QLineEdit   *_address;
+            QLineEdit   *_command;
+            QLineEdit   *_port;
+            QPushButton *_callButton;
+            QPushButton *_commandButton;
+    };
+}; // namespace ui

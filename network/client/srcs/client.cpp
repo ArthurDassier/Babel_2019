@@ -12,9 +12,8 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    Client s(argv[1], std::atoi(argv[2]));
+    network::Client s(argv[1], std::atoi(argv[2]));
 
     s.show();
-
     return a.exec();
 }

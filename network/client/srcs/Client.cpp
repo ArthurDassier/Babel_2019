@@ -7,45 +7,41 @@
 
 #include "Client.hpp"
 
-Client::Client(std::string addr, int port, QObject *parent):
+network::Client::Client(const std::string &addr, const int port, QObject *parent):
     QWidget(),
+    _addr(QString::fromUtf8(addr.c_str())),
+    _port(port),
     _isCalling(false),
-    _firstTime(true),
     _timerSpeak(new QTimer()),
     UI(this)
 {
     socket = new QUdpSocket(this);
-    connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
-
-    QString str = QString::fromUtf8(addr.c_str());
-    _add = str;
-    _port = port;
-
     _timerSpeak->setInterval(1);
     
     setFixedSize(500, 250);
     setLayout(UI.renderInterface());
     setWindowTitle("Babel");
 
+    connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
     connect(UI.getCommandButton(), SIGNAL(clicked()), this, SLOT(sendToServer()));
     connect(UI.getCallButton(), SIGNAL(clicked()), this, SLOT(initCall()));
     connect(_timerSpeak, SIGNAL(timeout()), this, SLOT(speaking()));
 }
 
-void Client::sendToServer()
+void network::Client::sendToServer()
 {
     if (UI.getCommand()->text() == "")
         return;
 
-    QByteArray Data;
     QString word = UI.getCommand()->text();
+    QByteArray Data = word.toUtf8();
 
-    Data = word.toUtf8();
-    socket->writeDatagram(Data, _add, _port);
-    std::cout << "it's send: " << UI.getCommand()->text().toStdString() << std::endl;
+    socket->writeDatagram(Data, _addr, _port);
+    std::cout << "Message sent: " <<
+        UI.getCommand()->text().toStdString() << std::endl;
 }
 
-void Client::readyRead()
+void network::Client::readyRead()
 {
     QByteArray Buffer;
     Buffer.resize(socket->pendingDatagramSize());
@@ -66,17 +62,17 @@ void Client::readyRead()
     if (receive.compare("Hello from other client\n") == 0) {
         std::cout << "Incoming call..." << std::endl;
         _port = senderPort;
-        _add = sender;
+        _addr = sender;
         _isCalling = true;
-        _streamListen = _test.openStream();
-        _test.startStream(_streamListen);
-        _streamSpeak = _test.openStream();
-        _test.startStream(_streamSpeak);
+        _listeningStream = AM.openStream();
+        AM.startStream(_listeningStream);
+        _speakingStream = AM.openStream();
+        AM.startStream(_speakingStream);
         _timerSpeak->start();
     }
 }
 
-void Client::initCall()
+void network::Client::initCall()
 {
     if (UI.getAddress()->text() == "" || UI.getPort()->text() == "")
         return;
@@ -88,34 +84,34 @@ void Client::initCall()
     QByteArray Data;
     Data.append("Hello from other client\n");
     socket->writeDatagram(Data, addr, f_port);
-    _add = addr;
-    _port = f_port; //attention mtn parle a lautre client
+    _addr = addr;
+    _port = f_port;
 
-    _streamSpeak = _test.openStream();
-    _test.startStream(_streamSpeak);
-    _streamListen = _test.openStream();
-    _test.startStream(_streamListen);
+    _speakingStream = AM.openStream();
+    AM.startStream(_speakingStream);
+    _listeningStream = AM.openStream();
+    AM.startStream(_listeningStream);
     _timerSpeak->start();
     _isCalling = true;
 }
 
-void Client::speaking()
+void network::Client::speaking()
 {
     std::vector<unsigned short> captured(BUFFER_SIZE * CHANNELS);
     std::vector<unsigned char> encoded(BUFFER_SIZE * CHANNELS * 2);
     QByteArray send;
 
-    captured = _test.readStream(_streamSpeak);
-    encoded = _test.encode(captured);
+    captured = AM.readStream(_speakingStream);
+    encoded = AM.encode(captured);
     send = reinterpret_cast<char*>(encoded.data());
-    socket->writeDatagram(send, _add, _port);
+    socket->writeDatagram(send, _addr, _port);
 }
 
-void Client::listening(QByteArray Buffer)
+void network::Client::listening(QByteArray Buffer)
 {
     std::vector<unsigned short> decoded(BUFFER_SIZE * CHANNELS);
     std::vector<unsigned char> encoded(Buffer.data(), Buffer.data() + Buffer.size());
     
-    decoded = _test.decode(encoded);
-    _test.writeStream(_streamListen, decoded);
+    decoded = AM.decode(encoded);
+    AM.writeStream(_listeningStream, decoded);
 }

@@ -7,7 +7,7 @@
 
 #include "PortAudio.hpp"
 
-testAudio::testAudio()
+audio::AudioManager::AudioManager()
 {
     // initialize opus
     int opusErr;
@@ -34,7 +34,7 @@ testAudio::testAudio()
     }
 }
 
-testAudio::~testAudio()
+audio::AudioManager::~AudioManager()
 {
     PaError paErr;
 
@@ -46,7 +46,7 @@ testAudio::~testAudio()
     opus_decoder_destroy(_dec);
 }
 
-PaStream *testAudio::openStream()
+PaStream *audio::AudioManager::openStream()
 {
     PaError paErr;
     PaStream *new_stream;
@@ -60,7 +60,7 @@ PaStream *testAudio::openStream()
     return new_stream;
 }
 
-void testAudio::startStream(PaStream *stream)
+void audio::AudioManager::startStream(PaStream *stream)
 {
     PaError paErr;
 
@@ -70,7 +70,7 @@ void testAudio::startStream(PaStream *stream)
     }
 }
 
-std::vector<unsigned short> testAudio::readStream(PaStream* stream)
+std::vector<unsigned short> audio::AudioManager::readStream(PaStream* stream)
 {
     PaError paErr;
     std::vector<unsigned short> captured(BUFFER_SIZE * CHANNELS);
@@ -83,7 +83,7 @@ std::vector<unsigned short> testAudio::readStream(PaStream* stream)
     return captured;
 }
 
-std::vector<unsigned char> testAudio::encode(std::vector<unsigned short> captured)
+std::vector<unsigned char> audio::AudioManager::encode(std::vector<unsigned short> captured)
 {
     std::vector<unsigned char> encoded(BUFFER_SIZE * CHANNELS * 2);
     opus_int32 enc_bytes;
@@ -93,15 +93,14 @@ std::vector<unsigned char> testAudio::encode(std::vector<unsigned short> capture
         std::cout << "opus_encode failed: " << enc_bytes << std::endl;
         exit(84);
     }
-    std::cout << "~~~~~ENCODE: " << enc_bytes << std::endl;
     return encoded;
 }
 
-std::vector<unsigned short> testAudio::decode(std::vector<unsigned char> encoded)
+std::vector<unsigned short> audio::AudioManager::decode(std::vector<unsigned char> encoded)
 {
     std::vector<unsigned short> decoded(BUFFER_SIZE * CHANNELS);
     opus_int32 dec_bytes;
-    opus_int32 enc_bytes = 150; //128 de base...
+    opus_int32 enc_bytes = 150;
 
     if ((dec_bytes = opus_decode(_dec, encoded.data(), enc_bytes,
         reinterpret_cast<opus_int16*>(decoded.data()), 480, 0)) < 0) {
@@ -111,17 +110,16 @@ std::vector<unsigned short> testAudio::decode(std::vector<unsigned char> encoded
     return decoded;
 }
 
-void testAudio::writeStream(PaStream* stream, std::vector<unsigned short> decoded)
+void audio::AudioManager::writeStream(PaStream* stream, std::vector<unsigned short> decoded)
 {
     PaError paErr;
 
     if ((paErr = Pa_WriteStream(stream, decoded.data(), BUFFER_SIZE)) != paNoError) {
         std::cout << "Pa_WriteStream failed: " << Pa_GetErrorText(paErr) << std::endl;
-        // exit(84);
     }
 }
 
-void testAudio::stopStream(PaStream* stream)
+void audio::AudioManager::stopStream(PaStream* stream)
 {
     PaError paErr;
 
@@ -131,7 +129,7 @@ void testAudio::stopStream(PaStream* stream)
     }
 }
 
-void testAudio::closeStream(PaStream* stream)
+void audio::AudioManager::closeStream(PaStream* stream)
 {
     PaError paErr;
 
@@ -141,13 +139,12 @@ void testAudio::closeStream(PaStream* stream)
     }
 }
 
-OpusEncoder *testAudio::getEncoder()
+OpusEncoder *audio::AudioManager::getEncoder() const noexcept
 {
     return _enc;
 }
 
-OpusDecoder *testAudio::getDecoder()
+OpusDecoder *audio::AudioManager::getDecoder() const noexcept
 {
     return _dec;
 }
-
